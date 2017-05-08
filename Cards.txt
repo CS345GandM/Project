@@ -1,0 +1,81 @@
+Evil Wears a Hat
+4 3 2 3 4
+Square Deal City
+6 3 2 4 6
+Law and the Old West
+3 3 1 2 5
+Davy Crockett: A Drunkard's Tale
+4 2 4 6
+The Life and Times of John Skywater
+5 2 5 6
+The Way the West Was Run
+4 3 2 4 5
+My Years on the Prairie
+5 3 3 4 6
+Down in the Valley
+3 3 1 3 5
+Bullalo Bill: The Lost Years
+4 3 2 3 5
+0l' Shooter and Little Doll
+4 3 1 2 4
+The Robbers of Trains
+4 3 1 4 5
+Jesse James: Man of Action
+5 3 2 4 5
+Beyond the Fail: Life without Lactose
+2 1 6
+Disaster at Flying J
+5 3 2 3 4
+A Man Called "Cow"
+3 2 3 6
+Shakespeare in Lubbock
+3 3 1 3 4
+Taffy Commercial
+2 2 3 4
+Go West, You!
+3 2 4 6
+Gum Commercial
+2 2 2 4
+The Life and Times of John Skywater
+5 3 3 5 6
+Gun! The Musical
+6 3 4 5 6
+One False Step for Mankind
+6 3 1 2 5
+Humor at the Expense of Other
+5 3 2 4 5
+Thirteen the Hard Way
+5 3 1 3 5
+The Search for Maggie White
+6 2 5 6
+How They Get Milk
+4 3 2 3 4
+Picante Sauce Commercial
+2 2 3 5
+My Years on teh Prairie
+5 3 2 3 5
+Jesse James: a Man of Action
+5 3 1 4 6
+Davy Crockett: A Drunkard's Tale
+4 3 2 3 4
+Czechs in the Sonora
+4 2 5 6
+J. Robert Lucky, Man of Substance
+4 3 1 2 5
+Swing'em Wide
+6 3 1 3 5
+Thirteen the Hard Way
+5 3 2 4 5
+Swing'em Wide
+6 3 3 5 6
+How They Get Milk
+4 3 4 5 6
+Trails of the First Pioneers
+4 3 2 4 5
+Breakin' in Trick Ponies
+3 2 2 6
+How the Grinch Stole Texas
+5 3 3 4 5
+Custer's Other Stand
+5 3 2 4 6
+

@@ -1,0 +1,21 @@
+Main Street
+3 4 1 2 2 4
+Saloon
+2 2 1 2
+Ranch
+2 3 1 2 3
+Secret Hideout
+3 4 1 2 3 4
+Bank
+1 2 2 3
+Church
+2 2 1 2
+Hotel
+3 4 1 1 2 3
+Jail
+1 2 2 3
+Train Station
+3 4 1 1 2 4
+General Store
+2 2 1 3
+

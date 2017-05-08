@@ -1,0 +1,12 @@
+Main Street
+3
+Trailer
+Saloon
+Jail
+Trailer
+3
+Main Street
+Saloon
+Hotel
+Saloon
+4
