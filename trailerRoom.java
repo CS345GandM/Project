@@ -1,13 +1,8 @@
 //Melissa Gonzalez and Hannah Montague
 
-
-//new comment
-
-//Hannah Changing trailerRoom
-
-
-
 import java.util.*;
+import java.lang.*;
+
 public class trailerRoom {  //extends Room
 
    private String name;
