@@ -1,12 +1,12 @@
-Main Street
-3
+Main Street 3 1 Railroad Worker "I'm a steel-drivin' man" 2 Falls off Roof "Aaaaiiiigggghh" 2 Woman in Black Dress "Well,I'll be" 4 Mayor McGinty "people of DeadWood!"
 Trailer
-Saloon
-Jail
-Trailer
-3
-Main Street
-Saloon
-Hotel
-Saloon
-4
+Saloon 2 2 Woman in Red Dress "Come up and see me!" 1 Reluctant Farmer "I ain't about that!"
+Jail 1 2 Prisoner in Cell "Zzzzzzz...Whiskey!" 3 Feller in Irons "Ah kilt the wrong man!"
+General Store 2 1 Main in Overalls "Looks like a storm's comin' in" 3 Mister Keach "Howdy,stranger."
+Train Station 3 1 Dragged by Train "Omgeezers!" 1 Crusty Prospector "Aww,peaches!" 2 Preacher with Bag "The Lord will provide." 4 Cyrus the Gunfighter "Git to fightin' or git away!"
+Ranch 2 1 Shot in Leg "Ow! Me Leg!" 2 Saucy Fred "That's what she said!" 3 Man Under Horse "A little help here!"
+Secret Hideout 3 1 Clumsy Pit Fighter "Hit me!" 2 Thug with Knife "Meet Suzy, my muderin' knife." 3 Dangerous Tom "There's two ways we can do this..." 4 Penny, who is Lost "Oh, woe! For I am lost!"
+Casting Office
+Bank 1 2 Suspicious Gentleman "Can you be more specific?" 3 Flustered Teller "Would you like a large bill,sir?"
+Hotel 3 1 Faro Player "Hit me!" 1 Sleeping Drunkard "Zzzzzzz...Whiskey!" 3 Australian Bartender "What'll it be,mate?" 2 Falls from Balcony "Arrgghh!!"
+Church 1 Dead Man "..." 2 Crying Woman "Oh, the hummanity!"
