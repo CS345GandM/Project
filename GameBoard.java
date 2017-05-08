@@ -15,6 +15,32 @@ public class Board{
       this.numPlayers = numPlayers;
   }
 
+public static void main(String[] args) {
+
+  Scanner input = new Scanner();
+  String userInput = input.nextLine();
+  String who = "who";
+  String Where = "Where";
+  String rehease = "rehease";
+  String end = "end";
+  String act = "act";
+  String work = "work";
+  
+  while (userInput.compareToIgnoreCase(end) != 0)
+
+    if(userInput.compareToIgnoreCase(who) == 0){
+      System.out.println("Player.Name(Player.Money(),Player.Credits() working" + working location);
+
+    }else if (userInput.compareToIgnoreCase(where) == 0){
+      System.out.println("active scenes and current players room");
+
+    }else if(userInput.compareToIgnoreCase(rehease) == 0){
+
+    }else if(userInput.compareToIgnoreCase(act) == 0){
+
+    }else if(userInput.compareToIgnoreCase() == 0){
+  }
+
 
   private Scanner readFile(String fileName) {
       Scanner scan = null;
@@ -45,7 +71,6 @@ public class Board{
     }
     return turn;
 }
-
 
   public int finalScore(Player player) {
     int score = calcScore(player);
