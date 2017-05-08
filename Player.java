@@ -13,7 +13,7 @@ public class Player{
    private int rehersalCredits;
    private int roleValue;
    private int roleBudget;
-   private Set name;
+   private Room location;
 
    private Player(int rank, String id, boolean role, int credits, int dollars, int rehersalCredits, int roleValue, int roleBudget, String location){
       this.rank = 1;
@@ -36,40 +36,61 @@ public class Player{
      //set id
    }
 
-   public void act(){
-     int roll = Dice.getValue();
-     roll = roll + rehersalCredits;
+   public int act(){
+     if(role != 0){ // can act
+       int roll = Dice.getValue();
+       roll = roll + rehersalCredits;
 
-     if(roll > roleValue){
-       //WIN
-       if(role == 1){
-         credits++;
-         dollars++;
-       }else{//role == 2
-         credits = credits + 2;
-       }
-       /////////////////////////////////////decrement shot counters
-       /// WRAP
-     }else{
-       //LOSE
-       if(role == 1){//of the card
-         dollars++;
+       if(roll > roleValue){
+         //WIN
+         if(role == 1){
+           credits++;
+           dollars++;
+         }else{//role == 2
+           credits = credits + 2;
+         }
+         location.successfulAct();
+         if(location.remainingShots() == 0){
+           return 3;
+         }
+         return 1;
+       }else{
+         if(role == 1){//of the card
+           dollars++;
+         }
+         return 2;
        }
      }
+     return 0; //doesn't have a role to act on
    }
 
-   public void rehearse(){
-     rehersalCredits = rehersalCredits + 1;
+   public int rehearse(){
+     if(rehersalCredits < 6){
+       rehersalCredits = rehersalCredits + 1;
+       return 1;
+     }
+     return 0; //already has 6 credits
    }
 
-   public void move(){
+   public int move(Set newLocation){
+     if(location.compareToIgnoreCase(location.peekOne()) == 0){
+       location = newLocation;
+       return 1; //success
+     }else if(location.compareToIgnoreCase(location.peekTwo()) == 0){
+       location = newLocation;
+       return 1; //success
+     }else if(location.compareToIgnoreCase(location.peekThree()) == 0){
+       location = newLocation;
+       return 1; //success
+     }else if(location.compareToIgnoreCase(location.peekOne()) == 0){
+       location = newLocation;
+       return 1; //success
+     }
+     return 0; //not a valid move
    }
 
-   public String getLocation(){
+   public Room getLocation(){
       return location;
-   }
-
-   public void setRank(int x){
    }
 
    public int getRank(){
@@ -79,10 +100,42 @@ public class Player{
    public void setRole(int x){
    }
 
-   public boolean getRole(){
+   public int getRole(){
+     //0 == no role
+     //1 == off card
+     //2 == on card
       return role;
    }
 
-   public void upgrade(){
+   public void upgradeCR(int cr, int increaseTo){
+     if(location.compareToIgnoreCase("Casting Office") == 0){
+       if(rank < 6){
+         if(credits >= cr){
+           rank = increaseTo;
+           credits = credits - cr;
+           return 1;
+         }
+         return 0; //not enough credits
+       }
+       return 0; //already highest Rank
+     }
+     return 0; //not in Casting Office
    }
+
+   public void upgradeDollars(int cost, int increaseTo){
+     if(location.compareToIgnoreCase("Casting Office") == 0){
+       if(rank < 6){
+         if(dollars >= cost){
+           rank = increaseTo;
+           dollars = dollars - cost;
+           return 1;
+         }
+         return 0; //not enough money
+       }
+       return 0; //already highest Rank
+     }
+     return 0; //not in Casting Office
+   }
+
+
 }

@@ -29,7 +29,13 @@ public class Rooms{
    private void makeRoom(){
      //read in text file
    }
-
+   public void successfulAct(){
+     name.removeCounters();
+   }
+   public int remainingShots(){
+     int x = name.getCounts();
+     return x;
+   }
    public Set peekOne(){
      return one.getName();
    }
