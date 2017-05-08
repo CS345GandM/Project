@@ -1,6 +1,7 @@
 //Melissa Gonzalez and Hannah Montague
 
 import java.util.*;
+import java.lang.*;
 
 public class Player{
 
@@ -15,7 +16,7 @@ public class Player{
    private int roleBudget;
    private Room location;
 
-   private Player(int rank, String id, boolean role, int credits, int dollars, int rehersalCredits, int roleValue, int roleBudget, String location){
+   private Player( String id){
       this.rank = 1;
       this.id = null; //input from user
       this.role = false;
@@ -24,16 +25,25 @@ public class Player{
       this.rehersalCredits = 0;
       this.roleValue = 0;
       this.roleBudget = 0;
-      this.location = name;
+      this.location = null;
    }
 
-   public Player(){
-
+   //reset player infor for a new day
+   public void newDay(){
+     role = 0;
+     rehersalCredits = 0;
+     roleValue = 0;
+     roleBudget = 0;
+     location = "Trailer";
    }
 
-   private void makePlayer(){
-     //prompt for id
-     //set id
+   //rest player info for wrapped set
+   public void wrapped(int money){
+     role = 0;
+     dollars = dollars + money;
+     rehersalCredits = 0;
+     roleValue = 0;
+     roleBudget = 0;
    }
 
    public int act(){
@@ -51,7 +61,7 @@ public class Player{
          }
          location.successfulAct();
          if(location.remainingShots() == 0){
-           return 3;
+           return 3; //WRAP
          }
          return 1;
        }else{
@@ -72,7 +82,7 @@ public class Player{
      return 0; //already has 6 credits
    }
 
-   public int move(Set newLocation){
+   public int move(Room newLocation){
      if(location.compareToIgnoreCase(location.peekOne()) == 0){
        location = newLocation;
        return 1; //success
@@ -93,11 +103,18 @@ public class Player{
       return location;
    }
 
+   public int getBudget(){
+     return roleBudget;
+   }
+
    public int getRank(){
       return rank;
    }
 
-   public void setRole(int x){
+   public void setRole(String part){
+     //can't if there is no shot counters
+     //can't if already have role
+     //can't if role value is greater than rank
    }
 
    public int getRole(){
@@ -107,7 +124,7 @@ public class Player{
       return role;
    }
 
-   public void upgradeCR(int cr, int increaseTo){
+   public void upgradeCR(int increaseTo){///////////////////////////////////////////find cr for desired rank
      if(location.compareToIgnoreCase("Casting Office") == 0){
        if(rank < 6){
          if(credits >= cr){
@@ -122,7 +139,7 @@ public class Player{
      return 0; //not in Casting Office
    }
 
-   public void upgradeDollars(int cost, int increaseTo){
+   public void upgradeDollars(int increaseTo){//////////////////////////////////////find dollars for desired rank
      if(location.compareToIgnoreCase("Casting Office") == 0){
        if(rank < 6){
          if(dollars >= cost){
@@ -136,6 +153,4 @@ public class Player{
      }
      return 0; //not in Casting Office
    }
-
-
 }

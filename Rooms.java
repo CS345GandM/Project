@@ -7,7 +7,9 @@ connection names
 */
 
 import java.util.*;
+import java.lang.*;
 
+///NOT SETS!!!!!!!!
 public class Rooms{
    private Set one;
    private Set two;
@@ -26,9 +28,6 @@ public class Rooms{
       this.name = name;
    }
 
-   private void makeRoom(){
-     //read in text file
-   }
    public void successfulAct(){
      name.removeCounters();
    }
