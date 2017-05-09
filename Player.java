@@ -107,12 +107,13 @@ public class Player{
     //else the room wasnt adj---
         //print error statement
    //else - last case of not being able to move is when they are working on a role already
-
+}
 public void act(){
-
+  return null;
 }
 
 public void rehearse(){
+  return null;
   //if credits < 6
   //increment the credits
   //else cannot rehearse because they are currently working
