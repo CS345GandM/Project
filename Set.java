@@ -22,12 +22,9 @@ public class Set{
      this.shotCounts = i;
    }
 
-
    public void setCard(Cards n){
      this.cardName = n;
    }
-
-     //read in text file through gameboard
 
 
    public void removeCounters(){
@@ -40,11 +37,5 @@ public class Set{
 
    public String getName(){
       return name;
-   }
-
-   public void assignRole(){
-   }
-
-   public void associateCard(){
    }
 }

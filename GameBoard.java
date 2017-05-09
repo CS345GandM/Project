@@ -2,57 +2,72 @@
 
 import java.util.*;
 import java.io.*;
+import java.lang.*;
 
-public class Board{
+public class GameBoard{
   private static int numPlayers = 0;
   private static int numDays = 0;
   private static int numCards = 0;
-  private static int numScenes = 0;
+  private static int numScenes = 22;
 
 
-  // Constructor takes one input : the number of players
-  public GameBoard(int numPlayers, int numScenes) {
-      this.numPlayers = numPlayers;
-      this.numScenes = 10;
+  public static void main(String[] args) {
+
+    if(checkArgs(args)){
+      numPlayers = args[0];
+      readIn.callRead();
+      setDays();
+      int daysComplete = 0;
+      //make players
+      while(daysComplete < numDays){
+        //REST PLAYERS
+        //REST BOARD --> NEW CARDS TO setCard
+        int sceneTrack = numScenes;
+        while(sceneTrack > 1){
+          //go through players
+            //each player takes their turn
+        }
+        daysComplete++;
+      }
+      //END GAME
+      Scanner input = new Scanner(System.in);
+      String userInput = input.nextLine();
+      String who = "who";
+      String Where = "Where";
+      String rehease = "rehease";
+      String end = "end";
+      String act = "act";
+      String work = "work";
+
+    /*
+      while (userInput.compareToIgnoreCase(end) != 0)
+
+        if(userInput.compareToIgnoreCase(who) == 0){
+          System.out.println("Player.Name(Player.Money(),Player.Credits() working" + working location);
+
+        }else if (userInput.compareToIgnoreCase(where) == 0){
+          System.out.println("active scenes and current players room");
+
+        }else if(userInput.compareToIgnoreCase(rehease) == 0){
+
+        }else if(userInput.compareToIgnoreCase(act) == 0){
+
+        }else if(userInput.compareToIgnoreCase() == 0){
+      }*/
+
+    }
   }
 
-public static void main(String[] args) {
-
-  Scanner input = new Scanner();
-  String userInput = input.nextLine();
-  String who = "who";
-  String Where = "Where";
-  String rehease = "rehease";
-  String end = "end";
-  String act = "act";
-  String work = "work";
-
-/*
-  while (userInput.compareToIgnoreCase(end) != 0)
-
-    if(userInput.compareToIgnoreCase(who) == 0){
-      System.out.println("Player.Name(Player.Money(),Player.Credits() working" + working location);
-
-    }else if (userInput.compareToIgnoreCase(where) == 0){
-      System.out.println("active scenes and current players room");
-
-    }else if(userInput.compareToIgnoreCase(rehease) == 0){
-
-    }else if(userInput.compareToIgnoreCase(act) == 0){
-
-    }else if(userInput.compareToIgnoreCase() == 0){
-  }*/
-}
-
-  private Scanner readFile(String fileName) {
-      Scanner scan = null;
-      try {
-          scan = new Scanner(new File(fileName));
-      } catch (FileNotFoundException e) {
-          System.out.println("Error: unable to open file: " + fileName);
-          System.exit(1);
-      }
-      return scan;
+  private boolean checkArgs(String[] args){
+    if(args.length() == 1){
+        String players = args[0];
+        int num = Integer.parseInt(players);
+        if(num > 1 && num < 9){
+          return true;
+        }
+    }
+    System.out.println("Invalid or incorrect number of arguments");
+    return false;
   }
 
 //according to game rules

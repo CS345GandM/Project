@@ -116,6 +116,8 @@ public class readIn{
         String three = neighborNames[2];
         String four = neighborNames[3];
         Rooms add = new Rooms(one, two, three, four, name);
+
+        trailerRoom adding = new trailerRoom(name);
       }
     }
   }
@@ -143,6 +145,8 @@ public class readIn{
         String three = neighborNames[2];
         String four = neighborNames[3];
         Rooms add = new Rooms(one, two, three, four, name);
+
+        castingOffice adding = new castingOffice(name);
       }
     }
   }

@@ -5,8 +5,8 @@ public class castingOffice{ //extends Room
 
    private String name;
 
-   public castingOffice(){
-     name = "Casting Office";
+   public castingOffice(String n){
+     this.name = n;
    }
 
    public String getName(){
