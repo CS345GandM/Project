@@ -11,7 +11,7 @@ public class Board{
 
 
   // Constructor takes one input : the number of players
-  GameBoard(int numPlayers) {
+  public GameBoard(int numPlayers, int numScenes) {
       this.numPlayers = numPlayers;
       this.numScenes = 10;
   }
@@ -27,6 +27,7 @@ public static void main(String[] args) {
   String act = "act";
   String work = "work";
 
+/*
   while (userInput.compareToIgnoreCase(end) != 0)
 
     if(userInput.compareToIgnoreCase(who) == 0){
@@ -40,8 +41,8 @@ public static void main(String[] args) {
     }else if(userInput.compareToIgnoreCase(act) == 0){
 
     }else if(userInput.compareToIgnoreCase() == 0){
-  }
-
+  }*/
+}
 
   private Scanner readFile(String fileName) {
       Scanner scan = null;
@@ -74,7 +75,7 @@ public static void main(String[] args) {
   }
 
 
-  public getRoomName(String name){
+  public String getRoomName(String name){
     Room roomName = null;
 
     for(Room current : room) {
@@ -83,7 +84,7 @@ public static void main(String[] args) {
       }
     }
  return roomName;
- } 
+ }
 
   public int finalScore(Player player) {
     int score = calcScore(player);
