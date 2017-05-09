@@ -11,10 +11,7 @@ public class Rooms{
    private String four;
    private String name;
 
-   public Rooms(){
-   }
-
-   private Rooms(String one, String two, String three, String four, String name){
+   public  Rooms(String one, String two, String three, String four, String name){
       this.one = one;
       this.two = two;
       this.three = three;

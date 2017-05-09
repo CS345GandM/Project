@@ -1,158 +1,128 @@
 //Melissa Gonzalez and Hannah Montague
 
 import java.util.*;
-import java.lang.*;
 
 public class Player{
 
-      //attributes
-   private int rank;
-   private String id;
-   private int role;// 0 = none, 1 = off card, 2 = on card
-   private int credits;
-   private int dollars;
-   private int rehersalCredits;
-   private int roleValue;
-   private int roleBudget;
-   private Room location;
+  //differentiate between players
+  private String playerColor;
 
-   private Player( String id){
-      this.rank = 1;
-      this.id = null; //input from user
-      this.role = false;
-      this.credits = 0;
-      this.dollars = 0;
-      this.rehersalCredits = 0;
-      this.roleValue = 0;
-      this.roleBudget = 0;
-      this.location = null;
-   }
+  //to keep track of / calcualte
+  private int playerCredits;
+  private int playerDollars;
+  private int playerRank;
 
-   //reset player infor for a new day
-   public void newDay(){
-     role = 0;
-     rehersalCredits = 0;
-     roleValue = 0;
-     roleBudget = 0;
-     location = "Trailer";
-   }
+  private String playerActivity;   //to check if they have a role
+  private boolean moved;
+  private Role playerRole;
+  private int rehersalCredits;
+  private int diceValue;
+  private Rooms currRoom;
+  private boolean turn;
 
-   //rest player info for wrapped set
-   public void wrapped(int money){
-     role = 0;
-     dollars = dollars + money;
-     rehersalCredits = 0;
-     roleValue = 0;
-     roleBudget = 0;
-   }
 
-   public int act(){
-     if(role != 0){ // can act
-       int roll = Dice.getValue();
-       roll = roll + rehersalCredits;
+   public Player(GameBoard board, int numPlayers, String color) {
+     //distinguish between players
+    this.playerColor = color;
 
-       if(roll > roleValue){
-         //WIN
-         if(role == 1){
-           credits++;
-           dollars++;
-         }else{//role == 2
-           credits = credits + 2;
-         }
-         location.successfulAct();
-         if(location.remainingShots() == 0){
-           return 3; //WRAP
-         }
-         return 1;
-       }else{
-         if(role == 1){//of the card
-           dollars++;
-         }
-         return 2;
-       }
-     }
-     return 0; //doesn't have a role to act on
-   }
+ 		this.playerCredits = 0;
+ 		this.playerDollars = 0;
+ 		this.playerRank = 1;
 
-   public int rehearse(){
-     if(rehersalCredits < 6){
-       rehersalCredits = rehersalCredits + 1;
-       return 1;
-     }
-     return 0; //already has 6 credits
-   }
+ 		this.currWork = "Not currently acting";
+ 		this.moved = false;
+ 		this.playerRole = null;  //set the players role to empty
+ 		this.rehersalCredits = 0;
+ 		this.diceValue = 0;
+ 		this.rehearsedDiceValue = 0;
+ 		this.currRoom = board.getRoomByName("Trailer");
+ 		this.turn = false;
 
-   public int move(Room newLocation){
-     if(location.compareToIgnoreCase(location.peekOne()) == 0){
-       location = newLocation;
-       return 1; //success
-     }else if(location.compareToIgnoreCase(location.peekTwo()) == 0){
-       location = newLocation;
-       return 1; //success
-     }else if(location.compareToIgnoreCase(location.peekThree()) == 0){
-       location = newLocation;
-       return 1; //success
-     }else if(location.compareToIgnoreCase(location.peekOne()) == 0){
-       location = newLocation;
-       return 1; //success
-     }
-     return 0; //not a valid move
-   }
 
-   public Room getLocation(){
-      return location;
-   }
+ 	}
 
-   public int getBudget(){
-     return roleBudget;
-   }
+  public void resetBoard(GameBoard board) {
+		this.state = "No current role";
+		this.playerRole = null;
+		this.rehersalCredits = 0;
+		this.diceValue = 0;
+		this.currRoom = GameBoard.getRoomName("Trailer");
+		this.turn = false;
+	}
 
-   public int getRank(){
-      return rank;
-   }
+  public void defaultPlayer() {
+		this.moved = false;
+		this.turn = false;
+	}
 
-   public void setRole(String part){
-     //can't if there is no shot counters
-     //can't if already have role
-     //can't if role value is greater than rank
-   }
+  public void setPlayerWork(String currWork) {
+		this.currWork = currWork;
+	}
 
-   public int getRole(){
-     //0 == no role
-     //1 == off card
-     //2 == on card
-      return role;
-   }
+  public String getPlayerWork() {
+    return this.currWork;
+  }
 
-   public int upgradeCR(int increaseTo){///////////////////////////////////////////find cr for desired rank
-     if(location.compareToIgnoreCase("Casting Office") == 0){
-       if(rank < 6){
-         int cr = 0;
-         if(credits >= cr){
-           rank = increaseTo;
-           credits = credits - cr;
-           return 1;
-         }
-         return 0; //not enough credits
-       }
-       return 0; //already highest Rank
-     }
-     return 0; //not in Casting Office
-   }
+  public boolean hasMoved() {
+		return this.moved;
+	}
 
-   public int upgradeDollars(int increaseTo){//////////////////////////////////////find dollars for desired rank
-     if(location.compareToIgnoreCase("Casting Office") == 0){
-       if(rank < 6){
-         int cost = 0;
-         if(dollars >= cost){
-           rank = increaseTo;
-           dollars = dollars - cost;
-           return 1;
-         }
-         return 0; //not enough money
-       }
-       return 0; //already highest Rank
-     }
-     return 0; //not in Casting Office
-   }
+	public void payPlayerBonus(int amount) {
+		this.playerDollars += amount;
+	}
+
+	public void setTurn() {
+		this.turn = true;
+	}
+
+	public boolean returnTurn() {
+		return this.turn;
+	}
+
+	public void newRole() {
+		this.playerRole = null;
+	}
+
+	public String getPlayerColor() {
+		return this.playerColor;
+	}
+
+	public int getScore() {
+		return this.playerDollars + this.playerCredits + (5 * this.playerRank);
+	}
+
+	public Rooms getCurrentRoom() {
+		return this.currRoom;
+	}
+
+	public Role getRole() {
+		return this.playerRole;
+	}
+
+  public void move(Rooms room) {
+    //if players state is set to "no role" then they can move
+      //if the room they gave as parameter is adj to their current room
+        //update their current room to room(from this methods parameter)
+        //update their move status to true
+    //else the room wasnt adj---
+        //print error statement
+   //else - last case of not being able to move is when they are working on a role already
+
+public void act(){
+
+}
+
+public void rehearse(){
+  //if credits < 6
+  //increment the credits
+  //else cannot rehearse because they are currently working
+}
+
+public void upgrade(){
+  //can only think of a way to this this by having a case for every rank and checking credits/dollars and decrementing that rank amount
+  //else cannot upgrade because player.getCurrentRoom is not equal to the casting room
+}
+
+
+
 }
