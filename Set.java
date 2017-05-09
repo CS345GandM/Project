@@ -7,11 +7,11 @@ import java.lang.*;
 
 public class Set{
    private String name;
-   private int takes;
+   private int shotCounts;
    private Role[] extraRoles = new Role[4];
-   private Card cardName;
+   private Cards cardName;
 
-   public Set(String name, int takes, Card[] extraRoles){
+   public Set(String name, int takes, Role[] extraRoles){
       this.name = name;
       this.shotCounts = takes;
       this.extraRoles = extraRoles;
@@ -23,8 +23,8 @@ public class Set{
    }
 
 
-   public void setCard(Card n){
-     this.cardName = n.getName();
+   public void setCard(Cards n){
+     this.cardName = n;
    }
 
      //read in text file through gameboard

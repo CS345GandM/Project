@@ -88,13 +88,36 @@ public class readIn{
           }
         }
         //Making set
-        Set adding = new Set(name, takes, roles);
+        Set adding = new Set(name, numTakes, rolesArray);
       }
     }
   }
 
   private void readInTrailer(NodeList trailer){
+    for(int x = 0; x < trailer.getLength(); x++){
+      Node curr = trailer.item(x);
+      if(curr.getNodeType() == Node.ELEMENT_NODE){
+        Element e = (Element) curr;
+        String name = "Trailer";
 
+        //Setting ROOM --> associations
+        NodeList neighbors = e.getElementsByTagName("neighbor");
+        String[] neighborNames = new String[4];
+        Arrays.fill(neighborNames, null);
+        for(int i = 0; i < neighbors.getLength(); i++){
+          Node nbr = neighbors.item(i);
+          if(nbr.getNodeType() == nbr.ELEMENT_NODE){
+            Element nbrname = (Element) nbr;
+            neighborNames[i] = nbrname.getAttribute("name");
+          }
+        }
+        String one = neighborNames[0];
+        String two = neighborNames[1];
+        String three = neighborNames[2];
+        String four = neighborNames[3];
+        Rooms add = new Rooms(one, two, three, four, name);
+      }
+    }
   }
 
   private void readInOffice(NodeList office){

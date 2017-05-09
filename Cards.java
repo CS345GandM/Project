@@ -1,6 +1,8 @@
 //Melissa Gonzalez and Hannah Montague
 /*Name Budget NumRoles roleValue . . */
 import java.util.*;
+import java.lang.*;
+
 public class Cards{
 
    private String name;
