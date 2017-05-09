@@ -7,13 +7,13 @@ import java.lang.*;
 
 public class Set{
    private String name;
-   private int shotCounts;
-   private int[] extraRoles;
+   private int takes;
+   private Role[] extraRoles = new Role[4];
    private Card cardName;
 
-   public Set(String name, int shotCounts, int[] extraRoles, String cardName){
-      this.name = null;
-      this.shotCounts = 0;
+   public Set(String name, int takes, Card[] extraRoles){
+      this.name = name;
+      this.shotCounts = takes;
       this.extraRoles = extraRoles;
       this.cardName = null;
    }

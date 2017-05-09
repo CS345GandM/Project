@@ -59,7 +59,37 @@ public class readIn{
   }
 
   private void readInSets(NodeList sets){
+    //loop through all of the sets
+    for(int x = 0; x < sets.getLength(); x++){
+      Node curr = sets.item(x);
+      if(curr.getNodeType() == Node.ELEMENT_NODE){
+        Element e = (Element) curr;
+        String name = e.getAttribute("name");//name
+        NodeList takes = e.getElementsByTagName("takes");
+        int numTakes = takes.getLength();//number of takes
 
+        //Setting ROOM --> associations
+        NodeList neighbors = e.getElementsByTagName("neighbor");
+        String[] neighborNames = new String[4];
+        Arrays.fill(neighborNames, null);
+        for(int i = 0; i < neighbors.getLength(); i++){
+          Node nbr = neighbors.item(i);
+          if(nbr.getNodeType() == nbr.ELEMENT_NODE){
+            Element name = (Element) nbr;
+            neighborNames[i] = name.getAttribute("name");
+          }
+        }
+        String one = neighborNames[0];
+        String two = neighborNames[1];
+        String three = neighborNames[2];
+        String four = neighborNames[3];
+        Room add = new Room(one, two, three, four, name);
+
+        //Making Roles Array
+        
+        Set adding = new Set(name, takes, roles);
+      }
+    }
   }
 
   private void readInTrailer(NodeList trailer){
