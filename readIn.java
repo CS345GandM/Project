@@ -6,7 +6,10 @@ import java.util.*;
 import java.lang.*;
 
 public class readIn{
-  public static void main(String[] args){
+  public readIn(){
+
+  }
+  public void callRead(){
 
     try{
       //getting files
@@ -20,8 +23,8 @@ public class readIn{
       DocumentBuilder boardbuilder = boardfactory.newDocumentBuilder();
       DocumentBuilder cardsbuilder = cardsfactory.newDocumentBuilder();
 
-      Document boardDoc = builder.parse(board);
-      Document cardsDoc = builder.parse(cards);
+      Document boardDoc = boardbuilder.parse(board);
+      Document cardsDoc = cardsbuilder.parse(cards);
 
       boardDoc.getDocumentElement().normalize();
       cardsDoc.getDocumentElement().normalize();
@@ -35,24 +38,7 @@ public class readIn{
       readInOffice(officeList);
       NodeList cardsList = cardsDoc.getElementsByTagName("card");
       readInCards(cardsList);
-////////////////////////////////////////////////////////////////////////////////////
-      StringBuilder xmlStringBuilder = new StringBuilder();
-      xmlStringBuilder.append("<?xml version="1.0"?> <class> </class>");
-      ByteArrayInputStream input = new ByteArrayInputStream(xmlStringBuilder.toString().getBytes("UTF-8"));
 
-
-      Element root = document.getDocumentElement();
-
-      //returns specific attributes
-      getAttribute("someAttribute");
-      //returns a Man (table) of names/values
-      getAttributes();
-
-      //returns a list of subelements of specific name
-      getElementsByTagName("subelementName");
-      //returns a list of all child nodes
-      getChildNodes();
-//////////////////////////////////////////////////////////////////////////////////////////
     }catch (Exception e){
         e.printStackTrace();
     }
@@ -75,18 +61,33 @@ public class readIn{
         for(int i = 0; i < neighbors.getLength(); i++){
           Node nbr = neighbors.item(i);
           if(nbr.getNodeType() == nbr.ELEMENT_NODE){
-            Element name = (Element) nbr;
-            neighborNames[i] = name.getAttribute("name");
+            Element nbrname = (Element) nbr;
+            neighborNames[i] = nbrname.getAttribute("name");
           }
         }
         String one = neighborNames[0];
         String two = neighborNames[1];
         String three = neighborNames[2];
         String four = neighborNames[3];
-        Room add = new Room(one, two, three, four, name);
+        Rooms add = new Rooms(one, two, three, four, name);
 
         //Making Roles Array
-        
+        NodeList roles = e.getElementsByTagName("part");
+        Role[] rolesArray = new Role[4];
+        Arrays.fill(rolesArray, null);
+        for(int i = 0; i < roles.getLength(); i++){
+          Node role = roles.item(i);
+          if(role.getNodeType() == role.ELEMENT_NODE){
+            Element roleName = (Element) role;
+            String n = roleName.getAttribute("name");
+            String level = roleName.getAttribute("level");
+            int r = Integer.parseInt(level);
+            String l = roleName.getElementsByTagName("line").item(0).getTextContent();
+            Role newRole = new Role(n, r, l);
+            rolesArray[i] = newRole;
+          }
+        }
+        //Making set
         Set adding = new Set(name, takes, roles);
       }
     }

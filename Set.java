@@ -18,17 +18,10 @@ public class Set{
       this.cardName = null;
    }
 
-   public void setName(String s){
-     this.name = name;
-   }
-
    public void setShotCounts(int i){
      this.shotCounts = i;
    }
 
-   public void setExtraRoles(int 1, int 2, int 3, int 4){
-     ////////////////////////////////////////////////////////////////////////////////////////
-   }
 
    public void setCard(Card n){
      this.cardName = n.getName();
