@@ -7,12 +7,13 @@ public class Board{
   private static int numPlayers = 0;
   private static int numDays = 0;
   private static int numCards = 0;
-  private Scanner setScanner = readFile("Set.txt");
-  private ArrayList<Set> sets = new ArrayList<>();
+  private static int numScenes = 0;
+
 
   // Constructor takes one input : the number of players
-  Board(int numPlayers) {
+  GameBoard(int numPlayers) {
       this.numPlayers = numPlayers;
+      this.numScenes = 10;
   }
 
 public static void main(String[] args) {
@@ -62,15 +63,27 @@ public static void main(String[] args) {
       }
   }
 
-  public int changeTurn(int turn) {
-    if (turn < 1) {
-        turn ++;
+  public void checkScenes(){
+    int sceneCount = 0;
+    for(Rooms current: this.rooms){
+      if(!current.isWrapped()){
+        sceneCount++;
+      }
+      this.numScenes = sceneCount;
     }
-    else {
-        turn =0;
+  }
+
+
+  public getRoomName(String name){
+    Room roomName = null;
+
+    for(Room current : room) {
+      if(room.getName().equals(name)){
+         roomName = current;
+      }
     }
-    return turn;
-}
+ return roomName;
+ } 
 
   public int finalScore(Player player) {
     int score = calcScore(player);
