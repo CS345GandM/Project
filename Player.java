@@ -124,9 +124,10 @@ public class Player{
       return role;
    }
 
-   public void upgradeCR(int increaseTo){///////////////////////////////////////////find cr for desired rank
+   public int upgradeCR(int increaseTo){///////////////////////////////////////////find cr for desired rank
      if(location.compareToIgnoreCase("Casting Office") == 0){
        if(rank < 6){
+         int cr = 0;
          if(credits >= cr){
            rank = increaseTo;
            credits = credits - cr;
@@ -139,9 +140,10 @@ public class Player{
      return 0; //not in Casting Office
    }
 
-   public void upgradeDollars(int increaseTo){//////////////////////////////////////find dollars for desired rank
+   public int upgradeDollars(int increaseTo){//////////////////////////////////////find dollars for desired rank
      if(location.compareToIgnoreCase("Casting Office") == 0){
        if(rank < 6){
+         int cost = 0;
          if(dollars >= cost){
            rank = increaseTo;
            dollars = dollars - cost;
