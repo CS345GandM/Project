@@ -11,7 +11,12 @@ public class Rooms{
    private String four;
    private String name;
 
+<<<<<<< HEAD
    public  Rooms(String one, String two, String three, String four, String name){
+=======
+
+   public Rooms(String one, String two, String three, String four, String name){
+>>>>>>> 8d9a8d81c361c5403ca41260b4d05a7c1c567f69
       this.one = one;
       this.two = two;
       this.three = three;
@@ -27,7 +32,7 @@ public class Rooms{
      return x;
    }*/
    public String peekOne(){
-     return one
+     return one;
    }
    public String peekTwo(){
      return two;
