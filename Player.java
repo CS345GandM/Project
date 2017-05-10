@@ -4,6 +4,7 @@ import java.lang.*;
 public class Player{
 
   //differentiate between players
+<<<<<<< HEAD
   private String  playerColor;            //ID
   private String  onOffCard = "None";      //Tells us whether the player is on or off the card
   private boolean hasRole;                //Tells us whether the player has a role - true/false
@@ -14,6 +15,17 @@ public class Player{
   private int     roleRank;              //tracks the players rank
   private int    roleBudget;            //the card oject holds the role's budget
   private Role    playerRole;            //the role object holds the name of the players role
+=======
+  private String playerColor;  //ID
+  private boolean hasRole;
+  private Room playerLocation;
+  private int playerCredits;
+  private int playerDollars;
+  private int playerReheasalCredits;
+  private int roleRank;
+  private int roleBudget;
+  private Role playerRole;
+>>>>>>> f6ac4df6c4d0e1c9d3c38be41838500da2ef1f6b
 
   //constructor for player with a certain color(ID)
   public Player(String playerColor){
@@ -40,6 +52,7 @@ public class Player{
     this.playerDollars += bonus;
   }
 
+<<<<<<< HEAD
   public void newDay(){
     this.hasRole = false;
     this.roleRank = 0;
@@ -57,14 +70,19 @@ public class Player{
   public String getonOrOffCard(){
     return onOffCard;
   }
+=======
+  public Room getRoom(){
+    return playerLocation;
+  }
+
+>>>>>>> f6ac4df6c4d0e1c9d3c38be41838500da2ef1f6b
   //GETTER: LOCATION
-  public void getPlayerLocation(){
+  public String getPlayerLocation(){
     return playerLocation.getRoomName();
   }
-  //SETTER: PLAYER RANK
-  public void setPlayerRank(int rank){
-    playerRank = rank;
-    return playerRank;
+
+  public int getCardBudget(){
+    return roleBudget.getBudget();
   }
 
   //GETTER: PLAYER RANK
@@ -83,7 +101,7 @@ public class Player{
   }
 
   //GETTER: PLAYER'S ROLE RANK
-  public void getRoleRank(){
+  public int getRoleRank(){
     return playerRole.getRoleRank();
   }
 
