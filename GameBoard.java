@@ -10,15 +10,10 @@ public class Board{
   private static int numScenes = 0;
 
 
-  // Constructor takes one input : the number of players
-  public GameBoard(int numPlayers, int numScenes) {
-      this.numPlayers = numPlayers;
-      this.numScenes = 10;
-  }
 
 public static void main(String[] args) {
 
-  Scanner input = new Scanner();
+  Scanner input = new Scanner(System.in);
   String userInput = input.nextLine();
   String who = "who";
   String Where = "Where";
@@ -27,6 +22,9 @@ public static void main(String[] args) {
   String act = "act";
   String work = "work";
 
+  if (userInput.equals("work")){
+    System.out.println("Slected Work");
+  }
 /*
   while (userInput.compareToIgnoreCase(end) != 0)
 
@@ -43,17 +41,6 @@ public static void main(String[] args) {
     }else if(userInput.compareToIgnoreCase() == 0){
   }*/
 }
-
-  private Scanner readFile(String fileName) {
-      Scanner scan = null;
-      try {
-          scan = new Scanner(new File(fileName));
-      } catch (FileNotFoundException e) {
-          System.out.println("Error: unable to open file: " + fileName);
-          System.exit(1);
-      }
-      return scan;
-  }
 
 //according to game rules
   private void setDays() {
@@ -73,7 +60,6 @@ public static void main(String[] args) {
       this.numScenes = sceneCount;
     }
   }
-
 
   public String getRoomName(String name){
     Room roomName = null;

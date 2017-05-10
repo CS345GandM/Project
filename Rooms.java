@@ -18,7 +18,6 @@ public class Rooms{
       this.four = four;
       this.name = name;
    }
-
   /* public void successfulAct(){
      name.removeCounters();
    }

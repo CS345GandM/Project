@@ -22,7 +22,7 @@ public class Player{
   private boolean turn;
 
 
-   public Player(GameBoard board, int numPlayers, String color) {
+   public Player(int numPlayers, String color) {
      //distinguish between players
     this.playerColor = color;
 
@@ -41,7 +41,7 @@ public class Player{
 
 
  	}
-
+//edit
   public void resetBoard(GameBoard board) {
 		this.state = "No current role";
 		this.playerRole = null;
@@ -109,21 +109,21 @@ public class Player{
         //print error statement
    //else - last case of not being able to move is when they are working on a role already
 }
-public void act(){
-  return null;
-}
+  public void act(){
+    return null;
+  }
 
-public void rehearse(){
-  return null;
-  //if credits < 6
-  //increment the credits
-  //else cannot rehearse because they are currently working
-}
+  public void rehearse(){
+    return null;
+    //if credits < 6
+    //increment the credits
+    //else cannot rehearse because they are currently working
+  }
 
-public void upgrade(){
-  //can only think of a way to this this by having a case for every rank and checking credits/dollars and decrementing that rank amount
-  //else cannot upgrade because player.getCurrentRoom is not equal to the casting room
-}
+  public void upgrade(){
+    //can only think of a way to this this by having a case for every rank and checking credits/dollars and decrementing that rank amount
+    //else cannot upgrade because player.getCurrentRoom is not equal to the casting room
+  }
 
 
 
