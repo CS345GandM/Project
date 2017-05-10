@@ -8,7 +8,6 @@ public class GameBoard{
   private static int numPlayers = 0;
   private static int numDays = 0;
   private static int numCards = 0;
-<<<<<<< HEAD
   private static int numScenes = 0;
 
 
@@ -81,7 +80,7 @@ public static void main(String[] args) {
     }
   }
 
-<<<<<<< HEAD
+
 =======
   private boolean checkArgs(String[] args){
     if(args.length() == 1){
@@ -95,7 +94,7 @@ public static void main(String[] args) {
     return false;
   }
 
->>>>>>> 507b72805922c80eba54369702990d26fac3b95d
+
 //according to game rules
   private void setDays() {
       if (numPlayers == 2 || numPlayers == 3) {
