@@ -37,7 +37,7 @@ public class Rooms{
    public String peekFour(){
      return four;
    }
-   public String peekName(){
+   public String getRoomName(){
      return name;
    }
 }
