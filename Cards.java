@@ -9,7 +9,7 @@ public class Cards{
    private String description;
    private int sceneNum;
    private int budget;
-   private Role[] roles = new Role[4];
+   private ArrayList<Role> onCardRoles = new Role();
 
    public Cards(String n, String d, int b, int sN, Role[] r){
       this.name = n;
@@ -47,8 +47,15 @@ public class Cards{
       return budget;
    }
 
-   public void turnCard(){
-      return;
+   public int[] getRoleRanks(){
+     int[] ranks = new int[onCardRoles.size()];
+     int track = 0;
+     for(Role r : onCardRoles){
+       ranks[track] = r.getRoleRank();
+       track++;
+     }
+     Arrays.sort(ranks);
+     return ranks;
    }
 
 

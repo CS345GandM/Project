@@ -11,7 +11,7 @@ public class Player{
   private int playerDollars;
   private int playerReheasalCredits;
   private int roleRank;
-  private Card roleBudget;
+  private int roleBudget;
   private Role playerRole;
 
   //constructor for player with a certain color(ID)
@@ -33,14 +33,17 @@ public class Player{
     //if off card
   }
 
+  public Room getRoom(){
+    return playerLocation;
+  }
+
   //GETTER: LOCATION
-  public void getPlayerLocation(){
+  public String getPlayerLocation(){
     return playerLocation.getRoomName();
   }
-  //SETTER: PLAYER RANK
-  public void setPlayerRank(int rank){
-    playerRank = rank;
-    return playerRank;
+
+  public int getCardBudget(){
+    return roleBudget.getBudget();
   }
 
   //GETTER: PLAYER RANK
@@ -59,7 +62,7 @@ public class Player{
   }
 
   //GETTER: PLAYER'S ROLE RANK
-  public void getRoleRank(){
+  public int getRoleRank(){
     return playerRole.getRoleRank();
   }
 

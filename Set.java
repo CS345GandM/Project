@@ -26,6 +26,15 @@ public class Set{
      this.cardName = n;
    }
 
+   //getter for card name
+   public String getCardName(){
+     return cardName.getName();
+   }
+
+   //getter for number of roles
+   public int getNumRoles(){
+     return extraRoles.size();
+   }
 
    public void removeCounters(){
       shotCounts = shotCounts - 1;
@@ -37,5 +46,9 @@ public class Set{
 
    public String getName(){
       return name;
+   }
+
+   public void removeCard(){
+     cardName = null;
    }
 }

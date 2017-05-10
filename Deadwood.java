@@ -8,6 +8,7 @@ public class Deadwood{
   private static int numPlayers = 0;
   private static int numDays = 0;
   private static int numScenes = 22;
+  private static int sceneTrack = 0;
   private static ArrayList<Player> allPlayers = new ArrayList();
 
   private static ArrayList<Cards> allCards = new ArrayList();
@@ -26,22 +27,47 @@ public class Deadwood{
         for(Player p : allPlayers){
           p.newDay();/////////////////////////////////////////////////////////// New Day function in Player. reset role stuff
         }
-        //REST BOARD --> NEW CARDS TO setCard
-        int sceneTrack = numScenes;
+        associateCards();
+        sceneTrack = numScenes;
         while(sceneTrack > 1){
           for(Player p : allPlayers){
             if(sceneTrack > 1){
               p.turn();
             }
+            //remove last card
+            String room = p.getPlayerLocation();
+            Set currSet;
+            for(Set s : allSets){
+              String name = s.getName();
+              if(name.compareToIgnoreCase(room) == 0){
+                currSet = s;
+              }
+            }
+            String cardName = currSet.getCardName();
+            Cards currCard;
+            for(Cards c : allCards){
+              String name = c.getName();
+              if(name.compareToIgnoreCase(cardName) == 0){
+                currCard = c;
+              }
+            }
+            boolean done = allCards.remove(currCard);
+
+            currSet.removeCard();
+
           }
         }
         daysComplete++;
       }
-      //end game
+      //end game. print scores
+      for(Player p : allPlayers){
+        p.finalScore();
+      }
     }
     exit();
   }
 
+  //checks for right number of args and right arg input
   private boolean checkArgs(String[] args){
     if(args.length() == 1){
         String players = args[0];
@@ -145,7 +171,8 @@ public class Deadwood{
          }else if(command.compareToIgnoreCase(act) == 0){//ACT
 
            result = x.act();
-           if(result == 1 || result == 2){//success
+           if(result == 1){//success
+             sceneTrack--;
              completed.add(rehearse);
              completed.add(act);
              completed.add(work);
@@ -153,32 +180,101 @@ public class Deadwood{
              completed.add(upgrade);
            }
 
-           if(result == 3){ //Success and Wrap///////////////////////////////////////////FIX
-             completed.add(command);
-             Room place = x.getLocation();
-             int cardBudget = x.getBudget();
-             wraps(place, cardBudget);
+           Set currSet;
+           for(Set s : allSets){
+             String name = s.getName();
+             if(name.compareToIgnoreCase(room) == 0){
+               currSet = s;
+             }
+           }
+
+           int remaining = currSet.getShotCounts()
+           if(remaining == 0){//WRAP SCENE
+             String place = x.getPlayerLocation();
+             int cardBudget = x.getCardBudget();
+             wraps(place, cardBudget, currSet);
            }
 
          }else if(command.compareToIgnoreCase(work) == 0){//WORK
+           //check that role isn't taken
+           int len = userCommands.size();
+           String[] subString = new String[len];
+           len--;
+           substring = Arrays.copyOfRange(userCommands, 1, len);
+           String desiredRole = String.join(" ", subString);
 
-           //get desired role
-           result = x.setRole(part);
-           if(result == 1){
-             completed.add(rehearse);
-             completed.add(act);
-             completed.add(work);
-             completed.add(move);
-             completed.add(upgrade);
+           boolean goodToGo = true;
+           for(Player p : allPlayers){
+             if(p.getRoleStatus){//has a role
+               String playerRole = p.getRoleName;
+               if(playerRole.compareToIgnoreCase(desiredRole) == 0){ // role taken
+                 goodToGo = false;
+               }
+             }
            }
+
+           Role currRole
+           for(Role r : allRoles){
+             String name = r.getRoleTitle();
+             if(name.compareToIgnoreCase(name) == 0){
+               currRole = r;
+             }
+           }
+
+           if(goodToGo){//role isn't taken
+             //get desired role
+             result = x.Work(currRole);
+             if(result == 1){
+               completed.add(rehearse);
+               completed.add(act);
+               completed.add(work);
+               completed.add(move);
+               completed.add(upgrade);
+             }
+           }else{
+              result = 0;
+           }
+
 
          }else if(command.compareToIgnoreCase(move) == 0){//MOVE
+           //find destination
+           int len = userCommands.size();
+           String[] subString = new String[len];
+           len--;
+           substring = Arrays.copyOfRange(userCommands, 1, len);
+           String desiredDest = String.join(" ", subString); //desired location
+           String currRoom = x.getRoom();// current location
 
-           //get move destination
-           result = x.move(dest);
-           if(result == 1){//success
-             completed.add(command);
+           if(currRoom.peekOne().compareToIgnoreCase(desiredDest) == 0){
+             result = x.move(desiredDest);
+             if(result == 1){//success
+               completed.add(command);
+             }
            }
+
+           if(currRoom.peekTwo().compareToIgnoreCase(desiredDest) == 0){
+             result = x.move(desiredDest);
+             if(result == 1){//success
+               completed.add(command);
+             }
+           }
+
+           if(currRoom.peekThree().compareToIgnoreCase(desiredDest) == 0){
+             result = x.move(desiredDest);
+             if(result == 1){//success
+               completed.add(command);
+             }
+           }
+
+           if(currRoom.peekFour().compareToIgnoreCase(desiredDest) == 0){
+             result = x.move(desiredDest);
+             if(result == 1){//success
+               completed.add(command);
+             }
+           }
+
+           //not a valid move
+           result = 0;
 
          }else if(command.compareToIgnoreCase(upgrade) == 0){//UPGRADE
            if(userCommands.length() == 3){
@@ -200,75 +296,101 @@ public class Deadwood{
     }
   }
 
-  /*public void wraps(Room finishedRoom, int budget){
+  public void wraps(String room, int budget, Set currSet){
     int[] diceRolls = new int[budget];
+    Dice newDice = new Dice();
     for(int x = 0; x < budget; x++){
-      diceRolls[x] = Dice.getValue();
+      diceRolls[x] = newDice.getValue();
     }
-    diceRolls.sort(diceRolls);
+    //decreasing.
+    Arrays.sort(diceRolls, Collections.reverseOrder());
+
+    //based on current set and current card
+    Cards currCard;
+    for(Cards c : allCards){
+      String name = c.getName();
+      String setsCard = currSet.getName;
+      if(name.compareToIgnoreCase(setsCard) == 0){
+        currCard = c;
+      }
+    }
 
     //get number of on card roles
-    int numRoles = XXXX;/////////////////////////////////////////////////////
-    int[] cardWins = new int[numRoles];//lowest to highest
-    for(int x = 0; x < numRoles x++){// initialize all spots to 0
-      cardWins[x] = 0;
-    }
+    int numRoles = c.getNumRoles();
+    boolean onCard = false;
 
     int spot = 0;//dice rolls
-    int track = 0;//roles
-
+    int track = numRoles - 1;//roles starting at highest ranked
+    int[] winnings = new int[numRoles];
+    //calculating on card winnings
     while(spot < budget){
-      if(int track < numRoles){
+      //highest to lowest
+      if(int track > 0){
         cardWins[track] = cardWins[track] + diceRolls[spot];
-        track++;
+        track--;
         spot++;
       }else{
-        track = 0;
+        track = numRoles - 1;
       }
     }
-    boolean onCard = false;
-    for(int x = 0; x < numPlayers; x++){//look for on the card player
-      if(finishedRoom.compareToIgnoreCase(x.getLocation)){
-        if(x.role == 2){//on the card
-          onCard = true;
-          //determine "role" on card
-          //increment == cardWins[role]
-          x.wrapped(increment);
+
+    int[] rankOrder = currCard.getRoleRanks();
+
+    for(Player p : allPlayers){ //on card roles
+      String cardRole = p.getonOrOffCard();
+      if(cardRole.compareToIgnoreCase("On") == 0){
+        onCard = true;
+        int roleRank = p.getRoleRank();
+        int spot = 0;
+        while(roleRank != rankOrder[spot]){
+          spot++;
+        }
+        p.wraps(winnings[spot]);
+      }
+    }
+
+    if(onCard){//there is an on the card player
+      for(Player p : allPlayers){ //on card roles
+        String cardRole = p.getonOrOffCard();
+        if(cardRole.compareToIgnoreCase("off") == 0){
+          int roleRank = p.getRoleRank();
+          p.wraps(roleRank);
         }
       }
     }
 
-    if(onCard == true){//look for off the card player if on card
-      for(int x = 0; x < numPlayers; x++){
-        if(finishedRoom.compareToIgnoreCase(x.getLocation)){
-          if(x.role == 1){//off the card
-            //increment == role value
-            x.wrapped(increment);
-          }
-        }
-      }
-    }
+    //removing card
+    currSet.removeCard();
+    boolean done = allCards.remove(currCard);
+  }
 
-  }*/
-
-  publid int readFiles(){
+  public int readFiles(){
     ////////////////////////////////////////////////////////////////////////////////////////////////
   }
 
   public int finalScore(Player player) {
     int score = calcScore(player);
     System.out.println("--------------------------------------");
-    System.out.println("Name:             " + player.getName());
-    System.out.println("Rank:             " + player.getRank());
-    System.out.println("Credit:           " + player.getCredit());
-    System.out.println("Money:            " + player.getMoney());
+    System.out.println("Name:             " + player.getPlayerColor());
+    System.out.println("Rank:             " + player.getPlayerRank());
+    System.out.println("Credit:           " + player.getPlayerCredits());
+    System.out.println("Money:            " + player.getPlayerDollars());
     System.out.println("Total Score:      " + score);
     System.out.println("--------------------------------------");
     return score;
   }
 
   public int calcScore(Player player) {
-    return player.getMoney() + player.getCredit() + (player.getRank() * 5);
+    return player.getPlayerDollars() + player.getPlayerCredits() + (player.getPlayerRank() * 5);
+  }
+
+  public void associateCards(){
+    Collections.shuffle(allCards); //randomizes cards
+    int i = 0;
+    for(Set s : allSets){
+      s.setCard(allCards.get(i));
+      i++
+    }
   }
 
 }
