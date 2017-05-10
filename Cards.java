@@ -6,21 +6,24 @@ import java.lang.*;
 public class Cards{
 
    private String name;
+   private String description;
+   private int sceneNum;
    private int budget;
-   private String line;
-   private ArrayList<Role> roles;
+   private Role[] roles = new Role[4];
 
-   private Cards(ArrayList<Role> roles, int budget, String name, String line){
-      this.name = name;
-      this.budget = budget;
-      this.roles = roles;
-      this.line = line;
+   public Cards(String n, String d, int b, int sN, Role[] r){
+      this.name = n;
+      this.description = d;
+      this.budget = b;
+      this.sceneNum = sN;
+      this.roles = r;
    }
+
    private void makeCard(){
       //read in text file
    }
 
-
+/*
  	public Role getRoleName(String role) {
  		Role name = null;
 
@@ -31,12 +34,13 @@ public class Cards{
 
  		return name;
  	}
+  */
    public String getName(){
       return name;
    }
 
    public String getQuote(){
-     return line;
+     return description;
    }
 
    public int getBudget(){

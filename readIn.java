@@ -116,15 +116,85 @@ public class readIn{
         String three = neighborNames[2];
         String four = neighborNames[3];
         Rooms add = new Rooms(one, two, three, four, name);
+
+        trailerRoom adding = new trailerRoom(name);
       }
     }
   }
 
   private void readInOffice(NodeList office){
+    for(int x = 0; x < office.getLength(); x++){
+      Node curr = office.item(x);
+      if(curr.getNodeType() == Node.ELEMENT_NODE){
+        Element e = (Element) curr;
+        String name = "Office";
 
+        //Setting ROOM --> associations
+        NodeList neighbors = e.getElementsByTagName("neighbor");
+        String[] neighborNames = new String[4];
+        Arrays.fill(neighborNames, null);
+        for(int i = 0; i < neighbors.getLength(); i++){
+          Node nbr = neighbors.item(i);
+          if(nbr.getNodeType() == nbr.ELEMENT_NODE){
+            Element nbrname = (Element) nbr;
+            neighborNames[i] = nbrname.getAttribute("name");
+          }
+        }
+        String one = neighborNames[0];
+        String two = neighborNames[1];
+        String three = neighborNames[2];
+        String four = neighborNames[3];
+        Rooms add = new Rooms(one, two, three, four, name);
+
+        castingOffice adding = new castingOffice(name);
+      }
+    }
   }
 
   private void readInCards(NodeList cards){
+    //loop through all of the sets
+    for(int x = 0; x < cards.getLength(); x++){
+      Node curr = cards.item(x);
+      if(curr.getNodeType() == Node.ELEMENT_NODE){
+        Element e = (Element) curr;
+        String name = e.getAttribute("name");//name
+        String budg = e.getAttribute("budget");
+        int budget = Integer.parseInt(budg);
 
+        //getting scene number and description
+        NodeList scenes = e.getElementsByTagName("scene");
+        String description = null;
+        int sceneNumber = 0;
+        for(int i = 0; i < scenes.getLength(); i++){
+          Node scene = scenes.item(i);
+          if(scene.getNodeType() == scene.ELEMENT_NODE){
+            Element s = (Element) scene;
+            description = s.getTextContent();
+            String num = s.getAttribute("number");
+            sceneNumber = Integer.parseInt(num);
+          }
+        }
+
+        //Making Roles Array
+        NodeList roles = e.getElementsByTagName("part");
+        Role[] rolesArray = new Role[4];
+        Arrays.fill(rolesArray, null);
+        for(int i = 0; i < roles.getLength(); i++){
+          Node role = roles.item(i);
+          if(role.getNodeType() == role.ELEMENT_NODE){
+            Element roleName = (Element) role;
+            String n = roleName.getAttribute("name");
+            String level = roleName.getAttribute("level");
+            int r = Integer.parseInt(level);
+            String l = roleName.getElementsByTagName("line").item(0).getTextContent();
+            Role newRole = new Role(n, r, l);
+            rolesArray[i] = newRole;
+          }
+        }
+        //Making set
+        Cards adding = new Cards(name, description, budget,  sceneNumber, rolesArray);
+      }
+    }
   }
+
 }

@@ -7,8 +7,8 @@ public class trailerRoom {  //extends Room
 
    private String name;
 
-   public trailerRoom(){
-     name = "Trailer";
+   public trailerRoom(String n){
+     this.name = n;
    }
 
    public String getName(){
