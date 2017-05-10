@@ -4,15 +4,16 @@ import java.lang.*;
 public class Player{
 
   //differentiate between players
-  private String playerColor;  //ID
-  private boolean hasRole;
-  private Room playerLocation;
-  private int playerCredits;
-  private int playerDollars;
-  private int playerReheasalCredits;
-  private int roleRank;
-  private Card roleBudget;
-  private Role playerRole;
+  private String  playerColor;            //ID
+  private String  onOffCard = "None";      //Tells us whether the player is on or off the card
+  private boolean hasRole;                //Tells us whether the player has a role - true/false
+  private Room    playerLocation;         //tracks the Room the player is in
+  private int     playerCredits;          //tracks the players credits
+  private int     playerDollars;          //tracks the players dollars
+  private int     playerReheasalCredits; //tracks their rehearsal credits
+  private int     roleRank;              //tracks the players rank
+  private int    roleBudget;            //the card oject holds the role's budget
+  private Role    playerRole;            //the role object holds the name of the players role
 
   //constructor for player with a certain color(ID)
   public Player(String playerColor){
@@ -21,18 +22,41 @@ public class Player{
     this.playerCredits = 0;
     this.playerDollars = 0;
     this.roleRank = 0;
-    this.roleBudget = roleBudget;
-    this.playerLocation = playerLocation;
-  }
-
-  public void wraps(){
-    //if on card
+    this.roleBudget = 0;
+    this.playerLocation = null;
+    this.playerRole = null;
+    this.onOffCard = "none";
     this.playerReheasalCredits = 0;
-    this.hasRole = false;
-    this.playerDollars = 0;
-    //if off card
   }
 
+  public void wraps(int bonus){
+    this.hasRole = false;
+    this.roleRank = 0;
+    this.roleBudget = 0;
+    this.playerLocation = null;
+    this.playerRole = null;
+    this.onOffCard = "none";
+    this.playerReheasalCredits = 0;
+    this.playerDollars += bonus;
+  }
+
+  public void newDay(){
+    this.hasRole = false;
+    this.roleRank = 0;
+    this.roleBudget = 0;
+    this.playerLocation = "Trailer";
+    this.playerRole = null;
+    this.onOffCard = "none";
+    this.playerReheasalCredits = 0;
+  }
+  //SETTER: Set the players state to "On" or "OFF"
+  public void setonOrOffCard(String s){
+    this.onOffCard = s;
+  }
+  //GETTER: Get whether status is on or off card
+  public String getonOrOffCard(){
+    return onOffCard;
+  }
   //GETTER: LOCATION
   public void getPlayerLocation(){
     return playerLocation.getRoomName();
@@ -92,18 +116,60 @@ public class Player{
   public String getRoleName(){
     return playerRole.getRoleTitle();
   }
-  ////////////////////////////////////////////////////Move
-  ////////////////////////////////////////////////////Take role
+
+  public void Move(Room room){
+    if(!hasRole){                 //if player has no current role,continue
+      this.playerLocation = room;
+    }
+    else{
+      System.out.println("Cannot move while working on a scene");   //otherwise player has a role and cannot move
+    }
+  }
+
+//method for taking a role
+  public void work(Role role){
+    if(false){
+      System.out.println("Another player is already on this role");
+
+    if(this.roleRank >= role.getRoleRank()){
+      this.playerRole = role;
+      this.setRoleStatus(true);
+      this.roleRank = role.getBudget();
+      this.roleBudget = 0;
+    }
+    if(role.onCard()){
+      this.setonOrOffCard("On");
+    }else{
+      this.setonOrOffCard("Off");
+    }
+
+    }else{
+      System.out.println("Sorry,rank is not high enough for this role");
+    }
+  }
+
   public void act(){
-    if(hasRole){
+    if(hasRole){  //if true
         Dice newDice = new Dice();
         int roll = newDice.getValue();
         if(roleBudget.getBudget() <= roll){
-          //SUCCESS
-        }else{
-          //FAIL
+          if(this.onCard){
+            this.playerCredits += 2;    //pay for on card
+          }
+          else{
+            this.playerCredits += 1;    //pay for off card
+            this.playerDollars += 1;
+          }
+          return 1; // check remainingshots //***********************************************************CHECK IF LAST SCENE
         }
-    }
+          System.out.println("SUCCESS");
+      }
+      else{
+        if(!onCard){
+          this.playerCredits += 1;
+        }
+        System.out.println("FAIL");
+      }
     return 0;
   }
 
@@ -134,7 +200,7 @@ public class Player{
         int r = credits[rank -2];
         if(playerCredits >= r){
           playerRank++;
-          playerCredits = playerCredits - credits[rank - 1];
+          playerCredits = (playerCredits - credits[rank - 2]);
           return 1;
         }
       }
@@ -142,7 +208,7 @@ public class Player{
     return 0;
   }
 
-  public void rehearse(){
+  public int rehearse(){
     if(rehersalCredits < 6){
       if(hasRole){
         playerReheasalCredits++;
@@ -151,3 +217,4 @@ public class Player{
     }
     return 0;
   }
+}

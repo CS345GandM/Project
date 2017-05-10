@@ -11,10 +11,10 @@
 
   public class readFiles {
     //first method is trying to add the cards to an arraylist
-  	public ArrayList<Cards> cards() {
+  	public void cards() {
 
       //AT THE END WE WANT TO CARDS TO HOLD ALL OF ITS INFO
-  		ArrayList<Cards> cards = new ArrayList<Cards>();
+  		//ArrayList<Cards> cards = new ArrayList<Cards>();
 
       try {
   			FileInputStream cardFile = new FileInputStream("cards.xml");
@@ -79,7 +79,7 @@
   				}
 
   				Cards card = new Cards(cardName, cardBudget, cardNumber, rolesAList, cardLine);
-  				cards.add(card); //add these new card objects into the card arraylist(from beginning)
+  				allCards.add(card); //add these new card objects into the card arraylist(from beginning)
   				}
         }
   			} finally {
@@ -94,7 +94,7 @@
 
 
     //second method is trying to seperate the componenets of board
-    public ArrayList<Rooms> board() {
+    public void board() {
       //AT THE END WE WANT THE BOARD TO CONTAIN ALL ITS CONTENTS
       ArrayList<Rooms> boardContents = new ArrayList<Rooms>();
   		try {
@@ -114,7 +114,7 @@
   				//first get the trailer info
   				Node tNode = trailerList.item(0);
   				String[] trailerList = new String[3];
-  				ArrayList<String> trailerArray = new ArrayList<String>();
+  				ArrayList<String> trailerArray = new ArrayList<String>(); //******************************Trailer array (strings)
   				String trailerName = "Trailer";
 
   				if (tNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -129,7 +129,7 @@
   					}
 
   				Rooms trailerRoom = new Rooms(trailerName, trailerArray, 0, null);
-  				GameBoard.add(trailerRoom);
+  				boardContents.add(trailerRoom);
 
           }
 
@@ -143,7 +143,7 @@
   					NodeList neighbors = trailer.getElementsByTagName("neighbor");
 
             //this ArrayList holds the office strings
-            ArrayList<String> officeArray = new ArrayList<String>();
+            ArrayList<String> officeArray = new ArrayList<String>(); //********************************** office array(strings)
 
   					for (int j = 0; j < neighbors.getLength(); j++) {
   						Element adjRooms = (Element) neighbors.item(j);
@@ -153,7 +153,7 @@
   					}
 
   				Rooms officeRoom = new Rooms(castingOfficeName, officeArray, 0, null);
-  				GameBoard.add(officeRoom);
+  				boardContents.add(officeRoom);
   				}
 
   				//set info
@@ -164,7 +164,7 @@
   					int[] roleRank = new int[4];
   					String[] roleLine = new String[4];
 
-  					ArrayList<String> rArray = new ArrayList<String>();
+  					ArrayList<String> rArray = new ArrayList<String>();//*************************************************roles array
   					ArrayList<Role> rolesArray = new ArrayList<Role>();
 
   					Node nNode = setList.item(i);
@@ -199,8 +199,8 @@
   						}
 
   						Rooms roleRoom = new Rooms(set.getAttribute("name"), roleList, tvalue, rolesArray);
-  						GameBoard.add(roleRoom);
-              System.out.println(roleRoom);//*****************
+  						allRooms.add(roleRoom);
+              System.out.println(roleRoom); //*****************
 
   					}
   				}

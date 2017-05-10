@@ -16,7 +16,7 @@ public class Deadwood{
 
   public static void main(String[] args) {
 
-    if(checkArgs(args)){ //loosk that there is a valid number of players
+    if(checkArgs(args)){ //check that there is a valid number of players
       numPlayers = args[0];
       setDays();
       int daysComplete = 0;
