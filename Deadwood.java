@@ -18,7 +18,7 @@ public class Deadwood{
   public static void main(String[] args) {
 
     if(checkArgs(args)){ //check that there is a valid number of players
-      numPlayers = args[0];
+      numPlayers = Integer.parseInt(args[0]);
       setDays();
       int daysComplete = 0;
       makePlayers();
@@ -68,7 +68,7 @@ public class Deadwood{
   }
 
   //checks for right number of args and right arg input
-  private boolean checkArgs(String[] args){
+  private static boolean checkArgs(String[] args){
     if(args.length() == 1){
         String players = args[0];
         int num = Integer.parseInt(players);
@@ -81,7 +81,7 @@ public class Deadwood{
   }
 
 //according to game rules
-  private void setDays() {
+  private static void setDays() {
       if (numPlayers == 2 || numPlayers == 3) {
           numDays = 3;
       } else {
@@ -90,7 +90,7 @@ public class Deadwood{
   }
 
   //creates players with color names
-  private void makePlayers(){
+  private static void makePlayers(){
     String[] colors = new String[8];
     colors[0] = "blue";
     colors[1] = "cyan";
@@ -108,7 +108,7 @@ public class Deadwood{
     }
   }
 
-  public void turn(Player x){
+  public static void turn(Player x){
     boolean turn = true;
 
     String who = "Who";
@@ -127,7 +127,7 @@ public class Deadwood{
       String userInput = input.nextLine();
       String[] userCommands = userInput.split(" ");
       String command = userCommands[0];
-      arrayList<String> completed = new arrayList<String>;
+      ArrayList<String> completed = new ArrayList();
 
       if(command.compareToIgnoreCase(who) == 0){//WHO
 
@@ -136,19 +136,28 @@ public class Deadwood{
         int credits = x.getPlayerCredits();
         if(x.getRoleStatus){
           String role = x.getRoleName();
-          System.out.println("%s ($%d, %dcr) working %s", color, dollars, credits, role)
+          System.out.println("%s ($%d, %dcr) working %s", color, dollars, credits, role);
         }else{
-          System.out.println("%s ($%d, %dcr)", color, dollars, credits)
+          System.out.println("%s ($%d, %dcr)", color, dollars, credits);
         }
 
       }else if(command.compareToIgnoreCase(where) == 0){//WHERE
 
-        String roomName = x.getPlayerLocation();
-        if(/*Card is deleted*/){
+        String room = p.getPlayerLocation();
+        Set currSet;
+        for(Set s : allSets){
+          String name = s.getName();
+          if(name.compareToIgnoreCase(room) == 0){
+            currSet = s;
+          }
+        }
+        String cardName = currSet.getCardName();
+
+        if(cardName.compareToIgnoreCase(null) == 0){
           System.out.println("%s wrapped", roomName);
         }else{
           //String sceneName = ////////////////////////////SCENE NAME/CARD NAME
-          System.out.println("in %s shooting %s", roomName, sceneName);
+          System.out.println("in %s shooting %s", roomName, cardName);
         }
 
       }else if(command.compareToIgnoreCase(end) == 0){
@@ -188,7 +197,7 @@ public class Deadwood{
              }
            }
 
-           int remaining = currSet.getShotCounts()
+           int remaining = currSet.getShotCounts();
            if(remaining == 0){//WRAP SCENE
              String place = x.getPlayerLocation();
              int cardBudget = x.getCardBudget();
@@ -213,7 +222,7 @@ public class Deadwood{
              }
            }
 
-           Role currRole
+           Role currRole;
            for(Role r : allRoles){
              String name = r.getRoleTitle();
              if(name.compareToIgnoreCase(name) == 0){
@@ -292,11 +301,11 @@ public class Deadwood{
         System.out.println("SOMETHING IS JUST NOT HAPPENING.");
       }
       //turn over
-      input.close()
+      input.close();
     }
   }
 
-  public void wraps(String room, int budget, Set currSet){
+  public static void wraps(String room, int budget, Set currSet){
     int[] diceRolls = new int[budget];
     Dice newDice = new Dice();
     for(int x = 0; x < budget; x++){
@@ -325,7 +334,7 @@ public class Deadwood{
     //calculating on card winnings
     while(spot < budget){
       //highest to lowest
-      if(int track > 0){
+      if(track > 0){
         cardWins[track] = cardWins[track] + diceRolls[spot];
         track--;
         spot++;
@@ -364,11 +373,11 @@ public class Deadwood{
     boolean done = allCards.remove(currCard);
   }
 
-  public int readFiles(){
+  public static int readFiles(){
     ////////////////////////////////////////////////////////////////////////////////////////////////
   }
 
-  public int finalScore(Player player) {
+  public static int finalScore(Player player) {
     int score = calcScore(player);
     System.out.println("--------------------------------------");
     System.out.println("Name:             " + player.getPlayerColor());
@@ -380,16 +389,16 @@ public class Deadwood{
     return score;
   }
 
-  public int calcScore(Player player) {
+  public static int calcScore(Player player) {
     return player.getPlayerDollars() + player.getPlayerCredits() + (player.getPlayerRank() * 5);
   }
 
-  public void associateCards(){
+  public static void associateCards(){
     Collections.shuffle(allCards); //randomizes cards
     int i = 0;
     for(Set s : allSets){
       s.setCard(allCards.get(i));
-      i++
+      i++;
     }
   }
 

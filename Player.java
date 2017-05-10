@@ -4,7 +4,6 @@ import java.lang.*;
 public class Player{
 
   //differentiate between players
-<<<<<<< HEAD
   private String  playerColor;            //ID
   private String  onOffCard = "None";      //Tells us whether the player is on or off the card
   private boolean hasRole;                //Tells us whether the player has a role - true/false
@@ -13,19 +12,8 @@ public class Player{
   private int     playerDollars;          //tracks the players dollars
   private int     playerReheasalCredits; //tracks their rehearsal credits
   private int     roleRank;              //tracks the players rank
-  private int    roleBudget;            //the card oject holds the role's budget
+  private int     roleBudget;            //the card oject holds the role's budget
   private Role    playerRole;            //the role object holds the name of the players role
-=======
-  private String playerColor;  //ID
-  private boolean hasRole;
-  private Room playerLocation;
-  private int playerCredits;
-  private int playerDollars;
-  private int playerReheasalCredits;
-  private int roleRank;
-  private int roleBudget;
-  private Role playerRole;
->>>>>>> f6ac4df6c4d0e1c9d3c38be41838500da2ef1f6b
 
   //constructor for player with a certain color(ID)
   public Player(String playerColor){
@@ -52,7 +40,7 @@ public class Player{
     this.playerDollars += bonus;
   }
 
-<<<<<<< HEAD
+
   public void newDay(){
     this.hasRole = false;
     this.roleRank = 0;
@@ -70,17 +58,18 @@ public class Player{
   public String getonOrOffCard(){
     return onOffCard;
   }
-=======
+
+  //GETTER: ROOM OBJECT
   public Room getRoom(){
     return playerLocation;
   }
 
->>>>>>> f6ac4df6c4d0e1c9d3c38be41838500da2ef1f6b
   //GETTER: LOCATION
   public String getPlayerLocation(){
     return playerLocation.getRoomName();
   }
 
+  //GETTER: CARD BUDGET
   public int getCardBudget(){
     return roleBudget.getBudget();
   }
@@ -105,7 +94,7 @@ public class Player{
     return playerRole.getRoleRank();
   }
 
-  //RETURN BOOLEAN
+  //RETURN BOOLEAN: ON OF OFF CARD
   public boolean onCard(){
     if (Cards.contains(playerRole)){
        return true;
@@ -116,18 +105,18 @@ public class Player{
   }
 
   //GETTER: PLAYER CREDITS
-  public void getPlayerCredits(){
+  public int getPlayerCredits(){
     return this.playerCredits;
   }
 
   //GETTER: PLAYER DOLLARS
-  public void getPlayerDollars(){
+  public int getPlayerDollars(){
     return this.playerDollars;
   }
 
   //GETTER: PLAYER COLORS
-  public void getPlayerColor(){
-    return this.player;
+  public String getPlayerColor(){
+    return this.playerColor;
   }
 
   //GETTER: PLAYER'S ROLE NAME
@@ -178,7 +167,7 @@ public class Player{
             this.playerCredits += 1;    //pay for off card
             this.playerDollars += 1;
           }
-          return 1; // check remainingshots //***********************************************************CHECK IF LAST SCENE
+          return 1;
         }
           System.out.println("SUCCESS");
       }

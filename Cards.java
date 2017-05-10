@@ -9,7 +9,7 @@ public class Cards{
    private String description;
    private int sceneNum;
    private int budget;
-   private ArrayList<Role> onCardRoles = new Role();
+   private ArrayList<Role> onCardRoles;
 
    public Cards(String n, String d, int b, int sN, Role[] r){
       this.name = n;
@@ -23,18 +23,6 @@ public class Cards{
       //read in text file
    }
 
-/*
- 	public Role getRoleName(String role) {
- 		Role name = null;
-
- 		for(Role current : role) {
- 			if(current.getRoleTitle().equals(role))
- 				name = current;
- 		}
-
- 		return name;
- 	}
-  */
    public String getName(){
       return name;
    }
