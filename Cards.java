@@ -11,16 +11,20 @@ public class Cards{
    private int budget;
    private ArrayList<Role> onCardRoles;
 
-   public Cards(String n, String d, int b, int sN, Role[] r){
+   public Cards(String n, int b, int sN, ArrayList<Role> r, String d){
       this.name = n;
       this.description = d;
       this.budget = b;
       this.sceneNum = sN;
-      this.roles = r;
+      this.onCardRoles = r;
    }
 
    private void makeCard(){
       //read in text file
+   }
+   public int getNumRoles(){
+     int len = onCardRoles.size();
+     return len;
    }
 
    public String getName(){
@@ -33,6 +37,16 @@ public class Cards{
 
    public int getBudget(){
       return budget;
+   }
+
+   public boolean isARole(String roleName){
+     for(Role r : onCardRoles){
+       String currRole = r.getRoleTitle();
+       if(roleName.compareToIgnoreCase(currRole) == 0){
+         return true;
+       }
+     }
+     return false;
    }
 
    public int[] getRoleRanks(){

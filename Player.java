@@ -5,9 +5,9 @@ public class Player{
 
   //differentiate between players
   private String  playerColor;            //ID
-  private String  onOffCard = "None";      //Tells us whether the player is on or off the card
+  private String  onOffCard;      //Tells us whether the player is on or off the card
   private boolean hasRole;                //Tells us whether the player has a role - true/false
-  private Room    playerLocation;         //tracks the Room the player is in
+  private Rooms    playerLocation;         //tracks the Room the player is in
   private int     playerCredits;          //tracks the players credits
   private int     playerDollars;          //tracks the players dollars
   private int     playerReheasalCredits; //tracks their rehearsal credits
@@ -18,7 +18,7 @@ public class Player{
   //constructor for player with a certain color(ID)
   public Player(String playerColor){
     this.playerColor = playerColor;
-    this.hasRole = false;
+  /*  this.hasRole = false;
     this.playerCredits = 0;
     this.playerDollars = 0;
     this.roleRank = 0;
@@ -26,7 +26,7 @@ public class Player{
     this.playerLocation = null;
     this.playerRole = null;
     this.onOffCard = "none";
-    this.playerReheasalCredits = 0;
+    this.playerReheasalCredits = 0;*/
   }
 
   public void wraps(int bonus){
@@ -41,11 +41,11 @@ public class Player{
   }
 
 
-  public void newDay(){
+  public void newDay(Rooms trailer){
     this.hasRole = false;
     this.roleRank = 0;
     this.roleBudget = 0;
-    this.playerLocation = "Trailer";
+    this.playerLocation = trailer;
     this.playerRole = null;
     this.onOffCard = "none";
     this.playerReheasalCredits = 0;
@@ -60,23 +60,24 @@ public class Player{
   }
 
   //GETTER: ROOM OBJECT
-  public Room getRoom(){
+  public Rooms getRoom(){
     return playerLocation;
   }
 
   //GETTER: LOCATION
   public String getPlayerLocation(){
-    return playerLocation.getRoomName();
+    String local = playerLocation.getRoomName();
+    return local;
   }
 
   //GETTER: CARD BUDGET
   public int getCardBudget(){
-    return roleBudget.getBudget();
+    return this.roleBudget;
   }
 
   //GETTER: PLAYER RANK
   public int getPlayerRank(){
-    return playerRank;
+    return this.roleRank;
   }
 
   //SETTER: PLAYER STATUS
@@ -91,18 +92,29 @@ public class Player{
 
   //GETTER: PLAYER'S ROLE RANK
   public int getRoleRank(){
-    return playerRole.getRoleRank();
+    int rank = playerRole.getRoleRank();
+    return rank;
   }
 
-  //RETURN BOOLEAN: ON OF OFF CARD
+ //RETURN BOOLEAN: ON OF OFF CARD
   public boolean onCard(){
-    if (Cards.contains(playerRole)){
+    if (onOffCard.compareToIgnoreCase("On") == 0){
        return true;
     }
     else{
       return false;
     }
   }
+
+  //SETTER FOR onOffCard
+  public void onOrOff(boolean answer){
+    if(answer){
+      onOffCard = "On";
+    }else{
+    onOffCard = "Off";
+    }
+  }
+
 
   //GETTER: PLAYER CREDITS
   public int getPlayerCredits(){
@@ -124,43 +136,38 @@ public class Player{
     return playerRole.getRoleTitle();
   }
 
-  public void Move(Room room){
+  public int move(Rooms room){
     if(!hasRole){                 //if player has no current role,continue
       this.playerLocation = room;
+      return 1;
     }
     else{
       System.out.println("Cannot move while working on a scene");   //otherwise player has a role and cannot move
+      return 0;
     }
   }
 
 //method for taking a role
-  public void work(Role role){
-    if(false){
-      System.out.println("Another player is already on this role");
+  public int work(Role role, int newBudget){
 
     if(this.roleRank >= role.getRoleRank()){
       this.playerRole = role;
       this.setRoleStatus(true);
-      this.roleRank = role.getBudget();
-      this.roleBudget = 0;
-    }
-    if(role.onCard()){
-      this.setonOrOffCard("On");
-    }else{
-      this.setonOrOffCard("Off");
-    }
+      this.roleBudget = newBudget;
+      return 1;
 
     }else{
       System.out.println("Sorry,rank is not high enough for this role");
+      return 0;
     }
   }
 
-  public void act(){
+  public int act(){
     if(hasRole){  //if true
         Dice newDice = new Dice();
         int roll = newDice.getValue();
-        if(roleBudget.getBudget() <= roll){
-          if(this.onCard){
+        if(this.roleBudget <= roll){
+          if(this.onCard()){
             this.playerCredits += 2;    //pay for on card
           }
           else{
@@ -172,7 +179,7 @@ public class Player{
           System.out.println("SUCCESS");
       }
       else{
-        if(!onCard){
+        if(!onCard()){
           this.playerCredits += 1;
         }
         System.out.println("FAIL");
@@ -180,7 +187,7 @@ public class Player{
     return 0;
   }
 
-  public void upgrade(String t, int rank){
+  public int upgrade(String t, int rank){
     String location = playerLocation.getRoomName();
     if(location.compareToIgnoreCase("Casting Office") == 0){
       int[] dollars = new int[5];
@@ -198,7 +205,7 @@ public class Player{
       if(t.compareToIgnoreCase("$") == 0){
         int r = dollars[rank - 2];
         if(playerDollars >= r){
-          playerRank++;
+          roleRank++;
           playerDollars = playerDollars - dollars[rank - 2];
           return 1;
         }
@@ -206,7 +213,7 @@ public class Player{
       if(t.compareToIgnoreCase("cr") == 0){
         int r = credits[rank -2];
         if(playerCredits >= r){
-          playerRank++;
+          roleRank++;
           playerCredits = (playerCredits - credits[rank - 2]);
           return 1;
         }
@@ -216,7 +223,7 @@ public class Player{
   }
 
   public int rehearse(){
-    if(rehersalCredits < 6){
+    if(playerReheasalCredits < 6){
       if(hasRole){
         playerReheasalCredits++;
         return 1;

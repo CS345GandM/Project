@@ -11,7 +11,7 @@ public class Set{
    private ArrayList<Role> extraRoles;;
    private Cards cardName;
 
-   public Set(String name, int takes, Role[] extraRoles){
+   public Set(String name, int takes, ArrayList<Role> extraRoles){
       this.name = name;
       this.shotCounts = takes;
       this.extraRoles = extraRoles;
@@ -50,5 +50,10 @@ public class Set{
 
    public void removeCard(){
      cardName = null;
+   }
+
+   public int getBudget(){
+     int budget = cardName.getBudget();
+     return budget;
    }
 }
