@@ -9,7 +9,7 @@ public class Cards{
    private String description;
    private int sceneNum;
    private int budget;
-   private ArrayList<Role> onCardRoles;
+   private ArrayList<Role> onCardRoles = new ArrayList<Role>();
 
    public Cards(String n, int b, int sN, ArrayList<Role> r, String d){
       this.name = n;

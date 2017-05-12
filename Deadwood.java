@@ -11,12 +11,12 @@ public class Deadwood{
   private static int numDays = 0;
   private static int numScenes = 22;
   private static int sceneTrack = 0;
-  private static ArrayList<Player> allPlayers;
+  private static ArrayList<Player> allPlayers = new ArrayList<Player>();
 
-  private static ArrayList<Cards> allCards;
-  private static ArrayList<Set> allSets;
-  private static ArrayList<Rooms> allRooms;
-  private static ArrayList<Role> allRoles;
+  private static ArrayList<Cards> allCards = new ArrayList<Cards>();
+  private static ArrayList<Set> allSets = new ArrayList<Set>();
+  private static ArrayList<Rooms> allRooms = new ArrayList<Rooms>();
+  private static ArrayList<Role> allRoles = new ArrayList<Role>();
 
   public static void main(String[] args) {
 
@@ -35,6 +35,7 @@ public class Deadwood{
           newDayTrailer = r;
         }
       }
+      Scanner input = new Scanner(System.in);
       while(daysComplete < numDays){
         for(Player p : allPlayers){
           p.newDay(newDayTrailer);
@@ -46,7 +47,7 @@ public class Deadwood{
           for(Player p : allPlayers){
             currPlayer = p;
             if(sceneTrack > 1){
-              turn(currPlayer);
+              turn(currPlayer, input);
             }
           }
         }
@@ -74,6 +75,7 @@ public class Deadwood{
 
         daysComplete++;
       }
+      input.close();
       //end game. print scores
       for(Player p : allPlayers){
         Player currPlayer;
@@ -124,7 +126,7 @@ public class Deadwood{
     }
   }
 
-  public static void turn(Player x){
+  public static void turn(Player x, Scanner input){
     boolean turn = true;
 
     String who = "Who";
@@ -136,12 +138,11 @@ public class Deadwood{
     String move = "Move";
     String upgrade = "Upgrade";
 
-    ArrayList<String> completed = null;
+    ArrayList<String> completed = new ArrayList<String>();
 
     while(turn){
-      Scanner input = new Scanner(System.in);
       String userInput = input.nextLine();
-      String[] userCommands = userInput.split(" ");
+      String[] userCommands = userInput.split(" ");//////////////////////////////////////////////////////
       String command = userCommands[0];
       int result = 0;
 
@@ -157,7 +158,8 @@ public class Deadwood{
           System.out.println(color +" ($" + dollars + ", " + credits + "cr)");
         }
 
-      }else if(command.compareToIgnoreCase(where) == 0){//WHERE
+      }
+      if(command.compareToIgnoreCase(where) == 0){//WHERE
 
         String room = x.getPlayerLocation();
         Set currSet = null;
@@ -167,15 +169,21 @@ public class Deadwood{
             currSet = s;
           }
         }
-        String cardName = currSet.getCardName();
-
-        if(cardName.compareToIgnoreCase(null) == 0){
-          System.out.println(room + "wrapped");
+        if(currSet == null){
+          System.out.println(room);
         }else{
-          System.out.println("in " + room + " shooting " + cardName);
+          String cardName = currSet.getCardName();
+
+          if(cardName.compareToIgnoreCase(null) == 0){
+            System.out.println(room + "wrapped");
+          }else{
+            System.out.println("in " + room + " shooting " + cardName);
+          }
         }
 
-      }else if(command.compareToIgnoreCase(end) == 0){
+      }
+
+      if(command.compareToIgnoreCase(end) == 0){
 
         turn = false;
 
@@ -211,13 +219,14 @@ public class Deadwood{
                currSet = s;
              }
            }
-
-           int remaining = currSet.getCounts();
-           if(remaining == 0){//WRAP SCENE
-             String place = x.getPlayerLocation();
-             int cardBudget = x.getCardBudget();
-             wraps(place, cardBudget, currSet);
-           }
+           if(currSet != null){
+             int remaining = currSet.getCounts();
+             if(remaining == 0){//WRAP SCENE
+               String place = x.getPlayerLocation();
+               int cardBudget = x.getCardBudget();
+               wraps(place, cardBudget, currSet);
+             }
+           }          
 
          }else if(command.compareToIgnoreCase(work) == 0){//WORK
            //check that role isn't taken
@@ -287,8 +296,11 @@ public class Deadwood{
            int len = userCommands.length;
            //String[] subString = new String[len];
            len--;
+
+           System.out.println("Length of user commands: " + len);
            String[] substring = Arrays.copyOfRange(userCommands, 1, len);
            String desiredDest = String.join(" ", substring); //desired location
+           System.out.println("Input: " + userInput);/////////////////////////////////////////////////////////print statement not getting user commands
            Rooms desiredRoom = null;
            for(Rooms r : allRooms){
              Rooms currRoom = r;
@@ -350,7 +362,7 @@ public class Deadwood{
         System.out.println("SOMETHING IS JUST NOT HAPPENING.");
       }
       //turn over
-      input.close();
+
     }
   }
 
@@ -444,7 +456,7 @@ public class Deadwood{
           String cardLine; //scene's description
           int cardNumber;
 
-          ArrayList<Role> roleList = null;
+          ArrayList<Role> roleList = new ArrayList<Role>();
           int roleRank = 0;
           String roleLine = null;
           String roleTitle = null;
@@ -564,7 +576,7 @@ public class Deadwood{
           String roleLine = null;
           String name = null;
 
-          ArrayList<Role> roleArray = null;
+          ArrayList<Role> roleArray = new ArrayList<Role>();
 
           Node nNode = setList.item(i);
           NodeList rolesItems = null;

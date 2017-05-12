@@ -8,7 +8,7 @@ import java.lang.*;
 public class Set{
    private String name;
    private int shotCounts;
-   private ArrayList<Role> extraRoles;;
+   private ArrayList<Role> extraRoles = new ArrayList<Role>();
    private Cards cardName;
 
    public Set(String name, int takes, ArrayList<Role> extraRoles){

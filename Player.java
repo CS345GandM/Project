@@ -18,7 +18,7 @@ public class Player{
   //constructor for player with a certain color(ID)
   public Player(String playerColor){
     this.playerColor = playerColor;
-  /*  this.hasRole = false;
+    this.hasRole = false;
     this.playerCredits = 0;
     this.playerDollars = 0;
     this.roleRank = 0;
@@ -26,7 +26,7 @@ public class Player{
     this.playerLocation = null;
     this.playerRole = null;
     this.onOffCard = "none";
-    this.playerReheasalCredits = 0;*/
+    this.playerReheasalCredits = 0;
   }
 
   public void wraps(int bonus){
