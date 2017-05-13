@@ -1,17 +1,21 @@
 //Melissa Gonzalez and Hannah Montague
-
+//Dice Class - Generates a random number 1-6
 import java.util.*;
 import java.lang.*;
 import java.util.Random;
 
 public class Dice{
 
-   private int rollOutcome;
+   private int rollOutcome; //number that was rolled
 
+   //Constructor for Dice
    public Dice(){
-      this.rollOutcome = 0;
+      this.rollOutcome = 0; 
    }
 
+   //Method: getValue()
+   //Purpose: generate a random number(1-6)
+   //Return: int
    public int getValue(){
      Random random = new Random();
      rollOutcome = random.nextInt(6) + 1;
