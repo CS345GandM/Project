@@ -3,19 +3,19 @@ import java.lang.*;
 
 public class Player{
 
-  //differentiate between players
-  private String  playerColor;            //ID
-  private String  onOffCard;              //Tells us whether the player is on or off the card
+  private String  playerColor;            //ID of a player
+  private String  onOffCard;              //Set whether the player is on or off the card
   private boolean hasRole;                //Tells us whether the player has a role - true/false
+  private Role    playerRole;             //the role object holds the name of the players role
   private Rooms   playerLocation;         //tracks the Room the player is in
   private int     playerCredits;          //tracks the players credits
   private int     playerDollars;          //tracks the players dollars
   private int     playerReheasalCredits;  //tracks their rehearsal credits
   private int     roleRank;               //tracks the player's rank
   private int     roleBudget;             //the card oject holds the role's budget
-  private Role    playerRole;             //the role object holds the name of the players role
 
-  //constructor for player with a certain color(ID)
+
+  //Constructor for player with a certain color(ID)
   //Initialize the player's attributes
   public Player(String playerColor){
     this.playerColor = playerColor;
@@ -47,7 +47,7 @@ public class Player{
 
   //Method:  onCard()
   //Purpose: determine is player is acting on or off card
-  //Return:  boolean
+  //Output:  boolean
    public boolean onCard(){
      if (onOffCard.compareToIgnoreCase("On") == 0){
         return true;
@@ -109,7 +109,7 @@ public class Player{
     return hasRole;
   }
 
-  //Getter: getRoleRank
+  //Getter:  getRoleRank
   //Purpose: return the role of the rank the player is acting on
   public int getRoleRank(){
     int rank = playerRole.getRoleRank();
@@ -121,19 +121,19 @@ public class Player{
     return this.playerCredits;
   }
 
-  //Getter: getPlayerDollars
+  //Getter:  getPlayerDollars
   //Purpose: return the amount of dollars for each player
   public int getPlayerDollars(){
     return this.playerDollars;
   }
 
-  //Getter: getPlayerColor
+  //Getter:  getPlayerColor
   //Purpose: determine the player ID(color)
   public String getPlayerColor(){
     return this.playerColor;
   }
 
-  //Getter: getRoleName
+  //Getter:  getRoleName
   //Purpose: get the name of the role the player is acting on
   public String getRoleName(){
     return playerRole.getRoleTitle();
@@ -144,6 +144,9 @@ public class Player{
   //Purpose: Allow player to move to a another room
           // can only move to adj room
           // can only move if they dont have a current role (wokring)
+  //Output: boolean
+          //1 - if player is able to move
+          //0 - if player cannot move - has a role
   public int move(Rooms room){
     if(!hasRole){
       this.playerLocation = room;
@@ -157,9 +160,12 @@ public class Player{
 
   //Method: work()
   //Purpose: allows player to take a role
-            //can take a role if they dont currently have one
-            //can take a role if the role's rank is <= to their current rank
-  //Input: Role, int
+             //can take a role if they dont currently have one
+             //can take a role if the role's rank is <= to their current rank
+  //Input:   Role, int
+  //Output:  int
+             //1 - if player is allowed to take a role and corresponding attributes are updated
+             //0 - if the role they want to take is higher than their current rank
   public int work(Role role, int newBudget){
     if(this.roleRank >= role.getRoleRank()){
       this.playerRole = role;
@@ -178,7 +184,7 @@ public class Player{
             //can only act if they have a role
             //success if roll outcome >= budget on the role's card
             //pay depends on or off card
-  //Return: int
+  //Output: int
            //1 - if the act was a success
            //0 - if the act was a failure
   public int act(){
@@ -210,7 +216,7 @@ public class Player{
   //Purpose: allow player to upgrade their rank
             //can only upgrade if they are in the Casting Offfice
             // can only upgrade if they have enough dollars or credits
-  //Return: int
+  //Output: int
             //1 - if the player pays in dollars or credits
             //0 - if the player cannot upgrade
   public int upgrade(String t, int rank){
@@ -280,12 +286,12 @@ public class Player{
   //Input:   Room object
   //Output:  none
   public void newDay(Rooms trailer){
-    this.hasRole = false;
-    this.roleRank = 0;
-    this.roleBudget = 0;
+    this.hasRole =          false;
+    this.roleRank =             0;
+    this.roleBudget =           0;
     this.playerLocation = trailer;
-    this.playerRole = null;
-    this.onOffCard = "none";
+    this.playerRole =         null;
+    this.onOffCard =        "none";
     this.playerReheasalCredits = 0;
   }
 
