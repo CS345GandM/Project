@@ -23,7 +23,8 @@ public class Set{
      this.shotCounts = i;
    }
 
-   //Getter: getCounts
+   //Getter:  getCounts
+   //Purpose: get the number of shot counters of a set
    public int getCounts(){
      return shotCounts;
    }
@@ -33,36 +34,39 @@ public class Set{
      this.cardName = n;
    }
 
-   //Getter: getCardName
+   //Getter:  getCardName
+   //Purpose: get the name of the card for a set
    public String getCardName(){
      return cardName.getName();
    }
 
-   //Getter: getNumRoles
+   //Getter:  getNumRoles
+   //Purpose: get number of extra roles of a set
    public int getNumRoles(){
      return extraRoles.size();
    }
 
-   //Getter: getName of a set
+   //Getter:  getName of a set
+   //Purpose: get the name of a set
    public String getName(){
       return name;
    }
 
-   //Method: removeCounters()
-   //Purpose: keep track of the takes left for particular set
+   //Method:  removeCounters()
+   //Purpose: remove a shot counter upon successful act
    public void removeCounters(){
       shotCounts = shotCounts - 1;
    }
 
-   //Method: removeCard()
+   //Method:  removeCard()
    //Purpose: Once a scene on the set is done, remove the card
-   //Return: cardName set to null
+   //Return:  cardName set to null
    public void removeCard(){
      cardName = null;
    }
-   //Method: getBudget()
+   //Method:  getBudget()
    //Purpose: retrieve the budget that corresponds to the card on the set
-   //Return: int
+   //Return:  int
    public int getBudget(){
      int budget = cardName.getBudget();
      return budget;
