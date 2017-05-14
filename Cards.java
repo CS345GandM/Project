@@ -38,7 +38,7 @@ public class Cards{
    }
    //Getter:  getQuote
    //Purpose: get the description of a card
-   public String getQuote(){
+   public String getQuote(){                    //////////////////////Need setter for this and budget..?
      return description;
    }
    
