@@ -1,4 +1,6 @@
 //Melissa Gonzalez and Hannah Montague
+//CSCI 345 - Moushumi Sharmin
+//Due: May 15, 2017
 
 import java.util.*;
 import java.io.*;
