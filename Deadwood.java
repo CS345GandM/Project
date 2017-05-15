@@ -13,18 +13,30 @@ public class Deadwood{
   private static int numDays    = 0;
   private static int numScenes = 22;
   private static int sceneTrack = 0;
-  private static ArrayList<Player> allPlayers = new ArrayList<Player>();
-
-  private static ArrayList<Cards> allCards = new ArrayList<Cards>();
-  private static ArrayList<Set> allSets = new ArrayList<Set>();
-  private static ArrayList<Rooms> allRooms = new ArrayList<Rooms>();
-  private static ArrayList<Role> allRoles = new ArrayList<Role>();
+  private static ArrayList<Player> allPlayers = new ArrayList<Player>();  //contains the list of player objects
+  private static ArrayList<Cards> allCards = new ArrayList<Cards>();      //contrains the list of card objects
+  private static ArrayList<Set> allSets = new ArrayList<Set>();          //contains the list of set objects
+  private static ArrayList<Rooms> allRooms = new ArrayList<Rooms>();    //contains the list of room objects
+  private static ArrayList<Role> allRoles = new ArrayList<Role>();      //contains the list of role objects
 
   public static void main(String[] args) {
 
-    if(checkArgs(args)){ //check that there is a valid number of players
+    if(checkArgs(args)){                //check that there is a valid number of players
       numPlayers = Integer.parseInt(args[0]);
-      System.out.println(numPlayers);
+      System.out.println(" ");
+      System.out.println("                       Number of players: " + numPlayers);            
+      System.out.println("|                         Command Options                              |");
+      System.out.println("|----------------------------------------------------------------------|");
+      System.out.println("|Type: 'who'   for current player information                          |");
+      System.out.println("|      'where' for the location of player                              |");
+      System.out.println("|      'move room' to move to indicated room                           |");
+      System.out.println("|      'work part' to take an indicated role                           |");
+      System.out.println("|      'upgrade $ level' to upgrade to indicated level using dollars   |");
+      System.out.println("|      'upgrade cr level' to upgrade to indicated level using credits  |");
+      System.out.println("|      'upgrade cr level' to upgrade to indicated level using credits  |");
+      System.out.println("|      'rehearse' current player rehearses                             |");
+      System.out.println("|      'act'      current player acts on current role                  |");
+      System.out.println("|      'end'      terminate player's turn                              |");
       setDays();
       int daysComplete = 0;
       makePlayers();
@@ -257,9 +269,9 @@ public class Deadwood{
            for(Player p : allPlayers){
              Player currPlayer = p;
              if(currPlayer.getRoleStatus() == true){//has a role
-               System.out.println("ERROR: You already have a role!");
+               System.out.println("ERROR: You already have a role!");/////////////////////////////////////////////
                String playerRole = currPlayer.getRoleName();
-               if(playerRole.compareToIgnoreCase(desiredRole) == 0){// role taken    
+               if(playerRole.compareToIgnoreCase(desiredRole) == 0){ // role taken
                  goodToGo = false;
                }
              }
