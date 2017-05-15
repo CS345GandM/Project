@@ -10,7 +10,7 @@ import org.w3c.dom.*;
 
 public class Deadwood{
   private static int numPlayers = 0;
-  private static int numDays = 0;
+  private static int numDays    = 0;
   private static int numScenes = 22;
   private static int sceneTrack = 0;
   private static ArrayList<Player> allPlayers = new ArrayList<Player>();
@@ -98,7 +98,7 @@ public class Deadwood{
           return true;
         }
     }
-    System.out.println("Invalid or incorrect number of arguments");
+    System.out.println("ERROR: Please enter number of players (1-8)");
     return false;
   }
 
@@ -128,10 +128,12 @@ public class Deadwood{
       allPlayers.add(new Player(name));
     }
   }
-
+  //Method: turn
+  //Purpose:
+  //Input:
   public static void turn(Player x, Scanner input){
 
-
+    //set player's turn to true
     boolean turn = true;
 
     String who = "Who";
@@ -146,8 +148,6 @@ public class Deadwood{
     ArrayList<String> completed = new ArrayList<String>();
 
 
-
-
     while(turn){
       String command = null;
       String userInput = input.nextLine();
@@ -157,7 +157,6 @@ public class Deadwood{
       }
 
       int result = 0;
-
       if(command.compareToIgnoreCase(who) == 0){//WHO
 
         String color = x.getPlayerColor();
@@ -189,7 +188,7 @@ public class Deadwood{
         }else{
           int compared = cardName.compareToIgnoreCase("noCard");
           if(compared == 0){
-            System.out.println(room + "wrapped");
+            System.out.println(room + " wrapped");
           }else{
             System.out.println("In " + room + " shooting " + cardName);
           }
@@ -198,8 +197,8 @@ public class Deadwood{
       }
 
       if(command.compareToIgnoreCase(end) == 0){
-
-        turn = false;
+        System.out.println("**** " + x.getPlayerColor() + "'s turn is over! ****");
+        turn = false;         //upon entering end, the players turn is over
 
       }else if(completed.contains(command) == false){//command not done yet
 
@@ -258,8 +257,9 @@ public class Deadwood{
            for(Player p : allPlayers){
              Player currPlayer = p;
              if(currPlayer.getRoleStatus() == true){//has a role
+               System.out.println("ERROR: You already have a role!");
                String playerRole = currPlayer.getRoleName();
-               if(playerRole.compareToIgnoreCase(desiredRole) == 0){ // role taken
+               if(playerRole.compareToIgnoreCase(desiredRole) == 0){// role taken    
                  goodToGo = false;
                }
              }
