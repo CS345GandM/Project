@@ -38,6 +38,7 @@ public class Deadwood{
         }
       }
       Scanner input = new Scanner(System.in);
+
       while(daysComplete < numDays){
         for(Player p : allPlayers){
           p.newDay(newDayTrailer);
@@ -129,6 +130,8 @@ public class Deadwood{
   }
 
   public static void turn(Player x, Scanner input){
+
+
     boolean turn = true;
 
     String who = "Who";
@@ -142,10 +145,17 @@ public class Deadwood{
 
     ArrayList<String> completed = new ArrayList<String>();
 
+
+
+
     while(turn){
+      String command = null;
       String userInput = input.nextLine();
-      String[] userCommands = userInput.split(" ");//////////////////////////////////////////////////////
-      String command = userCommands[0];
+      Scanner parser = new Scanner(userInput);
+      if(parser.hasNext()){
+        command = parser.next();
+      }
+
       int result = 0;
 
       if(command.compareToIgnoreCase(who) == 0){//WHO
@@ -164,19 +174,24 @@ public class Deadwood{
       if(command.compareToIgnoreCase(where) == 0){//WHERE
 
         String room = x.getPlayerLocation();
-        Set currSet = null;
+        boolean isASet = false;
+        String cardName = null;
+
         for(Set s : allSets){
           String name = s.getName();
           if(name.compareToIgnoreCase(room) == 0){
-            currSet = s;
+            isASet = true;
+            cardName = s.getCardName();
+            System.out.println("cardset: " + cardName);
           }
         }
-        if(currSet == null){
+
+        if(!isASet){
           System.out.println(room);
         }else{
-          String cardName = currSet.getCardName();
-
-          if(cardName.compareToIgnoreCase(null) == 0){
+          int compared = cardName.compareToIgnoreCase(null);
+          System.out.println("compared: " + compared);
+          if(compared == 0){
             System.out.println(room + "wrapped");
           }else{
             System.out.println("in " + room + " shooting " + cardName);
@@ -228,15 +243,19 @@ public class Deadwood{
                int cardBudget = x.getCardBudget();
                wraps(place, cardBudget, currSet);
              }
-           }          
+           }
 
          }else if(command.compareToIgnoreCase(work) == 0){//WORK
-           //check that role isn't taken
-           int len = userCommands.length;
-           String[] subString = new String[len];
-           len--;
-           String[] substring = Arrays.copyOfRange(userCommands, 1, len);
-           String desiredRole = String.join(" ", subString);
+
+           ArrayList<String> job = new ArrayList<String>();
+           while(parser.hasNext()){
+             boolean complete = job.add(parser.next());
+           }
+           String desiredRole = null;
+           for(String s : job){
+             desiredRole += s + " ";
+           }
+           desiredRole.trim();
 
            boolean goodToGo = true;
            for(Player p : allPlayers){
@@ -295,51 +314,53 @@ public class Deadwood{
 
          }else if(command.compareToIgnoreCase(move) == 0){//MOVE
            //find destination
-           int len = userCommands.length;
-           //String[] subString = new String[len];
-           len--;
-
-           System.out.println("Length of user commands: " + len);
-           String[] substring = Arrays.copyOfRange(userCommands, 1, len);
-           String desiredDest = String.join(" ", substring); //desired location
-           System.out.println("Input: " + userInput);/////////////////////////////////////////////////////////print statement not getting user commands
-           Rooms desiredRoom = null;
-           for(Rooms r : allRooms){
-             Rooms currRoom = r;
-             String curr = currRoom.getRoomName();
-             if(curr.compareToIgnoreCase(desiredDest) == 0){
-               desiredRoom = currRoom;
-             }
+           ArrayList<String> place = new ArrayList<String>();
+           while(parser.hasNext()){
+             boolean complete = place.add(parser.next());
            }
+           String desiredDest = "";
+           String dest = "";
+           for(String s : place){
+             dest += s + " ";
+           }
+           desiredDest = dest.substring(0, dest.length() - 1);
+
+           boolean goodToGo = false;
+
            Rooms currRoom = x.getRoom();// current location
-
            String comping = currRoom.peekOne();
-           if(comping.compareToIgnoreCase(desiredDest) == 0){
-             result = x.move(desiredRoom);
-             if(result == 1){//success
-               completed.add(command);
-             }
+           int compared = comping.compareToIgnoreCase(desiredDest);
+           if( compared == 0){
+             goodToGo = true;
            }
 
-           comping = currRoom.peekOne();
-           if(comping.compareToIgnoreCase(desiredDest) == 0){
-             result = x.move(desiredRoom);
-             if(result == 1){//success
-               completed.add(command);
-             }
+           comping = currRoom.peekTwo();
+           compared = comping.compareToIgnoreCase(desiredDest);
+           if(compared == 0){
+             goodToGo = true;
            }
 
-           comping = currRoom.peekOne();
-           if(comping.compareToIgnoreCase(desiredDest) == 0){
-             result = x.move(desiredRoom);
-             if(result == 1){//success
-               completed.add(command);
-             }
+           comping = currRoom.peekThree();
+           compared = comping.compareToIgnoreCase(desiredDest);
+           if(compared == 0){
+             goodToGo = true;
            }
 
-           comping = currRoom.peekOne();
-           if(comping.compareToIgnoreCase(desiredDest) == 0){
-             result = x.move(desiredRoom);
+           comping = currRoom.peekFour();
+           compared = comping.compareToIgnoreCase(desiredDest);
+           if(compared == 0){
+             goodToGo = true;
+           }
+
+           if(goodToGo){
+             for(Rooms r : allRooms){
+               Rooms thisRoom = r;
+               String curr = thisRoom.getRoomName();
+               if(curr.compareToIgnoreCase(desiredDest) == 0){
+                 result = x.move(thisRoom);
+                 System.out.println("Result: " + result);///////////////////////////////////////////
+               }
+             }
              if(result == 1){//success
                completed.add(command);
              }
@@ -349,9 +370,18 @@ public class Deadwood{
            result = 0;
 
          }else if(command.compareToIgnoreCase(upgrade) == 0){//UPGRADE
-           if(userCommands.length == 3){
-             String type = userCommands[1];
-             int up = Integer.parseInt(userCommands[2]);
+           String type = null;
+           int up = 0;
+           int track = 0;
+           if(parser.hasNext()){
+             type = parser.next();
+             track++;
+           }
+           if(parser.hasNext()){
+             up = Integer.parseInt(parser.next());
+             track++;
+           }
+           if(track == 2){
              result = x.upgrade(type, up);
              if(result == 1){//success
                completed.add(command);
@@ -363,7 +393,7 @@ public class Deadwood{
       }else{
         System.out.println("SOMETHING IS JUST NOT HAPPENING.");
       }
-      //turn over
+      parser.close(); //turn over
 
     }
   }
@@ -533,7 +563,7 @@ public class Deadwood{
           String roomOne = trailerNeighbors[0];
           String roomTwo = trailerNeighbors[1];
           String roomThree = trailerNeighbors[2];
-          String roomFour = null;
+          String roomFour = "";
           if(neighbors.getLength() == 4){
             roomFour = trailerNeighbors[3];
           }
@@ -562,7 +592,7 @@ public class Deadwood{
           String roomOne = officeNeighbors[0];
           String roomTwo = officeNeighbors[1];
           String roomThree = officeNeighbors[2];
-          String roomFour = null;
+          String roomFour = "";
           if(neighbors.getLength() == 4){
             roomFour = officeNeighbors[3];
           }
@@ -600,7 +630,7 @@ public class Deadwood{
             String roomOne = adjList[0];
             String roomTwo = adjList[1];
             String roomThree = adjList[2];
-            String roomFour = null;
+            String roomFour = "";
             if(neighbors.getLength() == 4){
               roomFour = adjList[3];
             }

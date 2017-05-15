@@ -149,7 +149,7 @@ public class Player{
           //0 - if player cannot move - has a role
   public int move(Rooms room){
     if(!hasRole){
-      this.playerLocation = room;
+      playerLocation = room;
       return 1;
     }
     else{
@@ -167,10 +167,12 @@ public class Player{
              //1 - if player is allowed to take a role and corresponding attributes are updated
              //0 - if the role they want to take is higher than their current rank
   public int work(Role role, int newBudget){
-    if(this.roleRank >= role.getRoleRank()){
-      this.playerRole = role;
-      this.setRoleStatus(true);
-      this.roleBudget = newBudget;
+    int goal = role.getRoleRank();
+    System.out.println(goal);
+    if(roleRank >= goal){
+      playerRole = role;
+      setRoleStatus(true);
+      roleBudget = newBudget;
       return 1;
 
     }else{
@@ -295,4 +297,4 @@ public class Player{
     this.playerReheasalCredits = 0;
   }
 
-} //end 
+} //end

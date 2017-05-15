@@ -4,36 +4,36 @@ import java.util.*;
 import java.lang.*;
 
 public class Role {
-	
+
 	private String roleTitle;  //Name of the role
 	private int roleRank;      //Value of the role's rank
 	private String roleLine;   //The role's line
-	
+
 	//Constructor of Role
 	public Role(String roleTitle, int roleRank, String roleLine) {
 		this.roleTitle = roleTitle;
 		this.roleRank = roleRank;
 		this.roleLine = roleLine;
 	}
-	
+
 	//Getter: getRoleTitle
 	//Purpose: get the name of the player's role
 	public String getRoleTitle() {
-		return this.roleTitle;
+		return roleTitle;
 	}
-	
+
 	//Getter: getRoleRank
 	//Purpose: get the value of the role the player has
 	public int getRoleRank() {
-		return this.roleRank;
+		return roleRank;
 	}
-	
+
 	//Getter: getRoleLine
 	//Purpose: get the line of the player's current role(for particular scene)
 	public String getRoleLine() {
-		return this.roleLine;
+		return roleLine;
 	}
-	
+
 	//Method: display()
 	//Purpose: Display the player's role and its attributes
 	public void display() {

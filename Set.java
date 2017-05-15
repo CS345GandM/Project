@@ -20,7 +20,7 @@ public class Set{
 
    //Setter: setShotCounts
    public void setShotCounts(int i){
-     this.shotCounts = i;
+     shotCounts = i;
    }
 
    //Getter:  getCounts
@@ -31,19 +31,21 @@ public class Set{
 
    //Setter: setCard
    public void setCard(Cards n){
-     this.cardName = n;
+     cardName = n;
    }
 
    //Getter:  getCardName
    //Purpose: get the name of the card for a set
    public String getCardName(){
+     //String needName = cardName.getName();
      return cardName.getName();
    }
 
    //Getter:  getNumRoles
    //Purpose: get number of extra roles of a set
    public int getNumRoles(){
-     return extraRoles.size();
+     int numRoles = extraRoles.size();
+     return numRoles;
    }
 
    //Getter:  getName of a set
