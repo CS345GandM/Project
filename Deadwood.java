@@ -165,7 +165,7 @@ public class Deadwood{
         int credits = x.getPlayerCredits();
         if(x.getRoleStatus()){
           String role = x.getRoleName();
-          System.out.println(color +" ($" + dollars + ", " + credits + "cr) working" + role);
+          System.out.println(color +" ($" + dollars + ", " + credits + "cr) working " + role);
         }else{
           System.out.println(color +" ($" + dollars + ", " + credits + "cr)");
         }
@@ -175,26 +175,23 @@ public class Deadwood{
 
         String room = x.getPlayerLocation();
         boolean isASet = false;
-        String cardName = null;
+        String cardName = "noCard";
 
         for(Set s : allSets){
           String name = s.getName();
           if(name.compareToIgnoreCase(room) == 0){
             isASet = true;
             cardName = s.getCardName();
-            System.out.println("cardset: " + cardName);
           }
         }
-
         if(!isASet){
           System.out.println(room);
         }else{
-          int compared = cardName.compareToIgnoreCase(null);
-          System.out.println("compared: " + compared);
+          int compared = cardName.compareToIgnoreCase("noCard");
           if(compared == 0){
             System.out.println(room + "wrapped");
           }else{
-            System.out.println("in " + room + " shooting " + cardName);
+            System.out.println("In " + room + " shooting " + cardName);
           }
         }
 
@@ -251,11 +248,11 @@ public class Deadwood{
            while(parser.hasNext()){
              boolean complete = job.add(parser.next());
            }
-           String desiredRole = null;
+           String desRole = "";
            for(String s : job){
-             desiredRole += s + " ";
+             desRole += s + " ";
            }
-           desiredRole.trim();
+           String desiredRole = desRole.substring(0, desRole.length() - 1);
 
            boolean goodToGo = true;
            for(Player p : allPlayers){
@@ -268,34 +265,34 @@ public class Deadwood{
              }
            }
 
-           Role currRole = null;
-           for(Role r : allRoles){
-             currRole = r;
-             String name = currRole.getRoleTitle();
-             if(name.compareToIgnoreCase(name) == 0){
-               currRole = r;
-             }
-           }
 
            //finding budget
            String room = x.getPlayerLocation();
-           Set currSet = null;
+           int newBudget = 0;
            for(Set s : allSets){
              String name = s.getName();
              if(name.compareToIgnoreCase(room) == 0){
-               currSet = s;
+               newBudget = s.getBudget();
              }
            }
-           int newBudget = currSet.getBudget();
+
 
            if(goodToGo){//role isn't taken
              //get desired role
-             result = x.work(currRole, newBudget);
+
+             for(Role r : allRoles){
+               String currName = r.getRoleTitle();
+               int comparing = currName.compareToIgnoreCase(desiredRole);
+               if( comparing == 0){
+                 int rank = r.getRoleRank();
+                 result = x.work(r, newBudget, rank);
+               }
+             }
+
              if(result == 1){
                boolean isOn = false;
-               String roleName = currRole.getRoleTitle();
                for(Cards c : allCards){
-                 if(c.isARole(roleName) == true){
+                 if(c.isARole(desiredRole) == true){
                    isOn = true;
                  }
                }
@@ -358,7 +355,6 @@ public class Deadwood{
                String curr = thisRoom.getRoomName();
                if(curr.compareToIgnoreCase(desiredDest) == 0){
                  result = x.move(thisRoom);
-                 System.out.println("Result: " + result);///////////////////////////////////////////
                }
              }
              if(result == 1){//success

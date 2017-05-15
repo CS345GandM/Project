@@ -22,7 +22,7 @@ public class Player{
     this.hasRole = false;
     this.playerCredits = 0;
     this.playerDollars = 0;
-    this.roleRank = 0;
+    this.roleRank = 1;
     this.roleBudget = 0;
     this.playerLocation = null;
     this.playerRole = null;
@@ -95,7 +95,7 @@ public class Player{
   //Getter:  getPlayerRank
   //Purpose: determine the player's role rank
   public int getPlayerRank(){
-    return this.roleRank;
+    return roleRank;
   }
 
   //Setter: setRoleStatus
@@ -109,7 +109,7 @@ public class Player{
     return hasRole;
   }
 
-  //Getter:  getRoleRank
+  //Getter:  getRoleRank//////////////////////////////////////////////////////////////////WONT WORK
   //Purpose: return the role of the rank the player is acting on
   public int getRoleRank(){
     int rank = playerRole.getRoleRank();
@@ -166,10 +166,9 @@ public class Player{
   //Output:  int
              //1 - if player is allowed to take a role and corresponding attributes are updated
              //0 - if the role they want to take is higher than their current rank
-  public int work(Role role, int newBudget){
-    int goal = role.getRoleRank();
-    System.out.println(goal);
-    if(roleRank >= goal){
+  public int work(Role role, int newBudget ,int rank){
+
+    if(roleRank >= rank){
       playerRole = role;
       setRoleStatus(true);
       roleBudget = newBudget;
@@ -195,19 +194,19 @@ public class Player{
         int roll = newDice.getValue();
         if(this.roleBudget <= roll){
           if(this.onCard()){
-            this.playerCredits += 2;    //pay for on card
+            playerCredits += 2;    //pay for on card
           }
           else{
-            this.playerCredits += 1;    //pay for off card
-            this.playerDollars += 1;
+            playerCredits += 1;    //pay for off card
+            playerDollars += 1;
           }
-          return 1;
-        }
           System.out.println("SUCCESS");
+          return 1;
+        }          
       }
       else{
         if(!onCard()){
-          this.playerCredits += 1;
+          playerCredits += 1;
         }
         System.out.println("FAIL");
       }
@@ -289,7 +288,7 @@ public class Player{
   //Output:  none
   public void newDay(Rooms trailer){
     this.hasRole =          false;
-    this.roleRank =             0;
+    this.roleRank =             1;
     this.roleBudget =           0;
     this.playerLocation = trailer;
     this.playerRole =         null;
