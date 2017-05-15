@@ -24,23 +24,27 @@ public class Deadwood{
     if(checkArgs(args)){                //check that there is a valid number of players
       numPlayers = Integer.parseInt(args[0]);
       System.out.println(" ");
-      System.out.println("                       Number of players: " + numPlayers);            
+      System.out.println("|----------------------------------------------------------------------|");
+      System.out.println("                         Number of players: "+ numPlayers                );
       System.out.println("|                         Command Options                              |");
       System.out.println("|----------------------------------------------------------------------|");
-      System.out.println("|Type: 'who'   for current player information                          |");
-      System.out.println("|      'where' for the location of player                              |");
-      System.out.println("|      'move room' to move to indicated room                           |");
-      System.out.println("|      'work part' to take an indicated role                           |");
-      System.out.println("|      'upgrade $ level' to upgrade to indicated level using dollars   |");
+      System.out.println("|Type: 'who'              for current player information               |");
+      System.out.println("|      'where'            for the location of player                   |");
+      System.out.println("|      'move room'        to move to indicated room                    |");
+      System.out.println("|      'work part'        to take an indicated role                    |");
+      System.out.println("|      'upgrade $ level'  to upgrade to indicated level using dollars  |");
       System.out.println("|      'upgrade cr level' to upgrade to indicated level using credits  |");
       System.out.println("|      'upgrade cr level' to upgrade to indicated level using credits  |");
-      System.out.println("|      'rehearse' current player rehearses                             |");
-      System.out.println("|      'act'      current player acts on current role                  |");
-      System.out.println("|      'end'      terminate player's turn                              |");
+      System.out.println("|      'rehearse'         current player rehearses                     |");
+      System.out.println("|      'act'              current player acts on current role          |");
+      System.out.println("|      'end'              terminate player's turn                      |");
+      System.out.println("|----------------------------------------------------------------------|");
+      System.out.println(" ");
+
       setDays();
       int daysComplete = 0;
       makePlayers();
-      cards();
+      cards(); // call the methods that create the cards and board (reading in files)
       board();
       Rooms newDayTrailer = null;
       for(Rooms r : allRooms){
@@ -52,15 +56,15 @@ public class Deadwood{
       Scanner input = new Scanner(System.in);
 
       while(daysComplete < numDays){
-        for(Player p : allPlayers){
-          p.newDay(newDayTrailer);
+        for(Player player : allPlayers){
+          player.newDay(newDayTrailer);
         }
         associateCards();
         sceneTrack = numScenes;
         Player currPlayer = null;
         while(sceneTrack > 1){
-          for(Player p : allPlayers){
-            currPlayer = p;
+          for(Player player : allPlayers){
+            currPlayer = player;
             if(sceneTrack > 1){
               turn(currPlayer, input);
             }
@@ -92,16 +96,17 @@ public class Deadwood{
       }
       input.close();
       //end game. print scores
-      for(Player p : allPlayers){
+      for(Player player : allPlayers){
         Player currPlayer;
-        currPlayer = p;
+        currPlayer = player;
         finalScore(currPlayer);
       }
     }
     System.exit(0);
   }
 
-  //checks for right number of args and right arg input
+  //Method: checkArgs
+  //Purpose:checks for right number of args and right arg input
   private static boolean checkArgs(String[] args){
     if(args.length == 1){
         String players = args[0];
@@ -114,7 +119,8 @@ public class Deadwood{
     return false;
   }
 
-//according to game rules
+  //Method: setDays
+  //Purpose: determine the number of days based on number of players
   private static void setDays() {
       if (numPlayers == 2 || numPlayers == 3) {
           numDays = 3;
@@ -123,7 +129,8 @@ public class Deadwood{
       }
   }
 
-  //creates players with color names
+  //Method:  makePlayers
+  //Purpose: create players with color IDs
   private static void makePlayers(){
     String[] colors = new String[8];
     colors[0] = "blue";
@@ -141,8 +148,8 @@ public class Deadwood{
     }
   }
   //Method: turn
-  //Purpose:
-  //Input:
+  //Purpose: continue prompting for commands from user as long as player has a turn
+  //Input: player object, and user's input
   public static void turn(Player x, Scanner input){
 
     //set player's turn to true
@@ -169,7 +176,8 @@ public class Deadwood{
       }
 
       int result = 0;
-      if(command.compareToIgnoreCase(who) == 0){//WHO
+  //***************************** WHO **********************************
+      if(command.compareToIgnoreCase(who) == 0){
 
         String color = x.getPlayerColor();
         int dollars = x.getPlayerDollars();
@@ -182,7 +190,8 @@ public class Deadwood{
         }
 
       }
-      if(command.compareToIgnoreCase(where) == 0){//WHERE
+ //***************************** WHERE **********************************
+      if(command.compareToIgnoreCase(where) == 0){
 
         String room = x.getPlayerLocation();
         boolean isASet = false;
@@ -212,9 +221,10 @@ public class Deadwood{
         System.out.println("**** " + x.getPlayerColor() + "'s turn is over! ****");
         turn = false;         //upon entering end, the players turn is over
 
-      }else if(completed.contains(command) == false){//command not done yet
+      }else if(completed.contains(command) == false){ //command not done yet
 
-        if(command.compareToIgnoreCase(rehearse) == 0){//REHEARSE
+  //***************************** REHEARSE **********************************
+        if(command.compareToIgnoreCase(rehearse) == 0){
 
            result = x.rehearse();
            if(result == 1){//success
@@ -224,8 +234,8 @@ public class Deadwood{
              completed.add(move);
              completed.add(upgrade);
            }
-
-         }else if(command.compareToIgnoreCase(act) == 0){//ACT
+  //***************************** ACT **********************************
+         }else if(command.compareToIgnoreCase(act) == 0){
 
            result = x.act();
            if(result == 1){//success
@@ -252,8 +262,8 @@ public class Deadwood{
                wraps(place, cardBudget, currSet);
              }
            }
-
-         }else if(command.compareToIgnoreCase(work) == 0){//WORK
+  //***************************** WORK **********************************
+         }else if(command.compareToIgnoreCase(work) == 0){
 
            ArrayList<String> job = new ArrayList<String>();
            while(parser.hasNext()){
@@ -266,10 +276,9 @@ public class Deadwood{
            String desiredRole = desRole.substring(0, desRole.length() - 1);
 
            boolean goodToGo = true;
-           for(Player p : allPlayers){
-             Player currPlayer = p;
+           for(Player player : allPlayers){
+             Player currPlayer = player;
              if(currPlayer.getRoleStatus() == true){//has a role
-               System.out.println("ERROR: You already have a role!");/////////////////////////////////////////////
                String playerRole = currPlayer.getRoleName();
                if(playerRole.compareToIgnoreCase(desiredRole) == 0){ // role taken
                  goodToGo = false;
@@ -287,7 +296,6 @@ public class Deadwood{
                newBudget = s.getBudget();
              }
            }
-
 
            if(goodToGo){//role isn't taken
              //get desired role
@@ -320,8 +328,8 @@ public class Deadwood{
               result = 0;
            }
 
-
-         }else if(command.compareToIgnoreCase(move) == 0){//MOVE
+  //***************************** MOVE **********************************
+         }else if(command.compareToIgnoreCase(move) == 0){
            //find destination
            ArrayList<String> place = new ArrayList<String>();
            while(parser.hasNext()){
@@ -335,7 +343,6 @@ public class Deadwood{
            desiredDest = dest.substring(0, dest.length() - 1);
 
            boolean goodToGo = false;
-
            Rooms currRoom = x.getRoom();// current location
            String comping = currRoom.peekOne();
            int compared = comping.compareToIgnoreCase(desiredDest);
@@ -377,7 +384,8 @@ public class Deadwood{
            //not a valid move
            result = 0;
 
-         }else if(command.compareToIgnoreCase(upgrade) == 0){//UPGRADE
+  //***************************** UPGRADE **********************************
+         }else if(command.compareToIgnoreCase(upgrade) == 0){
            String type = null;
            int up = 0;
            int track = 0;
@@ -406,6 +414,9 @@ public class Deadwood{
     }
   }
 
+  //Method: wraps
+  //Purpose:
+  //Input:
   public static void wraps(String room, int budget, Set currSet){
     int[] diceRolls = new int[budget];
     Dice newDice = new Dice();
@@ -446,25 +457,25 @@ public class Deadwood{
 
     int[] rankOrder = currCard.getRoleRanks();
 
-    for(Player p : allPlayers){ //on card roles
-      String cardRole = p.getonOrOffCard();
+    for(Player player : allPlayers){ //on card roles
+      String cardRole = player.getonOrOffCard();
       if(cardRole.compareToIgnoreCase("On") == 0){
         onCard = true;
-        int roleRank = p.getRoleRank();
+        int roleRank = player.getRoleRank();
         spot = 0;
         while(roleRank != rankOrder[spot]){
           spot++;
         }
-        p.wraps(winnings[spot]);
+        player.wraps(winnings[spot]);
       }
     }
 
-    if(onCard){//there is an on the card player
-      for(Player p : allPlayers){ //on card roles
-        String cardRole = p.getonOrOffCard();
+    if(onCard){ // if there is an on the card player
+      for(Player player : allPlayers){ //on card roles
+        String cardRole = player.getonOrOffCard();
         if(cardRole.compareToIgnoreCase("off") == 0){
-          int roleRank = p.getRoleRank();
-          p.wraps(roleRank);
+          int roleRank = player.getRoleRank();
+          player.wraps(roleRank);
         }
       }
     }
@@ -474,6 +485,33 @@ public class Deadwood{
     boolean done = allCards.remove(currCard);
   }
 
+  public static void finalScore(Player player) {
+    int score = calcScore(player);
+    System.out.println("--------------------------------------");
+    System.out.println("Name:             " + player.getPlayerColor());
+    System.out.println("Rank:             " + player.getPlayerRank());
+    System.out.println("Credit:           " + player.getPlayerCredits());
+    System.out.println("Money:            " + player.getPlayerDollars());
+    System.out.println("TOTAL SCORE:      " + score);
+    System.out.println("--------------------------------------");
+  }
+
+  public static int calcScore(Player player) {
+    return player.getPlayerDollars() + player.getPlayerCredits() + (player.getPlayerRank() * 5);
+  }
+
+  public static void associateCards(){
+    Collections.shuffle(allCards); //randomizes cards
+    int i = 0;
+    for(Set s : allSets){
+      s.setCard(allCards.get(i));
+      i++;
+    }
+  }
+
+//********************************************************************** READ IN FILES ******************************************************************
+  //Method: cards
+  //Purpose: read in the card.xml file
   public static void cards() {
 
     try {
@@ -643,13 +681,11 @@ public class Deadwood{
               roomFour = adjList[3];
             }
 
-            //Make room
+            //Make rooms
           allRooms.add(new Rooms(roomOne, roomTwo, roomThree, roomFour, name));
           //next is the takes info
           numTakes = takes.getLength();
           }
-
-
 
             //the roles
             for(int j = 0; j < rolesItems.getLength(); j++) {
@@ -662,9 +698,7 @@ public class Deadwood{
               allRoles.add(new Role(roleName, roleRank, roleLine));
               roleArray.add(new Role(roleName, roleRank, roleLine));
             }
-
             allSets.add(new Set(name, numTakes, roleArray));
-
           }
 
       } finally {
@@ -672,31 +706,6 @@ public class Deadwood{
       }
     } catch (Exception e) {
       e.printStackTrace();
-    }
-
-  }
-
-  public static void finalScore(Player player) {
-    int score = calcScore(player);
-    System.out.println("--------------------------------------");
-    System.out.println("Name:             " + player.getPlayerColor());
-    System.out.println("Rank:             " + player.getPlayerRank());
-    System.out.println("Credit:           " + player.getPlayerCredits());
-    System.out.println("Money:            " + player.getPlayerDollars());
-    System.out.println("Total Score:      " + score);
-    System.out.println("--------------------------------------");
-  }
-
-  public static int calcScore(Player player) {
-    return player.getPlayerDollars() + player.getPlayerCredits() + (player.getPlayerRank() * 5);
-  }
-
-  public static void associateCards(){
-    Collections.shuffle(allCards); //randomizes cards
-    int i = 0;
-    for(Set s : allSets){
-      s.setCard(allCards.get(i));
-      i++;
     }
   }
 
