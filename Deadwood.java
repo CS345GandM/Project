@@ -433,11 +433,13 @@ public class Deadwood{
   //Purpose: wrap a scene
   //Input:
   public static void wraps(String room, int budget, Set currSet){
+
     int[] diceRolls = new int[budget];
     Dice newDice = new Dice();
     for(int x = 0; x < budget; x++){
       diceRolls[x] = newDice.getValue();
     }
+
     //decreasing.
     Arrays.sort(diceRolls);
 
@@ -453,13 +455,12 @@ public class Deadwood{
       }
     }
 
-    //get number of on card roles
-
     boolean onCard = false;
 
     int spot = budget;//dice rolls
     int track = numRoles - 1;//roles starting at highest ranked
     int[] winnings = new int[numRoles];
+
     //calculating on card winnings
     while(spot < budget){
       //highest to lowest
@@ -474,7 +475,8 @@ public class Deadwood{
 
     String currentSetName = currSet.getName();
 
-    for(Player player : allPlayers){ //on card roles
+    //handles on card roles
+    for(Player player : allPlayers){
       String cardRole = player.getonOrOffCard();
       if(cardRole.compareToIgnoreCase("On") == 0){
         String currPlayerLocation = player.getPlayerLocation();
@@ -490,13 +492,13 @@ public class Deadwood{
       }
     }
 
-
-    for(Player player : allPlayers){ //on card roles
+    //handles off card roles
+    for(Player player : allPlayers){
       String cardRole = player.getonOrOffCard();
       if(cardRole.compareToIgnoreCase("off") == 0){
         String currPlayerLocation = player.getPlayerLocation();
         if(currPlayerLocation.compareToIgnoreCase(currentSetName) == 0){
-          if(onCard){
+          if(onCard){ //if there is an on card player....
             int roleRank = player.getRoleRank();
             player.wraps(roleRank);
           }else{
@@ -508,9 +510,10 @@ public class Deadwood{
     }
 
 
-    //removing card
+    //removing card from set
     currSet.removeCard();
 
+    //removing card from card arrayList
     for(Cards c : allCards){
       String name = c.getName();
       String setsCard = currSet.getName();
@@ -520,6 +523,8 @@ public class Deadwood{
     }
   }
 
+  //Method: finalScore
+  //Purpose: display different aspects of players final score and final score
   public static void finalScore(Player player) {
     int score = calcScore(player);
     System.out.println("--------------------------------------");
@@ -531,10 +536,14 @@ public class Deadwood{
     System.out.println("--------------------------------------");
   }
 
+  //Method: calcScore()
+  //Purpose: take a players credits, dollars, and ranks to calculate a score based on game rules
   public static int calcScore(Player player) {
     return player.getPlayerDollars() + player.getPlayerCredits() + (player.getPlayerRank() * 5);
   }
 
+  //Method: associateCards()
+  //Purpose: associate cards with different sets.
   public static void associateCards(){
     Collections.shuffle(allCards); //randomizes cards
     int i = 0;
