@@ -221,7 +221,7 @@ public class Player{
             //0 - if the player cannot upgrade
   public int upgrade(String inputType, int rank){
     String location = playerLocation.getRoomName();
-    if(location.compareToIgnoreCase("Casting Office") == 0){
+    if(location.compareToIgnoreCase("office") == 0){
       int[] dollars = new int[5];
       int[] credits = new int[5];
       dollars[0] =  4;
@@ -237,7 +237,6 @@ public class Player{
 
       String dollarSign = "$";
       if(inputType.compareToIgnoreCase(dollarSign) == 0){
-        System.out.println("Player $");
 
         int r = dollars[rank - 2];
         if(playerDollars >= r){
@@ -248,7 +247,6 @@ public class Player{
       }
       String credit = "cr";
       if(inputType.compareToIgnoreCase(credit) == 0){
-        System.out.println("Player cr");
         int r = credits[rank -2];
         if(playerCredits >= r){
           roleRank++;
@@ -257,7 +255,6 @@ public class Player{
         }
       }
     }
-    System.out.println("player neither");
 
     return 0;
   }

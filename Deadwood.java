@@ -406,12 +406,10 @@ public class Deadwood{
              type = parser.next();
              track++;
            }
-           System.out.println("TYPE: " + type);
            if(parser.hasNext()){
              up = Integer.parseInt(parser.next());
              track++;
            }
-           System.out.println("Rank upgrade: " + up);
            if(track == 2){
              result = x.upgrade(type, up);
              if(result == 1){//success
