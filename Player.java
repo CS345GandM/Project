@@ -67,10 +67,6 @@ public class Player{
    }
 
 
-
-
-//Do we need both?
-/////////////////////////////////////////////////////////
   //Getter:  getRoom
   //Purpose: determine what room player is in
   public Rooms getRoom(){
@@ -83,7 +79,7 @@ public class Player{
     String local = playerLocation.getRoomName();
     return local;
   }
-/////////////////////////////////////////////////////////
+
 
   //Getter:  getCardBudget
   //Purpose: purpose return the card's budget associated with role
@@ -108,7 +104,7 @@ public class Player{
     return hasRole;
   }
 
-  //Getter:  getRoleRank//////////////////////////////////////////////////////////////////WONT WORK
+  //Getter:  getRoleRank
   //Purpose: return the role of the rank the player is acting on
   public int getRoleRank(){
     int rank = playerRole.getRoleRank();

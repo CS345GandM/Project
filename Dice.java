@@ -10,7 +10,7 @@ public class Dice{
 
    //Constructor for Dice
    public Dice(){
-      this.rollOutcome = 0; 
+      this.rollOutcome = 0;
    }
 
    //Method:  getValue()

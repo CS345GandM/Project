@@ -19,13 +19,6 @@ public class Rooms{
       this.four = four;
       this.name = name;
    }
-  /* public void successfulAct(){
-     name.removeCounters();
-   }
-   public int remainingShots(){
-     int x = name.getCounts();
-     return x;
-   }*/
 
    //Want to take a look at rooms to decide whether they are adj
    //Can only move to adj room
