@@ -13,11 +13,11 @@ public class Deadwood{
   private static int numDays    = 0;
   private static int numScenes = 22;
   private static int sceneTrack = 0;
-  private static ArrayList<Player> allPlayers = new ArrayList<Player>();  //contains the list of player objects
+  private static ArrayList<Player> allPlayers = new ArrayList<Player>();   //contains the list of player objects
   private static ArrayList<Cards> allCards = new ArrayList<Cards>();      //contrains the list of card objects
   private static ArrayList<Set> allSets = new ArrayList<Set>();          //contains the list of set objects
   private static ArrayList<Rooms> allRooms = new ArrayList<Rooms>();    //contains the list of room objects
-  private static ArrayList<Role> allRoles = new ArrayList<Role>();      //contains the list of role objects
+  private static ArrayList<Role> allRoles = new ArrayList<Role>();     //contains the list of role objects
 
   public static void main(String[] args) {
 
@@ -61,7 +61,6 @@ public class Deadwood{
 
         associateCards();
         sceneTrack = numScenes;
-
         while(sceneTrack > 1){
           for(Player p : allPlayers){
             if(sceneTrack > 1){
@@ -72,7 +71,6 @@ public class Deadwood{
 
           }
         }
-
         //remove last card
         String cardName = "";
 
@@ -82,7 +80,6 @@ public class Deadwood{
             cardName = s.getCardName();
           }
         }
-
         Cards currCard = null;
         for(Cards c : allCards){
           String name = c.getName();
@@ -90,8 +87,6 @@ public class Deadwood{
             boolean done = allCards.remove(c);
           }
         }
-
-
         daysComplete++;
       }
 
@@ -165,7 +160,6 @@ public class Deadwood{
 
     ArrayList<String> completed = new ArrayList<String>();
 
-
     while(turn){
       String command = null;
       String userInput = input.nextLine();
@@ -220,7 +214,7 @@ public class Deadwood{
         result = 1;
 
       }
-
+ //***************************** END **********************************
       if(command.compareToIgnoreCase(end) == 0){
         System.out.println("**** " + x.getPlayerColor() + "'s turn is over! ****");
         turn = false;         //upon entering end, the players turn is over
@@ -228,7 +222,6 @@ public class Deadwood{
         result = 1;
 
       }
-
 
       if(!completed.contains(command.toLowerCase())){ //command not done yet
 
@@ -288,7 +281,7 @@ public class Deadwood{
            boolean goodToGo = true;
            for(Player player : allPlayers){
              Player currPlayer = player;
-             if(currPlayer.getRoleStatus() == true){//has a role
+             if(currPlayer.getRoleStatus() == true){  //has a role
                String playerRole = currPlayer.getRoleName();
                if(playerRole.compareToIgnoreCase(desiredRole) == 0){ // role taken
                  goodToGo = false;
@@ -296,8 +289,7 @@ public class Deadwood{
              }
            }
 
-
-           //finding budget
+           //finding the budget
            String room = x.getPlayerLocation();
            int newBudget = 0;
            boolean rightPlace = false;
@@ -328,7 +320,7 @@ public class Deadwood{
                    isOn = true;
                  }
                }
-
+               //check on or off card
                x.onOrOff(isOn);
                completed.add(rehearse);
                completed.add(act);
@@ -396,7 +388,6 @@ public class Deadwood{
            }
 
 
-
   //***************************** UPGRADE **********************************
          }else if(command.compareToIgnoreCase(upgrade) == 0){
            String type = "";
@@ -416,15 +407,13 @@ public class Deadwood{
                completed.add(command);
              }
           }
-
         }
-
       }
       if(result == 0){
-        System.out.println("Invalide command. Check spelling and format. Otherwise move not possible right now.");
+        System.out.println("Invalid command. Check spelling and format. Otherwise move not possible right now.");
       }
 
-      parser.close(); //turn over
+      parser.close(); //turn is over
 
     }
   }
