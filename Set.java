@@ -8,6 +8,7 @@ public class Set{
    private String name;        //set name
    private int shotCounts;    //number of set shot counters
    private Cards cardName;   //A set contains a card
+   private boolean hasACard; //A set has an associated card
    private ArrayList<Role> extraRoles = new ArrayList<Role>();   //ArrayList contains extraroles that are in a set
 
    //Constuctor for a set
@@ -15,6 +16,7 @@ public class Set{
       this.name = name;
       this.shotCounts = takes;
       this.extraRoles = extraRoles;
+      this.hasACard = false;
       this.cardName = null;
    }
 
@@ -32,6 +34,7 @@ public class Set{
    //Setter: setCard
    public void setCard(Cards n){
      cardName = n;
+     hasACard = true;
    }
 
    //Getter:  getCardName
@@ -54,6 +57,13 @@ public class Set{
       return name;
    }
 
+   //Getter: setHasACard
+   //Purpose: retrieve the boolean that corresponds to if a set as an associated card
+   //Return: boolean
+   public boolean setHasACard(){
+     return hasACard;
+   }
+
    //Method:  removeCounters()
    //Purpose: remove a shot counter upon successful act
    public void removeCounters(){
@@ -65,6 +75,7 @@ public class Set{
    //Return:  cardName set to null
    public void removeCard(){
      cardName = null;
+     hasACard = false;
    }
    //Method:  getBudget()
    //Purpose: retrieve the budget that corresponds to the card on the set

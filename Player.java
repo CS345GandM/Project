@@ -66,7 +66,6 @@ public class Player{
      }
    }
 
-/////////////////////////////////////////////////////////
 
 
 
@@ -191,7 +190,7 @@ public class Player{
   public int act(){
     if(hasRole){  //if true
         Dice newDice = new Dice();
-        int roll = newDice.getValue();
+        int roll = newDice.getValue() + playerReheasalCredits;
         if(this.roleBudget <= roll){
           if(this.onCard()){
             playerCredits += 2;    //pay for on card
@@ -202,13 +201,13 @@ public class Player{
           }
           System.out.println("SUCCESS");
           return 1;
-        }          
-      }
-      else{
-        if(!onCard()){
-          playerCredits += 1;
+        }else{
+          if(!onCard()){
+            playerCredits += 1;
+          }
+          System.out.println("FAIL");
         }
-        System.out.println("FAIL");
+        return 2;
       }
     return 0;
   }
@@ -220,7 +219,7 @@ public class Player{
   //Output: int
             //1 - if the player pays in dollars or credits
             //0 - if the player cannot upgrade
-  public int upgrade(String t, int rank){
+  public int upgrade(String inputType, int rank){
     String location = playerLocation.getRoomName();
     if(location.compareToIgnoreCase("Casting Office") == 0){
       int[] dollars = new int[5];
@@ -235,7 +234,11 @@ public class Player{
       credits[2] = 15;
       credits[3] = 20;
       credits[4] = 25;
-      if(t.compareToIgnoreCase("$") == 0){
+
+      String dollarSign = "$";
+      if(inputType.compareToIgnoreCase(dollarSign) == 0){
+        System.out.println("Player $");
+
         int r = dollars[rank - 2];
         if(playerDollars >= r){
           roleRank++;
@@ -243,7 +246,9 @@ public class Player{
           return 1;
         }
       }
-      if(t.compareToIgnoreCase("cr") == 0){
+      String credit = "cr";
+      if(inputType.compareToIgnoreCase(credit) == 0){
+        System.out.println("Player cr");
         int r = credits[rank -2];
         if(playerCredits >= r){
           roleRank++;
@@ -252,6 +257,8 @@ public class Player{
         }
       }
     }
+    System.out.println("player neither");
+
     return 0;
   }
 
@@ -262,9 +269,11 @@ public class Player{
     if(playerReheasalCredits < 6){
       if(hasRole){
         playerReheasalCredits++;
+        System.out.println(playerColor + " has " + playerReheasalCredits + " rehearsal credits.");
         return 1;
       }
     }
+    System.out.println("Cannot have more than 6 rehearsal credits");
     return 0;
   }
 
@@ -273,9 +282,8 @@ public class Player{
   //Input:   int (bonus)
   public void wraps(int bonus){
     this.hasRole = false;
-    this.roleRank = 0;
+    this.roleRank = 1;
     this.roleBudget = 0;
-    this.playerLocation = null;
     this.playerRole = null;
     this.onOffCard = "none";
     this.playerReheasalCredits = 0;
