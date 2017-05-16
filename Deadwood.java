@@ -420,7 +420,7 @@ public class Deadwood{
 
   //Method: wraps
   //Purpose: wrap a scene
-  //Input:
+  //Input: String, int, Set
   public static void wraps(String room, int budget, Set currSet){
     int[] diceRolls = new int[budget];
     Dice newDice = new Dice();
@@ -442,8 +442,7 @@ public class Deadwood{
       }
     }
 
-    //get number of on card roles
-
+    //tracks if there's a player on the card
     boolean onCard = false;
 
     int spot = budget;//dice rolls
@@ -462,8 +461,8 @@ public class Deadwood{
     }
 
     String currentSetName = currSet.getName();
-
-    for(Player player : allPlayers){ //on card roles
+    //handles on card roles
+    for(Player player : allPlayers){
       String cardRole = player.getonOrOffCard();
       if(cardRole.compareToIgnoreCase("On") == 0){
         String currPlayerLocation = player.getPlayerLocation();
@@ -479,8 +478,8 @@ public class Deadwood{
       }
     }
 
-
-    for(Player player : allPlayers){ //on card roles
+    //handles off card roles
+    for(Player player : allPlayers){
       String cardRole = player.getonOrOffCard();
       if(cardRole.compareToIgnoreCase("off") == 0){
         String currPlayerLocation = player.getPlayerLocation();
@@ -496,7 +495,6 @@ public class Deadwood{
       }
     }
 
-
     //removing card
     currSet.removeCard();
 
@@ -508,7 +506,8 @@ public class Deadwood{
       }
     }
   }
-
+  //Method: finalScore
+  //Purpose: display the player's attributes and final score
   public static void finalScore(Player player) {
     int score = calcScore(player);
     System.out.println("--------------------------------------");
@@ -519,11 +518,14 @@ public class Deadwood{
     System.out.println("TOTAL SCORE:      " + score);
     System.out.println("--------------------------------------");
   }
-
+  //Method: calcScore
+  //Purpose: calculate the player's score
   public static int calcScore(Player player) {
     return player.getPlayerDollars() + player.getPlayerCredits() + (player.getPlayerRank() * 5);
   }
 
+  //Method: associateCards
+  //Purpose: associates a card with each set
   public static void associateCards(){
     Collections.shuffle(allCards); //randomizes cards
     int i = 0;
