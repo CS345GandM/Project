@@ -5,13 +5,13 @@ import java.lang.*;
 
 public class Cards{
 
-   private String name;         //Name of Card    
+   private String name;         //Name of Card
    private String description;  //Card Description
    private int    sceneNum;     //Card contains a scene number
    private int    budget;       //Card has its own budget
    private ArrayList<Role> onCardRoles = new ArrayList<Role>();
-   
-   //Card constructor 
+
+   //Card constructor
    public Cards(String n, int b, int sN, ArrayList<Role> r, String d){
       this.name = n;
       this.description = d;
@@ -19,18 +19,18 @@ public class Cards{
       this.sceneNum = sN;
       this.onCardRoles = r;
    }
- 
+
    private void makeCard(){
       //read in text file
    }
-   
+
    //Getter:  getNumRoles
    //Purpose: Get the number of roles on a card
    public int getNumRoles(){
      int len = onCardRoles.size();
      return len;
    }
-   
+
    //Getter:  getName
    //Purpose: get the name of a card
    public String getName(){
@@ -38,16 +38,16 @@ public class Cards{
    }
    //Getter:  getQuote
    //Purpose: get the description of a card
-   public String getQuote(){                    //////////////////////Need setter for this and budget..?
+   public String getQuote(){      
      return description;
    }
-   
+
    //Getter:  getBudget
    //Purpose: get the card's budget
    public int getBudget(){
       return budget;
    }
-   
+
    //Method:  isARole()
    //Purpose: check if the player's role is contained in the onCardRoles array
    //Input:   String - name of a role
@@ -61,7 +61,7 @@ public class Cards{
      }
      return false;
    }
-   
+
    //Method:  getRoleRanks()
    //Purpose: get the values of all the roles
    //Input:   none
