@@ -32,8 +32,6 @@ public class Player{
 
 //******************************** Getters & Setters  *****************************************
 
-//these seem similar, revisit these methods?
-/////////////////////////////////////////////////////////
   //Setter: setonOrOffCard
   public void setonOrOffCard(String s){
     this.onOffCard = s;

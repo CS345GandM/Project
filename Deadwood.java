@@ -23,6 +23,8 @@ public class Deadwood{
 
     if(checkArgs(args)){                //check that there is a valid number of players
       numPlayers = Integer.parseInt(args[0]);
+      Display game = new Display();
+      game.makeDisplay();
       System.out.println(" ");
       System.out.println("|----------------------------------------------------------------------|");
       System.out.println("                         Number of players: "+ numPlayers                );
@@ -420,7 +422,7 @@ public class Deadwood{
 
   //Method: wraps
   //Purpose: wrap a scene
-  //Input:
+  //Input: String, int, Set
   public static void wraps(String room, int budget, Set currSet){
 
     int[] diceRolls = new int[budget];
@@ -444,6 +446,10 @@ public class Deadwood{
       }
     }
 
+<<<<<<< HEAD
+=======
+    //tracks if there's a player on the card
+>>>>>>> 9c0b5fc493a7df777b285bab441838275ded53f4
     boolean onCard = false;
 
     int spot = budget;//dice rolls
@@ -463,7 +469,10 @@ public class Deadwood{
     }
 
     String currentSetName = currSet.getName();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9c0b5fc493a7df777b285bab441838275ded53f4
     //handles on card roles
     for(Player player : allPlayers){
       String cardRole = player.getonOrOffCard();
@@ -498,8 +507,12 @@ public class Deadwood{
       }
     }
 
+<<<<<<< HEAD
 
     //removing card from set
+=======
+    //removing card
+>>>>>>> 9c0b5fc493a7df777b285bab441838275ded53f4
     currSet.removeCard();
 
     //removing card from card arrayList
@@ -511,9 +524,14 @@ public class Deadwood{
       }
     }
   }
+<<<<<<< HEAD
 
   //Method: finalScore
   //Purpose: display different aspects of players final score and final score
+=======
+  //Method: finalScore
+  //Purpose: display the player's attributes and final score
+>>>>>>> 9c0b5fc493a7df777b285bab441838275ded53f4
   public static void finalScore(Player player) {
     int score = calcScore(player);
     System.out.println("--------------------------------------");
@@ -524,15 +542,25 @@ public class Deadwood{
     System.out.println("TOTAL SCORE:      " + score);
     System.out.println("--------------------------------------");
   }
+<<<<<<< HEAD
 
   //Method: calcScore()
   //Purpose: take a players credits, dollars, and ranks to calculate a score based on game rules
+=======
+  //Method: calcScore
+  //Purpose: calculate the player's score
+>>>>>>> 9c0b5fc493a7df777b285bab441838275ded53f4
   public static int calcScore(Player player) {
     return player.getPlayerDollars() + player.getPlayerCredits() + (player.getPlayerRank() * 5);
   }
 
+<<<<<<< HEAD
   //Method: associateCards()
   //Purpose: associate cards with different sets.
+=======
+  //Method: associateCards
+  //Purpose: associates a card with each set
+>>>>>>> 9c0b5fc493a7df777b285bab441838275ded53f4
   public static void associateCards(){
     Collections.shuffle(allCards); //randomizes cards
     int i = 0;
