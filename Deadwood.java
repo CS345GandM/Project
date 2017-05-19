@@ -27,23 +27,6 @@ public class Deadwood{
       Display game = new Display();
       game.makeDisplay();
 
-      System.out.println(" ");
-      System.out.println("|----------------------------------------------------------------------|");
-      System.out.println("                         Number of players: "+ numPlayers                );
-      System.out.println("|                         Command Options                              |");
-      System.out.println("|----------------------------------------------------------------------|");
-      System.out.println("|Type: 'who'              for current player information               |");
-      System.out.println("|      'where'            for the location of player                   |");
-      System.out.println("|      'move room'        to move to indicated room                    |");
-      System.out.println("|      'work part'        to take an indicated role                    |");
-      System.out.println("|      'upgrade $ level'  to upgrade to indicated level using dollars  |");
-      System.out.println("|      'upgrade cr level' to upgrade to indicated level using credits  |");
-      System.out.println("|      'rehearse'         current player rehearses                     |");
-      System.out.println("|      'act'              current player acts on current role          |");
-      System.out.println("|      'end'              terminate player's turn                      |");
-      System.out.println("|----------------------------------------------------------------------|");
-      System.out.println(" ");
-
       setDays();
       int daysComplete = 0;
       makePlayers();
