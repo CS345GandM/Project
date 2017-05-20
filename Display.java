@@ -1,9 +1,10 @@
 import javax.swing.JFrame;
-import java. awt.Dimension;
+import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class Display{
+
 
   //Makes program stop running when window is closed
   private  class Closer extends WindowAdapter{
@@ -13,16 +14,17 @@ public class Display{
   }
 
   public Display(){
-    
+
   }
 
   //creates a new window/frame    throws for in board....
   public void makeDisplay() throws Exception{
     JFrame frame = new JFrame();
     Board board = new Board();
-
+    board.addPlayerInfo();
+    
     frame.setTitle("Deadwood");
-    frame.setPreferredSize(new Dimension(1200,900)); //not right dimension
+    frame.setPreferredSize(new Dimension(1400,900)); //not right dimension
     frame.setResizable(false);
     frame.addWindowListener(new Closer());
 
@@ -31,4 +33,5 @@ public class Display{
     frame.pack();
     frame.setVisible(true);
   }
+
 }

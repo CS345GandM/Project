@@ -41,6 +41,7 @@ public class Deadwood{
           String currRoom = r.getRoomName();
           if(currRoom.compareToIgnoreCase("Trailer") == 0){
             for(Player player : allPlayers){
+              ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Here, move player tokin back to Trailer
               player.newDay(r);
             }
           }
@@ -148,6 +149,7 @@ public class Deadwood{
     ArrayList<String> completed = new ArrayList<String>();
 
     while(turn){
+      //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////instead of scanner do a mouse motion listener
       String command = null;
       String userInput = input.nextLine();
       Scanner parser = new Scanner(userInput);
@@ -371,6 +373,7 @@ public class Deadwood{
              }
              if(result == 1){//success
                completed.add(command);
+               ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Here, move player tokin
              }
            }
 
@@ -527,7 +530,7 @@ public class Deadwood{
   //Method: associateCards()
   //Purpose: associate cards with different sets.
 
-  public static void associateCards(){
+  public static void associateCards(){///////////////////////////////////////////////////////////////////////////////////////////////////////////////Here, put cards on board
     Collections.shuffle(allCards); //randomizes cards
     int i = 0;
     for(Set s : allSets){
