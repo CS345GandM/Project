@@ -36,8 +36,12 @@ public class Deadwood{
 
 
       board = new Board();
+
       board.makeBoard();
-      board.makePlayerSpot();
+      board.setUpPlayerInfo();
+
+      board.makeDice(numPlayers);
+
       frame.setTitle("Deadwood");
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setPreferredSize(new Dimension(1400,900)); //not right dimension
@@ -117,7 +121,7 @@ public class Deadwood{
           return true;
         }
     }
-    System.out.println("ERROR: Please enter number of players (1-8)");
+    System.out.println("ERROR: Please enter number of players (2-4)");
     return false;
   }
 
@@ -136,13 +140,9 @@ public class Deadwood{
   private static void makePlayers(){
     String[] colors = new String[8];
     colors[0] = "blue";
-    colors[1] = "cyan";
+    colors[1] = "red";
     colors[2] = "green";
     colors[3] = "orange";
-    colors[4] = "pink";
-    colors[5] = "red";
-    colors[6] = "violet";
-    colors[7] = "yellow";
 
     for(int x = 0; x < numPlayers; x++){
       String name = colors[x];
@@ -170,9 +170,9 @@ public class Deadwood{
       String color = x.getPlayerColor();
       int dollars = x.getPlayerDollars();
       int credits = x.getPlayerCredits();
-      //frame.repaint();
+
       board.addPlayerInfo(color, dollars, credits);
-      //sframe.setVisible(true);
+
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////instead of scanner do a mouse motion listener
       String command = null;
       String userInput = input.nextLine();

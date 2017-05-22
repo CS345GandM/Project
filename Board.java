@@ -18,6 +18,11 @@ public class Board extends JLayeredPane {
   public JButton upgrade;
   public JButton end;
 
+  JLabel blueJLabel;
+  JLabel redJLabel;
+  JLabel greenJLabel;
+  JLabel orangeJLabel;
+
   //throws excpetion incase jpg isn't there. best way to handle error
 
   public Board() throws Exception {
@@ -50,17 +55,10 @@ public class Board extends JLayeredPane {
     add(newPic, new Integer(1));
   }
 
-
-  public void addPlayerInfo(String color, int crd, int dol){
-    name = new JLabel();
-    name.setText("Player: " + color);
-    name.setBounds(1210,0, 150, 150);
-
-    credits = new JLabel("Players credits: " + crd);
-    credits.setBounds(1210, 50, 150, 150);
-
-    dollars = new JLabel("Players dollars " + dol);
-    dollars.setBounds(1210, 100, 150, 150);
+  public void setUpPlayerInfo(){
+    this.name = new JLabel();
+    this.credits = new JLabel();
+    this.dollars = new JLabel();
 
     act = new JButton("Act");
     act.setBackground(Color.green);
@@ -96,7 +94,168 @@ public class Board extends JLayeredPane {
     add(rehearse, new Integer(0));
     add(upgrade, new Integer(0));
     add(end, new Integer(0));
+  }
+
+  public void addPlayerInfo(String color, int crd, int dol){
+
+    this.name.setText("Player: " + color);
+    this.name.setBounds(1210,0, 150, 150);
+
+    this.credits.setText("Players credits: " + crd);
+    this.credits.setBounds(1210, 50, 150, 150);
+
+    this.dollars.setText("Players dollars " + dol);
+    this.dollars.setBounds(1210, 100, 150, 150);
 
   }
+
+  public void makeDice(int numPlayers){
+    blueJLabel = new JLabel();
+    redJLabel = new JLabel();
+    greenJLabel = new JLabel();
+    orangeJLabel = new JLabel();
+
+    blueRank(1);
+    redRank(1);
+
+    add(blueJLabel, new Integer(1));
+    add(redJLabel, new Integer(1));
+
+    if(i == 3){
+      greenRank(1);
+
+      add(greenJLabel, new Integer(1));
+    }
+
+    if(i == 4){
+      greenRank(1);
+      orangeRank(1);
+
+      add(greenJLabel, new Integer(1));
+      add(orangeJLabel, new Integer(1));
+    }
+  }
+
+  public void blueRank(int i){
+    Class cls = getClass();
+
+    if(i == 1){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(b1.png)));
+      this.blueJLabel.setIcon(image);
+      this.blueJLabel.setBounds(xValue, yValue, image.getIconWidth(), image.getIconHeight());///////////////////////////////////////////////////////////////
+    }else if(i == 2){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(b2.png)));
+      this.blueJLabel.setIcon(image);
+      this.blueJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 3){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(b3.png)));
+      this.blueJLabel.setIcon(image);
+      this.blueJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 4){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(b4.png)));
+      this.blueJLabel.setIcon(image);
+      this.blueJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 5){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(b5.png)));
+      this.blueJLabel.setIcon(image);
+      this.blueJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 6){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(b6.png)));
+      this.blueJLabel.setIcon(image);
+      this.blueJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }
+  }
+
+  public void redRank(int i){
+    Class cls = getClass();
+
+    if(i == 1){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(r1.png)));
+      this.redJLabel.setIcon(image);
+      this.redJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 2){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(r2.png)));
+      this.redJLabel.setIcon(image);
+      this.redJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 3){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(r3.png)));
+      this.redJLabel.setIcon(image);
+      this.redJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 4){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(r4.png)));
+      this.redJLabel.setIcon(image);
+      this.redJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 5){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(r5.png)));
+      this.redJLabel.setIcon(image);
+      this.redJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 6){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(r6.png)));
+      this.redJLabel.setIcon(image);
+      this.redJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }
+  }
+
+  public void greenRank(int i){
+    Class cls = getClass();
+
+    if(i == 1){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(g1.png)));
+      this.greenJLabel.setIcon(image);
+      this.greenJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 2){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(g2.png)));
+      this.greenJLabel.setIcon(image);
+      this.greenJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 3){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(g3.png)));
+      this.greenJLabel.setIcon(image);
+      this.greenJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 4){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(g4.png)));
+      this.greenJLabel.setIcon(image);
+      this.greenJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 5){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(g5.png)));
+      this.greenJLabel.setIcon(image);
+      this.greenJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 6){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(g6.png)));
+      this.greenJLabel.setIcon(image);
+      this.greenJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }
+  }
+
+  public void orangeRank(int i){
+    Class cls = getClass();
+
+    if(i == 1){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(o1.png)));
+      this.orangeJLabel.setIcon(image);
+      this.orangeJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 2){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(o2.png)));
+      this.orangeJLabel.setIcon(image);
+      this.orangeJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 3){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(o3.png)));
+      this.orangeJLabel.setIcon(image);
+      this.orangeJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 4){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(o4.png)));
+      this.orangeJLabel.setIcon(image);
+      this.orangeJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 5){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(o5.png)));
+      this.orangeJLabel.setIcon(image);
+      this.orangeJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }else if(i == 6){
+      ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(o6.png)));
+      this.orangeJLabel.setIcon(image);
+      this.orangeJLabel.setBounds(xValue, yValue, wValue, hValue);///////////////////////////////////////////////////////////////
+    }
+  }
+
+
 
 }
