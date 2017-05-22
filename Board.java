@@ -21,6 +21,9 @@ public class Board extends JLayeredPane {
   //throws excpetion incase jpg isn't there. best way to handle error
 
   public Board() throws Exception {
+
+  }
+  public void makeBoard() throws Exception{
     boardLabel = new JLabel();
 
     Class cls = getClass();
@@ -42,8 +45,11 @@ public class Board extends JLayeredPane {
     JLabel newPic = new JLabel();
     newPic.setIcon(image);
     newPic.setBounds(xValue, yValue, wValue, hValue);
+    //JPanel pan = new JPanel();
+    //pan.add(newPic, new);
     add(newPic, new Integer(1));
   }
+
 
   public void addPlayerInfo(String color, int crd, int dol){
     name = new JLabel();
@@ -80,6 +86,7 @@ public class Board extends JLayeredPane {
     end.setBackground(Color.cyan);
     end.setBounds(1210, 550, 100, 30);
 
+
     add(name, new Integer(0));
     add(credits, new Integer(0));
     add(dollars, new Integer(0));
@@ -89,6 +96,7 @@ public class Board extends JLayeredPane {
     add(rehearse, new Integer(0));
     add(upgrade, new Integer(0));
     add(end, new Integer(0));
+
   }
 
 }

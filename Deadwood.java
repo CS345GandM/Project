@@ -36,6 +36,8 @@ public class Deadwood{
 
 
       board = new Board();
+      board.makeBoard();
+      board.makePlayerSpot();
       frame.setTitle("Deadwood");
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setPreferredSize(new Dimension(1400,900)); //not right dimension
@@ -111,7 +113,7 @@ public class Deadwood{
     if(args.length == 1){
         String players = args[0];
         int num = Integer.parseInt(players);
-        if(num > 1 && num < 9){
+        if(num > 1 && num < 5){
           return true;
         }
     }
@@ -552,6 +554,7 @@ public class Deadwood{
           String cardLine; //scene's description
           int cardNumber;
           String pngName = pngCount + ".png";
+          pngCount++;
 
           ArrayList<Role> roleList = new ArrayList<Role>();
           int roleRank = 0;
@@ -704,6 +707,17 @@ public class Deadwood{
 
             NodeList neighbors = set.getElementsByTagName("neighbor");
 
+
+            //card area
+            NodeList area = set.getElementsByTagName("area");
+            for(int j = 0; j < area.getLength(); j++){
+              Element cardAreas = (Element) area.item(0);
+              cardX = Integer.parseInt(cardAreas.getAttribute("x"));
+              cardY = Integer.parseInt(cardAreas.getAttribute("y"));
+              cardW = Integer.parseInt(cardAreas.getAttribute("w"));
+              cardH = Integer.parseInt(cardAreas.getAttribute("h"));
+            }
+
             NodeList takes = set.getElementsByTagName("take");
             rolesItems = set.getElementsByTagName("part");
 
@@ -714,15 +728,7 @@ public class Deadwood{
               adjList[j] = n.getAttribute("name");
             }
 
-            //card area
-            NodeList area = set.getElementsByTagName("area");
-            for(int j = 0; j < area.getLength(); j++){
-              Element cardAreas = (Element) area.item(j);
-              cardX = Integer.parseInt(cardAreas.getAttribute("x"));
-              cardY = Integer.parseInt(cardAreas.getAttribute("y"));
-              cardW = Integer.parseInt(cardAreas.getAttribute("w"));
-              cardH = Integer.parseInt(cardAreas.getAttribute("h"));
-            }
+
 
             String roomOne = adjList[0];
             String roomTwo = adjList[1];
@@ -752,7 +758,7 @@ public class Deadwood{
               roleLine = n.getElementsByTagName("line").item(0).getTextContent();
 
               NodeList roleArea = n.getElementsByTagName("area");
-              for(int m = 0; m < roleArea.getLength(); m ++){
+              for(int m = numTakes + 1; m < roleArea.getLength(); m++){
                 Element rArea = (Element) roleArea.item(m);
                 roleX = Integer.parseInt(rArea.getAttribute("x"));
                 roleY = Integer.parseInt(rArea.getAttribute("y"));
