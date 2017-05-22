@@ -10,18 +10,26 @@ public class Cards{
    private int    sceneNum;     //Card contains a scene number
    private int    budget;       //Card has its own budget
    private ArrayList<Role> onCardRoles = new ArrayList<Role>();
+   private String pngName;
 
    //Card constructor
-   public Cards(String n, int b, int sN, ArrayList<Role> r, String d){
+   public Cards(String n, int b, int sN, ArrayList<Role> r, String d, String png){
       this.name = n;
       this.description = d;
       this.budget = b;
       this.sceneNum = sN;
       this.onCardRoles = r;
+      this.pngName = png;
    }
 
    private void makeCard(){
       //read in text file
+   }
+
+   //Getter:
+   //Purpose:
+   public String getImageName(){
+     return pngName;
    }
 
    //Getter:  getNumRoles
@@ -38,7 +46,7 @@ public class Cards{
    }
    //Getter:  getQuote
    //Purpose: get the description of a card
-   public String getQuote(){      
+   public String getQuote(){
      return description;
    }
 

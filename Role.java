@@ -8,12 +8,34 @@ public class Role {
 	private String roleTitle;  //Name of the role
 	private int roleRank;      //Value of the role's rank
 	private String roleLine;   //The role's line
+	private int roleX;
+	private int roleY;
+	private int roleW;
+	private int roleH;
+
 
 	//Constructor of Role
-	public Role(String roleTitle, int roleRank, String roleLine) {
+	public Role(String roleTitle, int roleRank, String roleLine, int x, int y, int w, int h) {
 		this.roleTitle = roleTitle;
 		this.roleRank = roleRank;
 		this.roleLine = roleLine;
+		this.roleX = x;
+		this.roleY = y;
+		this.roleW = w;
+		this.roleH = h;
+	}
+
+	public int getRoleX(){
+		return roleX;
+	}
+	public int getRoleY(){
+		return roleY;
+	}
+	public int getRoleW(){
+		return roleW;
+	}
+	public int getRoleH(){
+		return roleH;
 	}
 
 	//Getter: getRoleTitle

@@ -33,16 +33,27 @@ public class Board extends JLayeredPane {
     boardLabel.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
 
     add(boardLabel, new Integer(0));
+    //name = new JLabel();
   }
 
-  public void addPlayerInfo(){
-    name = new JLabel("Player" + " color");
+  public void addImage(String imageName, int xValue, int yValue, int wValue, int hValue) throws Exception{
+    Class cls = getClass();
+    ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(imageName)));
+    JLabel newPic = new JLabel();
+    newPic.setIcon(image);
+    newPic.setBounds(xValue, yValue, wValue, hValue);
+    add(newPic, new Integer(1));
+  }
+
+  public void addPlayerInfo(String color, int crd, int dol){
+    name = new JLabel();
+    name.setText("Player: " + color);
     name.setBounds(1210,0, 150, 150);
 
-    credits = new JLabel("players credits");
+    credits = new JLabel("Players credits: " + crd);
     credits.setBounds(1210, 50, 150, 150);
 
-    dollars = new JLabel("players dollars");
+    dollars = new JLabel("Players dollars " + dol);
     dollars.setBounds(1210, 100, 150, 150);
 
     act = new JButton("Act");

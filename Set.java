@@ -10,15 +10,37 @@ public class Set{
    private Cards cardName;   //A set contains a card
    private boolean hasACard; //A set has an associated card
    private ArrayList<Role> extraRoles = new ArrayList<Role>();   //ArrayList contains extraroles that are in a set
+   private int cardX;
+   private int cardY;
+   private int cardW;
+   private int cardH;
 
    //Constuctor for a set
-   public Set(String name, int takes, ArrayList<Role> extraRoles){
+   public Set(String name, int takes, ArrayList<Role> extraRoles, int x, int y, int w, int h){
       this.name = name;
       this.shotCounts = takes;
       this.extraRoles = extraRoles;
       this.hasACard = false;
       this.cardName = null;
+      this.cardX = x;
+      this.cardY = y;
+      this.cardW = w;
+      this.cardH = h;
    }
+
+   public int getCardX(){
+     return cardX;
+   }
+   public int getCardY(){
+     return cardY;
+   }
+   public int getCardH(){
+     return cardH;
+   }
+   public int getCardW(){
+     return cardW;
+   }
+
 
    //Setter: setShotCounts
    public void setShotCounts(int i){

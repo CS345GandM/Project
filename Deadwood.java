@@ -8,7 +8,13 @@ import java.lang.*;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 
+import javax.swing.JFrame;
+import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 public class Deadwood{
+
   private static int numPlayers = 0;
   private static int numDays    = 0;
   private static int numScenes = 22;
@@ -19,13 +25,25 @@ public class Deadwood{
   private static ArrayList<Rooms> allRooms = new ArrayList<Rooms>();    //contains the list of room objects
   private static ArrayList<Role> allRoles = new ArrayList<Role>();     //contains the list of role objects
 
+  private static JFrame frame = new JFrame();
+  private static Board board;
+
   public static void main(String[] args) throws Exception {
 
     if(checkArgs(args)){                //check that there is a valid number of players
       numPlayers = Integer.parseInt(args[0]);
 
-      Display game = new Display();
-      game.makeDisplay();
+
+
+      board = new Board();
+      frame.setTitle("Deadwood");
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.setPreferredSize(new Dimension(1400,900)); //not right dimension
+      frame.setResizable(false);
+      frame.add(board);
+      frame.pack();
+      frame.setVisible(true);
+
 
       setDays();
       int daysComplete = 0;
@@ -137,8 +155,6 @@ public class Deadwood{
     //set player's turn to true
     boolean turn = true;
 
-    String who = "who";
-    String where = "where";
     String rehearse = "rehearse";
     String end = "end";
     String act = "act";
@@ -149,6 +165,12 @@ public class Deadwood{
     ArrayList<String> completed = new ArrayList<String>();
 
     while(turn){
+      String color = x.getPlayerColor();
+      int dollars = x.getPlayerDollars();
+      int credits = x.getPlayerCredits();
+      //frame.repaint();
+      board.addPlayerInfo(color, dollars, credits);
+      //sframe.setVisible(true);
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////instead of scanner do a mouse motion listener
       String command = null;
       String userInput = input.nextLine();
@@ -158,51 +180,7 @@ public class Deadwood{
       }
 
       int result = 0;
-  //***************************** WHO **********************************
-      if(command.compareToIgnoreCase(who) == 0){
 
-        String color = x.getPlayerColor();
-        int dollars = x.getPlayerDollars();
-        int credits = x.getPlayerCredits();
-        if(x.getRoleStatus()){
-          String role = x.getRoleName();
-          System.out.println(color +" ($" + dollars + ", " + credits + "cr) working " + role);
-        }else{
-          System.out.println(color +" ($" + dollars + ", " + credits + "cr)");
-        }
-        result = 1;
-      }
- //***************************** WHERE **********************************
-      if(command.compareToIgnoreCase(where) == 0){
-
-        String room = x.getPlayerLocation();
-        boolean isASet = false;
-        String cardName = "noCard";
-
-        for(Set s : allSets){
-          String name = s.getName();
-          if(s.setHasACard()){ //doesn't check sets without a card
-            if(name.compareToIgnoreCase(room) == 0){
-              isASet = true;
-              cardName = s.getCardName();
-            }
-          }
-        }
-
-        if(!isASet){
-          System.out.println(room);
-        }else{
-          int compared = cardName.compareToIgnoreCase("noCard");
-          if(compared == 0){
-            System.out.println(room + " wrapped");
-          }else{
-            System.out.println("In " + room + " shooting " + cardName);
-          }
-        }
-
-        result = 1;
-
-      }
  //***************************** END **********************************
       if(command.compareToIgnoreCase(end) == 0){
         System.out.println("**** " + x.getPlayerColor() + "'s turn is over! ****");
@@ -530,11 +508,20 @@ public class Deadwood{
   //Method: associateCards()
   //Purpose: associate cards with different sets.
 
-  public static void associateCards(){///////////////////////////////////////////////////////////////////////////////////////////////////////////////Here, put cards on board
+  public static void associateCards() throws Exception{///////////////////////////////////////////////////////////////////////////////////////////////////////////////Here, put cards on board
     Collections.shuffle(allCards); //randomizes cards
     int i = 0;
     for(Set s : allSets){
-      s.setCard(allCards.get(i));
+      Cards currCard = allCards.get(i);
+      s.setCard(currCard);
+      int xValue = s.getCardX();
+      int yValue = s.getCardY();
+      int wValue = s.getCardW();
+      int hValue = s.getCardH();
+      String image = currCard.getImageName();
+
+      board.addImage(image, xValue, yValue, wValue, hValue);
+
       i++;
     }
   }
@@ -555,6 +542,7 @@ public class Deadwood{
         doc.getDocumentElement().normalize();
 
         NodeList nList = doc.getElementsByTagName("card");
+        int pngCount = 1;
 
         //parse the cards
         for (int i = 0; i < nList.getLength(); i++) {
@@ -563,6 +551,7 @@ public class Deadwood{
           int cardBudget;
           String cardLine; //scene's description
           int cardNumber;
+          String pngName = pngCount + ".png";
 
           ArrayList<Role> roleList = new ArrayList<Role>();
           int roleRank = 0;
@@ -585,16 +574,31 @@ public class Deadwood{
 
             //roles on a card
             for(int j = 0; j < roles.getLength(); j++) {
+              int roleX = 0;
+              int roleY = 0;
+              int roleW = 0;
+              int roleH = 0;
+
               Element n = (Element) roles.item(j);
 
               roleTitle = n.getAttribute("name");
               roleRank = Integer.parseInt(n.getAttribute("level"));
               roleLine = n.getElementsByTagName("line").item(0).getTextContent();
 
-              allRoles.add(new Role(roleTitle, roleRank, roleLine));
-              roleList.add(new Role(roleTitle, roleRank, roleLine));
+              NodeList roleArea = n.getElementsByTagName("area");
+              for(int m = 0; m < roleArea.getLength(); m++){
+                Element rArea = (Element) roleArea.item(m);
+                roleX = Integer.parseInt(rArea.getAttribute("x"));
+                roleY = Integer.parseInt(rArea.getAttribute("y"));
+                roleW = Integer.parseInt(rArea.getAttribute("w"));
+                roleH = Integer.parseInt(rArea.getAttribute("h"));
+              }
+
+
+              allRoles.add(new Role(roleTitle, roleRank, roleLine, roleX, roleY, roleW, roleH));
+              roleList.add(new Role(roleTitle, roleRank, roleLine, roleX, roleY, roleW, roleH));
             }
-          allCards.add(new Cards(cardName, cardBudget, cardNumber, roleList, cardLine)); //add these new card objects into the card arraylist(from beginning)
+          allCards.add(new Cards(cardName, cardBudget, cardNumber, roleList, cardLine, pngName)); //add these new card objects into the card arraylist(from beginning)
           }
         }
       } finally {
@@ -683,6 +687,11 @@ public class Deadwood{
           int roleRank = 0;
           String roleLine = null;
           String name = null;
+          int cardX = 0;
+          int cardY = 0;
+          int cardW = 0;
+          int cardH = 0;
+
 
           ArrayList<Role> roleArray = new ArrayList<Role>();
 
@@ -694,6 +703,7 @@ public class Deadwood{
             name = set.getAttribute("name");
 
             NodeList neighbors = set.getElementsByTagName("neighbor");
+
             NodeList takes = set.getElementsByTagName("take");
             rolesItems = set.getElementsByTagName("part");
 
@@ -703,6 +713,17 @@ public class Deadwood{
 
               adjList[j] = n.getAttribute("name");
             }
+
+            //card area
+            NodeList area = set.getElementsByTagName("area");
+            for(int j = 0; j < area.getLength(); j++){
+              Element cardAreas = (Element) area.item(j);
+              cardX = Integer.parseInt(cardAreas.getAttribute("x"));
+              cardY = Integer.parseInt(cardAreas.getAttribute("y"));
+              cardW = Integer.parseInt(cardAreas.getAttribute("w"));
+              cardH = Integer.parseInt(cardAreas.getAttribute("h"));
+            }
+
             String roomOne = adjList[0];
             String roomTwo = adjList[1];
             String roomThree = adjList[2];
@@ -719,16 +740,32 @@ public class Deadwood{
 
             //the roles
             for(int j = 0; j < rolesItems.getLength(); j++) {
+              int roleX = 0;
+              int roleY = 0;
+              int roleW = 0;
+              int roleH = 0;
+
               Element n = (Element) rolesItems.item(j);
 
               roleName = n.getAttribute("name");
               roleRank = Integer.parseInt(n.getAttribute("level"));
               roleLine = n.getElementsByTagName("line").item(0).getTextContent();
 
-              allRoles.add(new Role(roleName, roleRank, roleLine));
-              roleArray.add(new Role(roleName, roleRank, roleLine));
+              NodeList roleArea = n.getElementsByTagName("area");
+              for(int m = 0; m < roleArea.getLength(); m ++){
+                Element rArea = (Element) roleArea.item(m);
+                roleX = Integer.parseInt(rArea.getAttribute("x"));
+                roleY = Integer.parseInt(rArea.getAttribute("y"));
+                roleW = Integer.parseInt(rArea.getAttribute("w"));
+                roleH = Integer.parseInt(rArea.getAttribute("h"));
+              }
+
+
+
+              allRoles.add(new Role(roleName, roleRank, roleLine, roleX, roleY, roleW, roleH));
+              roleArray.add(new Role(roleName, roleRank, roleLine, roleX, roleY, roleW, roleH));
             }
-            allSets.add(new Set(name, numTakes, roleArray));
+            allSets.add(new Set(name, numTakes, roleArray, cardX, cardY, cardW, cardH));
           }
 
       } finally {
