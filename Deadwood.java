@@ -274,11 +274,18 @@ public class Deadwood{
            String room = x.getPlayerLocation();
            int newBudget = 0;
            boolean rightPlace = false;
+
+           int xValueSet = 0;
+           int yValueSet = 0;
+
+
            for(Set s : allSets){
              String name = s.getName();
              if(name.compareToIgnoreCase(room) == 0){
                if(s.hasThisRole(desiredRole)){
                  newBudget = s.getBudget();
+                 xValueSet = s.getCardX();
+                 yValueSet = s.getCardY();
                  rightPlace = true;
                }
              }
@@ -301,6 +308,7 @@ public class Deadwood{
                  wValue = r.getRoleW();
                  hValue = r.getRoleH();
 
+
                  result = x.work(r, newBudget, rank);
                }
              }
@@ -310,6 +318,8 @@ public class Deadwood{
                for(Cards c : allCards){
                  if(c.isARole(desiredRole) == true){
                    isOn = true;
+                   xValue += xValueSet;
+                   yValue += yValueSet;
                  }
                }
                //check on or off card
@@ -844,7 +854,7 @@ public class Deadwood{
               roleLine = n.getElementsByTagName("line").item(0).getTextContent();
 
               NodeList roleArea = n.getElementsByTagName("area");
-              for(int m = numTakes + 1; m < roleArea.getLength(); m++){
+              for(int m = 0; m < roleArea.getLength(); m++){
                 Element rArea = (Element) roleArea.item(m);
                 roleX = Integer.parseInt(rArea.getAttribute("x"));
                 roleY = Integer.parseInt(rArea.getAttribute("y"));
