@@ -152,7 +152,7 @@ public class Deadwood{
   //Method: turn
   //Purpose: continue prompting for commands from user as long as player has a turn
   //Input: player object, and user's input
-  public static void turn(Player x, Scanner input){
+  public static void turn(Player x, Scanner input) throws Exception{
 
     //set player's turn to true
     boolean turn = true;
@@ -170,8 +170,12 @@ public class Deadwood{
       String color = x.getPlayerColor();
       int dollars = x.getPlayerDollars();
       int credits = x.getPlayerCredits();
+      int rehearsalCredits = x.getPlayerRehearsalCredits();
 
-      board.addPlayerInfo(color, dollars, credits);
+
+      board.addPlayerInfo(color, dollars, credits, rehearsalCredits);
+      //board.displayErrorMessage("");
+
 
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////instead of scanner do a mouse motion listener
       String command = null;
@@ -196,14 +200,22 @@ public class Deadwood{
 
   //***************************** REHEARSE **********************************
         if(command.compareToIgnoreCase(rehearse) == 0){
+            if(x.getRoleStatus()){
+              result = x.rehearse();
+            }else{
+              board.displayErrorMessage("Sorry, you have to be working a role to rehearse");
+            }
 
-           result = x.rehearse();
            if(result == 1){//success
              completed.add(rehearse);
              completed.add(act);
              completed.add(work);
              completed.add(move);
              completed.add(upgrade);
+             board.displayErrorMessage(" ");
+
+           }else{
+             board.displayErrorMessage("Sorry, you cannot have more than 6 rehearsal credits");
            }
   //***************************** ACT **********************************
          }else if(command.compareToIgnoreCase(act) == 0){
@@ -265,19 +277,30 @@ public class Deadwood{
            for(Set s : allSets){
              String name = s.getName();
              if(name.compareToIgnoreCase(room) == 0){
-               newBudget = s.getBudget();
-               rightPlace = true;
+               if(s.hasThisRole(desiredRole)){
+                 newBudget = s.getBudget();
+                 rightPlace = true;
+               }
              }
            }
 
            if(goodToGo && rightPlace){//role isn't taken
              //get desired role
+             int xValue = 0;
+             int yValue = 0;
+             int wValue = 0;
+             int hValue = 0;
 
              for(Role r : allRoles){
                String currName = r.getRoleTitle();
                int comparing = currName.compareToIgnoreCase(desiredRole);
                if( comparing == 0){
                  int rank = r.getRoleRank();
+                 xValue = r.getRoleX();
+                 yValue = r.getRoleY();
+                 wValue = r.getRoleW();
+                 hValue = r.getRoleH();
+
                  result = x.work(r, newBudget, rank);
                }
              }
@@ -296,6 +319,22 @@ public class Deadwood{
                completed.add(work);
                completed.add(move);
                completed.add(upgrade);
+
+               //move player dice
+               board.moveDice(color, xValue, yValue, wValue, hValue);
+
+
+               board.displayErrorMessage(" ");
+
+             }else{
+               board.displayErrorMessage("Sorry,rank is not high enough for this role");
+             }
+           }else{
+             if(goodToGo){
+               System.out.println("here");
+               board.displayErrorMessage("Sorry, this role isn't available at your current location");
+             }else{
+               board.displayErrorMessage("Sorry, this role is already taken");
              }
            }
 
@@ -353,13 +392,48 @@ public class Deadwood{
              }
              if(result == 1){//success
                completed.add(command);
-               ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Here, move player tokin
+               board.displayErrorMessage(" ");
+
+               //Move Players Dice
+               if(desiredDest.compareToIgnoreCase("office") == 0){
+                 int xValue = 100;
+                 int yValue = 500;
+                 int wValue = 46;
+                 int hValue = 46;
+                 board.moveDice(color, xValue, yValue, wValue, hValue);
+               }else if(desiredDest.compareToIgnoreCase("trailer") == 0){
+                 int xValue = 1010;
+                 int yValue = 350;
+                 int wValue = 46;
+                 int hValue = 46;
+                 board.moveDice(color, xValue, yValue, wValue, hValue);
+               }else {
+                 int xValue = 0;
+                 int yValue = 0;
+                 int wValue = 0;
+                 int hValue = 0;
+                 for(Set s : allSets){
+                   String name = s.getName();
+                   if(name.compareToIgnoreCase(desiredDest) == 0){
+                     xValue = s.getCardX() + 25;
+                     yValue = s.getCardY() + 115;
+                     hValue = 46;
+                     wValue = 46;
+                   }
+                 }
+                 board.moveDice(color, xValue, yValue, wValue, hValue);
+               }
+             }else{
+               board.displayErrorMessage("Cannot move while working on a scene");
              }
+           }else{
+             board.displayErrorMessage("Cannot move to this location");
+
            }
 
 
   //***************************** UPGRADE **********************************
-         }else if(command.compareToIgnoreCase(upgrade) == 0){
+}else if(command.compareToIgnoreCase(upgrade) == 0) {
            String type = "";
            int up = 0;
            int track = 0;
@@ -375,6 +449,18 @@ public class Deadwood{
              result = x.upgrade(type, up);
              if(result == 1){//success
                completed.add(command);
+               if(color.compareToIgnoreCase("blue") == 0){
+                 board.blueRank(up);
+               }
+               if(color.compareToIgnoreCase("red") == 0){
+                 board.redRank(up);
+               }
+               if(color.compareToIgnoreCase("green") == 0){
+                 board.greenRank(up);
+               }
+               if(color.compareToIgnoreCase("orange") == 0){
+                 board.orangeRank(up);
+               }
              }
           }
         }

@@ -106,4 +106,14 @@ public class Set{
      int budget = cardName.getBudget();
      return budget;
    }
+
+   public boolean hasThisRole(String desiredRole){
+     for(Role r : extraRoles){
+       String role = r.getRoleTitle();
+       if(role.compareToIgnoreCase(desiredRole) == 0){
+         return true;
+       }
+     }
+     return cardName.isARole(desiredRole);
+   }
 }

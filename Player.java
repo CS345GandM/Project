@@ -120,6 +120,12 @@ public class Player{
     return this.playerDollars;
   }
 
+  //Getter:  getPlayerRehearsalCredits
+  //Purpose: return the number of rehearsal credits for each player
+  public int getPlayerRehearsalCredits(){
+    return this.playerReheasalCredits;
+  }
+
   //Getter:  getPlayerColor
   //Purpose: determine the player ID(color)
   public String getPlayerColor(){
@@ -146,7 +152,7 @@ public class Player{
       return 1;
     }
     else{
-      System.out.println("Cannot move while working on a scene");   //otherwise player has a role and cannot move
+      //System.out.println("Cannot move while working on a scene");   //otherwise player has a role and cannot move
       return 0;
     }
   }
@@ -168,7 +174,7 @@ public class Player{
       return 1;
 
     }else{
-      System.out.println("Sorry,rank is not high enough for this role");
+      //System.out.println("Sorry,rank is not high enough for this role");
       return 0;
     }
   }
