@@ -50,10 +50,10 @@ public class Board extends JLayeredPane {
   public void coverCard(int x, int y, int w, int h){
     cardCover = new JLabel();
     cardCover.setBounds(x, y, w, h);
-    add(cardCover, new Integer(1));
+    add(cardCover, new Integer(2));
   }
 
-  public void addImage(String imageName, int xValue, int yValue, int wValue, int hValue,) throws Exception{
+  public void addImage(String imageName, int xValue, int yValue, int wValue, int hValue) throws Exception{
     Class cls = getClass();
     ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(imageName)));
     JLabel newPic = new JLabel();

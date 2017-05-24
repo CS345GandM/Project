@@ -300,20 +300,22 @@ public class Deadwood{
 
            boolean onCard = false;
            for(Set s : allSets){
-             String name = s.getName();
-             if(name.compareToIgnoreCase(room) == 0){
-               if(s.hasThisRoleOff(desiredRole)){
-                 newBudget = s.getBudget();
-                 xValueSet = s.getCardX();
-                 yValueSet = s.getCardY();
-                 rightPlace = true;
+             if(s.setHasACard()){
+               String name = s.getName();
+               if(name.compareToIgnoreCase(room) == 0){
+                 if(s.hasThisRoleOff(desiredRole)){
+                   newBudget = s.getBudget();
+                   xValueSet = s.getCardX();
+                   yValueSet = s.getCardY();
+                   rightPlace = true;
 
-               }else if(s.hasThisRoleOn(desiredRole)){
-                 newBudget = s.getBudget();
-                 xValueSet = s.getCardX();
-                 yValueSet = s.getCardY();
-                 rightPlace = true;
-                 onCard = true;
+                 }else if(s.hasThisRoleOn(desiredRole)){
+                   newBudget = s.getBudget();
+                   xValueSet = s.getCardX();
+                   yValueSet = s.getCardY();
+                   rightPlace = true;
+                   onCard = true;
+                 }
                }
              }
            }
