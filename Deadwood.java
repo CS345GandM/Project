@@ -83,6 +83,12 @@ public class Deadwood{
 
           }
         }
+
+        int xSet = 0;
+        int ySet = 0;
+        int wSet = 0;
+        int hSet = 0;
+
         //remove last card
         String cardName = "";
         int currCardSceneNum = 0;
@@ -91,6 +97,10 @@ public class Deadwood{
           if(name.compareToIgnoreCase(room) == 0){
             cardName = s.getCardName();
             currCardSceneNum = s.getCardSceneNumber();
+            xSet = s.getCardX();
+            ySet = s.getCardY();
+            wSet = s.getCardW();
+            hSet = s.getCardH();
           }
         }
         Cards currCard = null;
@@ -99,6 +109,7 @@ public class Deadwood{
           String name = c.getName();
           if(name.compareToIgnoreCase(cardName) == 0){
             if(cardSceneNum == currCardSceneNum){
+              board.coverCard(xSet, ySet, wSet, hSet);
               boolean done = allCards.remove(c);
             }
           }
@@ -624,7 +635,21 @@ public class Deadwood{
     }
 
 
+    int xSet = 0;
+    int ySet = 0;
+    int wSet = 0;
+    int hSet = 0;
 
+    for(Set s : allSets){
+      String name = s.getName();
+      String curr = currSet.getName();
+      if(name.compareToIgnoreCase(curr) == 0){
+        xSet = s.getCardX();
+        ySet = s.getCardY();
+        wSet = s.getCardW();
+        hSet = s.getCardH();
+      }
+    }
 
 
 
@@ -637,6 +662,7 @@ public class Deadwood{
       if(name.compareToIgnoreCase(setsCard) == 0){
         if(sceneNum == setSceneNum){
           //removing card from set
+          board.coverCard(xSet, ySet, wSet, hSet);
           currSet.removeCard();
           boolean done = allCards.remove(c);
           break;
