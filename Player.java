@@ -193,7 +193,7 @@ public class Player{
         int roll = newDice.getValue() + playerReheasalCredits;
         if(this.roleBudget <= roll){
           if(this.onCard()){
-            playerCredits += 2;    //pay for on card
+            playerDollars += 2;    //pay for on card
           }
           else{
             playerCredits += 1;    //pay for off card
@@ -203,7 +203,7 @@ public class Player{
           return 1;
         }else{
           if(!onCard()){
-            playerCredits += 1;
+            playerDollars += 1;
           }
           System.out.println("FAIL");
         }
@@ -279,7 +279,6 @@ public class Player{
   //Input:   int (bonus)
   public void wraps(int bonus){
     this.hasRole = false;
-    this.roleRank = 1;
     this.roleBudget = 0;
     this.playerRole = null;
     this.onOffCard = "none";

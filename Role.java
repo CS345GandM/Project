@@ -8,6 +8,7 @@ public class Role {
 	private String roleTitle;  //Name of the role
 	private int roleRank;      //Value of the role's rank
 	private String roleLine;   //The role's line
+	private boolean onCard;
 	private int roleX;
 	private int roleY;
 	private int roleW;
@@ -15,7 +16,7 @@ public class Role {
 
 
 	//Constructor of Role
-	public Role(String roleTitle, int roleRank, String roleLine, int x, int y, int w, int h) {
+	public Role(String roleTitle, int roleRank, String roleLine, int x, int y, int w, int h, boolean on) {
 		this.roleTitle = roleTitle;
 		this.roleRank = roleRank;
 		this.roleLine = roleLine;
@@ -23,6 +24,7 @@ public class Role {
 		this.roleY = y;
 		this.roleW = w;
 		this.roleH = h;
+		this.onCard = on;
 	}
 
 	public int getRoleX(){
@@ -54,6 +56,12 @@ public class Role {
 	//Purpose: get the line of the player's current role(for particular scene)
 	public String getRoleLine() {
 		return roleLine;
+	}
+
+	//Getter: getRoleLine
+	//Purpose: get the line of the player's current role(for particular scene)
+	public boolean getRolePlace() {
+		return onCard;
 	}
 
 	//Method: display()

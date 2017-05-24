@@ -85,18 +85,22 @@ public class Deadwood{
         }
         //remove last card
         String cardName = "";
-
+        int currCardSceneNum = 0;
         for(Set s : allSets){
           String name = s.getName();
           if(name.compareToIgnoreCase(room) == 0){
             cardName = s.getCardName();
+            currCardSceneNum = s.getCardSceneNumber();
           }
         }
         Cards currCard = null;
         for(Cards c : allCards){
+          int cardSceneNum = c.getSceneNumber();
           String name = c.getName();
           if(name.compareToIgnoreCase(cardName) == 0){
-            boolean done = allCards.remove(c);
+            if(cardSceneNum == currCardSceneNum){
+              boolean done = allCards.remove(c);
+            }
           }
         }
         daysComplete++;
@@ -173,7 +177,7 @@ public class Deadwood{
       int rehearsalCredits = x.getPlayerRehearsalCredits();
 
 
-      board.addPlayerInfo(color, dollars, credits, rehearsalCredits);
+      board.addPlayerInfo(color, credits, dollars, rehearsalCredits);
       //board.displayErrorMessage("");
 
 
@@ -259,13 +263,18 @@ public class Deadwood{
            }
            String desiredRole = desRole.substring(0, desRole.length() - 1);
 
+           String currPlayerLocation = x.getPlayerLocation();
+
            boolean goodToGo = true;
            for(Player player : allPlayers){
-             Player currPlayer = player;
-             if(currPlayer.getRoleStatus() == true){  //has a role
-               String playerRole = currPlayer.getRoleName();
-               if(playerRole.compareToIgnoreCase(desiredRole) == 0){ // role taken
-                 goodToGo = false;
+             //Player currPlayer = player;
+             if(player.getRoleStatus() == true){  //has a role
+               String pLocal = player.getPlayerLocation();
+               if(pLocal.compareToIgnoreCase(currPlayerLocation) == 0){//in the same room --> right role place
+                 String playerRole = player.getRoleName();
+                 if(playerRole.compareToIgnoreCase(desiredRole) == 0){ // role taken
+                   goodToGo = false;
+                 }
                }
              }
            }
@@ -278,15 +287,22 @@ public class Deadwood{
            int xValueSet = 0;
            int yValueSet = 0;
 
-
+           boolean onCard = false;
            for(Set s : allSets){
              String name = s.getName();
              if(name.compareToIgnoreCase(room) == 0){
-               if(s.hasThisRole(desiredRole)){
+               if(s.hasThisRoleOff(desiredRole)){
                  newBudget = s.getBudget();
                  xValueSet = s.getCardX();
                  yValueSet = s.getCardY();
                  rightPlace = true;
+
+               }else if(s.hasThisRoleOn(desiredRole)){
+                 newBudget = s.getBudget();
+                 xValueSet = s.getCardX();
+                 yValueSet = s.getCardY();
+                 rightPlace = true;
+                 onCard = true;
                }
              }
            }
@@ -297,33 +313,41 @@ public class Deadwood{
              int yValue = 0;
              int wValue = 0;
              int hValue = 0;
+             int rank = 0;
 
              for(Role r : allRoles){
                String currName = r.getRoleTitle();
                int comparing = currName.compareToIgnoreCase(desiredRole);
                if( comparing == 0){
-                 int rank = r.getRoleRank();
-                 xValue = r.getRoleX();
-                 yValue = r.getRoleY();
-                 wValue = r.getRoleW();
-                 hValue = r.getRoleH();
+                 if(r.getRolePlace() == onCard)
+                   rank = r.getRoleRank();
+                   xValue = r.getRoleX();
+                   yValue = r.getRoleY();
+                   wValue = r.getRoleW();
+                   hValue = r.getRoleH();
 
 
-                 result = x.work(r, newBudget, rank);
+                   result = x.work(r, newBudget, rank);
                }
              }
 
              if(result == 1){
-               boolean isOn = false;
-               for(Cards c : allCards){
+               //boolean isOn = false;
+              /* for(Cards c : allCards){
                  if(c.isARole(desiredRole) == true){
                    isOn = true;
                    xValue += xValueSet;
                    yValue += yValueSet;
                  }
+               }*/
+
+               if(onCard){
+                 xValue += xValueSet;
+                 yValue += yValueSet;
                }
+
                //check on or off card
-               x.onOrOff(isOn);
+               x.onOrOff(onCard);
                completed.add(rehearse);
                completed.add(act);
                completed.add(work);
@@ -341,7 +365,7 @@ public class Deadwood{
              }
            }else{
              if(goodToGo){
-               System.out.println("here");
+
                board.displayErrorMessage("Sorry, this role isn't available at your current location");
              }else{
                board.displayErrorMessage("Sorry, this role is already taken");
@@ -493,6 +517,7 @@ public class Deadwood{
     Dice newDice = new Dice();
     for(int x = 0; x < budget; x++){
       diceRolls[x] = newDice.getValue();
+
     }
 
     //decreasing.
@@ -500,28 +525,50 @@ public class Deadwood{
 
     //based on current set and current card
     int numRoles = 0;
-    int[] rankOrder = null;
+
     for(Cards c : allCards){
       String name = c.getName();
-      String setsCard = currSet.getName();
+      int sceneNum = c.getSceneNumber();
+      String setsCard = currSet.getCardName();
+      int setSceneNum = currSet.getCardSceneNumber();
       if(name.compareToIgnoreCase(setsCard) == 0){
-        numRoles = c.getNumRoles();
-        rankOrder = c.getRoleRanks();
+        if(sceneNum == setSceneNum){
+          numRoles = c.getNumRoles();
+        }
       }
     }
+
+    int weird = 1;
+    int[] rankOrder = new int[numRoles];
+    //int rankCounter = 1;
+    for(Cards c : allCards){
+      String name = c.getName();
+      int sceneNum = c.getSceneNumber();
+      String setsCard = currSet.getCardName();
+      int setSceneNum = currSet.getCardSceneNumber();
+      if(name.compareToIgnoreCase(setsCard) == 0){
+        if(sceneNum == setSceneNum){
+          for(int check = 0; check < numRoles; check++){
+            rankOrder[check] = c.getRoleRanks(check);
+
+          }
+        }
+      }
+    }
+
 
 
     //tracks if there's a player on the card
     boolean onCard = false;
 
-    int spot = budget;//dice rolls
+    int spot = budget - 1;//dice rolls
     int track = numRoles - 1;//roles starting at highest ranked
     int[] winnings = new int[numRoles];
 
     //calculating on card winnings
-    while(spot < budget){
+    while(spot >= 0){
       //highest to lowest
-      if(track > 0){
+      if(track >= 0){
         winnings[track] = winnings[track] + diceRolls[spot];
         track--;
         spot--;
@@ -529,6 +576,11 @@ public class Deadwood{
         track = numRoles - 1;
       }
     }
+
+    for(int cash = 0; cash < numRoles; cash++){
+      System.out.println("Winnings: " + winnings[cash] + " Role value: " + rankOrder[cash]);
+    }
+
 
     String currentSetName = currSet.getName();
 
@@ -540,11 +592,16 @@ public class Deadwood{
         if(currPlayerLocation.compareToIgnoreCase(currentSetName) == 0){
           onCard = true;
           int roleRank = player.getRoleRank();
-          spot = 0;
-          while(roleRank != rankOrder[spot]){
-            spot++;
+          //spot = 0;
+          int here = 0;
+          for(int loop = 0; loop < numRoles; loop++){
+            if(roleRank == rankOrder[loop]){
+              here = loop;
+            }
           }
-          player.wraps(winnings[spot]);
+          System.out.println("Here, winnings @ spot: " + winnings[here]);
+          //int bonus = winnings[]
+          player.wraps(winnings[here]);
         }
       }
     }
@@ -567,19 +624,30 @@ public class Deadwood{
     }
 
 
-    //removing card from set
 
-    currSet.removeCard();
+
+
 
     //removing card from card arrayList
     for(Cards c : allCards){
       String name = c.getName();
-      String setsCard = currSet.getName();
+      int sceneNum = c.getSceneNumber();
+      String setsCard = currSet.getCardName();
+      int setSceneNum = currSet.getCardSceneNumber();
       if(name.compareToIgnoreCase(setsCard) == 0){
-        boolean done = allCards.remove(c);
+        if(sceneNum == setSceneNum){
+          //removing card from set
+          currSet.removeCard();
+          boolean done = allCards.remove(c);
+          break;
+        }
       }
     }
+
+
   }
+
+
 
 
   //Method: finalScore
@@ -694,8 +762,8 @@ public class Deadwood{
               }
 
 
-              allRoles.add(new Role(roleTitle, roleRank, roleLine, roleX, roleY, roleW, roleH));
-              roleList.add(new Role(roleTitle, roleRank, roleLine, roleX, roleY, roleW, roleH));
+              allRoles.add(new Role(roleTitle, roleRank, roleLine, roleX, roleY, roleW, roleH, true));
+              roleList.add(new Role(roleTitle, roleRank, roleLine, roleX, roleY, roleW, roleH, true));
             }
           allCards.add(new Cards(cardName, cardBudget, cardNumber, roleList, cardLine, pngName)); //add these new card objects into the card arraylist(from beginning)
           }
@@ -864,8 +932,8 @@ public class Deadwood{
 
 
 
-              allRoles.add(new Role(roleName, roleRank, roleLine, roleX, roleY, roleW, roleH));
-              roleArray.add(new Role(roleName, roleRank, roleLine, roleX, roleY, roleW, roleH));
+              allRoles.add(new Role(roleName, roleRank, roleLine, roleX, roleY, roleW, roleH, false));
+              roleArray.add(new Role(roleName, roleRank, roleLine, roleX, roleY, roleW, roleH, false));
             }
             allSets.add(new Set(name, numTakes, roleArray, cardX, cardY, cardW, cardH));
           }

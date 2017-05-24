@@ -66,6 +66,13 @@ public class Set{
      return cardName.getName();
    }
 
+   //Getter:  getCardSceneNumber
+   //Purpose: get the name of the card for a set
+   public int getCardSceneNumber(){
+     //String needName = cardName.getName();
+     return cardName.getSceneNumber();
+   }
+
    //Getter:  getNumRoles
    //Purpose: get number of extra roles of a set
    public int getNumRoles(){
@@ -107,13 +114,18 @@ public class Set{
      return budget;
    }
 
-   public boolean hasThisRole(String desiredRole){
+   public boolean hasThisRoleOff(String desiredRole){
      for(Role r : extraRoles){
        String role = r.getRoleTitle();
        if(role.compareToIgnoreCase(desiredRole) == 0){
+         if(!r.getRolePlace())
          return true;
        }
      }
+     return false;
+   }
+
+   public boolean hasThisRoleOn(String desiredRole){
      return cardName.isARole(desiredRole);
    }
 }

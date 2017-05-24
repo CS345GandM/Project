@@ -56,6 +56,12 @@ public class Cards{
       return budget;
    }
 
+   //Getter:  getSceneNumber
+   //Purpose: get the card's budget
+   public int getSceneNumber(){
+      return sceneNum;
+   }
+
    //Method:  isARole()
    //Purpose: check if the player's role is contained in the onCardRoles array
    //Input:   String - name of a role
@@ -74,14 +80,9 @@ public class Cards{
    //Purpose: get the values of all the roles
    //Input:   none
    //Output:  an array of integers sorted
-   public int[] getRoleRanks(){
-     int[] ranks = new int[onCardRoles.size()];
-     int track = 0;
-     for(Role r : onCardRoles){
-       ranks[track] = r.getRoleRank();
-       track++;
-     }
-     Arrays.sort(ranks);
-     return ranks;
+   public int getRoleRanks(int spot){
+     Role r = onCardRoles.get(spot);
+     int rank = r.getRoleRank();
+     return rank;
    }
 }
