@@ -65,7 +65,8 @@ public class Deadwood{
           String currRoom = r.getRoomName();
           if(currRoom.compareToIgnoreCase("Trailer") == 0){
             for(Player player : allPlayers){
-              ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Here, move player tokin back to Trailer
+              String color = player.getPlayerColor();
+              board.moveDice(color, 1000, 350, 46, 46);
               player.newDay(r);
             }
           }
@@ -345,14 +346,6 @@ public class Deadwood{
              }
 
              if(result == 1){
-               //boolean isOn = false;
-              /* for(Cards c : allCards){
-                 if(c.isARole(desiredRole) == true){
-                   isOn = true;
-                   xValue += xValueSet;
-                   yValue += yValueSet;
-                 }
-               }*/
 
                if(onCard){
                  xValue += xValueSet;

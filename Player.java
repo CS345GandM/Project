@@ -240,7 +240,7 @@ public class Player{
 
         int r = dollars[rank - 2];
         if(playerDollars >= r){
-          roleRank++;
+          roleRank = rank;
           playerDollars = playerDollars - dollars[rank - 2];
           return 1;
         }
@@ -249,7 +249,7 @@ public class Player{
       if(inputType.compareToIgnoreCase(credit) == 0){
         int r = credits[rank -2];
         if(playerCredits >= r){
-          roleRank++;
+          roleRank = rank;
           playerCredits = (playerCredits - credits[rank - 2]);
           return 1;
         }
