@@ -1,4 +1,5 @@
-
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.JLayeredPane;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -25,6 +26,8 @@ public class Board extends JLayeredPane {
   private JLabel redJLabel;
   private JLabel greenJLabel;
   private JLabel orangeJLabel;
+
+
 
   //throws excpetion incase jpg isn't there. best way to handle error
 
@@ -67,6 +70,11 @@ public class Board extends JLayeredPane {
     this.errorMessage.setBounds(1210,600, 150, 150);
   }
 
+  public void addListeners(CustomMouseListener c){
+    act.addMouseListener(c);
+  ///
+  }
+
 
   public void setUpPlayerInfo(){
     this.name = new JLabel();
@@ -76,6 +84,7 @@ public class Board extends JLayeredPane {
     this.errorMessage = new JLabel();
 
     act = new JButton("Act");
+    act.addMouseListener(new CustomMouseListener());
     act.setBackground(Color.green);
     act.setBounds(1210, 300, 60, 30);
 
