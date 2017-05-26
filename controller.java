@@ -13,19 +13,27 @@ import java.awt.event.WindowEvent;
 public class controller{
 
   public static void main(String[] args) throws Exception{
-    board = new Board();
+    Board display = new Board();
+    JFrame frame = new JFrame();
 
-    board.makeBoard(); //Board LayeredPane
-    board.setUpPlayerInfo(); //Player LayeredPane
 
-    board.makeDice(numPlayers);
+    Deadwood2 deadwood = new Deadwood2();
+
+    int numPlayers = Integer.parseInt(args[0]);
+    int totalScenes = 22;
+    int remainingScenes = totalScenes;
+
+    display.makeBoard(); //Board LayeredPane
+    display.setUpPlayerInfo(); //Player LayeredPane
+
+    display.makeDice(numPlayers);
 
     frame.setTitle("Deadwood");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setPreferredSize(new Dimension(1400,900)); //not right dimension
     frame.setResizable(false);
 
-    frame.getContentPane().add(board);
+    frame.getContentPane().add(display);
 
     //JPanel act = new JPanel();
     //act.setlovation();
@@ -34,25 +42,21 @@ public class controller{
 
 
 
-    //board.makeDice(numPlayers);
+    //display.makeDice(numPlayers);
 
     frame.pack();
     frame.setVisible(true);
-    Deadwood2 deadwood = new Deadwood2();
 
-    int numPlayers = Integer.parseInt(args[0]);
-    int totalScenes = 22;
-    int remainingScenes = totalScenes;
 
     int numDays = deadwood.setDays(numPlayers);
     ArrayList<Player> players = deadwood.makePlayers(numPlayers);
     deadwood.board();
     deadwood.cards();
-    deadwood.makeGame(Board board);
+    deadwood.makeGame(display);
 
     String room = "";
     while(numDays > 0){
-      deadwood.associateCards(Board board);
+      deadwood.associateCards(display);
       while(remainingScenes > totalScenes - 1){
         for(Player x : players){
           if(remainingScenes > totalScenes - 1){
@@ -61,7 +65,7 @@ public class controller{
             int dollars = x.getPlayerDollars();
             int credits = x.getPlayerCredits();
             int rehearsalCredits = x.getPlayerRehearsalCredits();
-            //board.addPlayerInfo(color, credits, dollars, rehearsalCredits);
+            display.addPlayerInfo(color, credits, dollars, rehearsalCredits);
             //deadwood.act(x);
             //deadwood.
             /////////////////////////////////////turns
@@ -80,33 +84,29 @@ public class controller{
 
   }
 
-  class CustomMouseListener implements MouseListener {
-     public void mouseClicked(MouseEvent e) {
-       board.addListeners(CustomMouseListener)
-        String button;
-        swtich(button){
-          case "act":
-          deadwood.act();
-          System.out.println("CLICKED ACT");
-          break;
-          default:
-          System.out.println("ERROR NO BUTTON");
-        }
-
-     }
-     public void mousePressed(MouseEvent e) {
-     }
-     public void mouseReleased(MouseEvent e) {
-     }
-     public void mouseEntered(MouseEvent e) {
-     }
-     public void mouseExited(MouseEvent e) {
-     }
-  }
+}
 
 
+class CustomMouseListener implements MouseListener {
+   public void mouseClicked(MouseEvent e) {
+     //display.addListeners(CustomMouseListener)
+      String button;
+      switch(button){
+        case "act":
+        deadwood.act();
+        System.out.println("CLICKED ACT");
+        break;
+        default:
+        System.out.println("ERROR NO BUTTON");
+      }
 
-
-
-
+   }
+   public void mousePressed(MouseEvent e) {
+   }
+   public void mouseReleased(MouseEvent e) {
+   }
+   public void mouseEntered(MouseEvent e) {
+   }
+   public void mouseExited(MouseEvent e) {
+   }
 }

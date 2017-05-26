@@ -84,7 +84,7 @@ public class Board extends JLayeredPane {
     this.errorMessage = new JLabel();
 
     act = new JButton("Act");
-    act.addMouseListener(new CustomMouseListener());
+    //act.addMouseListener(new CustomMouseListener());
     act.setBackground(Color.green);
     act.setBounds(1210, 300, 60, 30);
 
