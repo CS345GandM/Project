@@ -15,17 +15,22 @@ import javax.swing.JPanel;
 
 
 public class controller{
-  private static String command = "end";
-  private static JPanel buttonPanel = new JPanel();;
-  private static JButton act;
-  private static JButton move;
-  private static JButton work;
-  private static JButton rehearse;
-  private static JButton upgrade;
-  private static JButton end;
+  private String command = "end";
+  private JPanel buttonPanel = new JPanel();;
+  private JButton act;
+  private JButton move;
+  private JButton work;
+  private JButton rehearse;
+  private JButton upgrade;
+  private JButton end;
   //private static Board display = new Board();
 
   public static void main(String[] args) throws Exception{
+    controller c = new controller();
+    c.start(args);
+  }
+
+  private void start(String[] args) throws Exception{
     Board display = new Board();
     JFrame frame = new JFrame();
 
@@ -40,6 +45,7 @@ public class controller{
     display.makeBoard(); //Board LayeredPane
     display.setUpPlayerInfo(); //Player LayeredPane
     frame.add(buttonPanel);
+    buttonPanel.setBounds(1201, 500, 90, 400);
     display.makeDice(numPlayers);
 
     frame.setTitle("Deadwood");
@@ -73,6 +79,8 @@ public class controller{
               display.addPlayerInfo(color, credits, dollars, rehearsalCredits);
               if(command.compareToIgnoreCase("act") == 0){
                 deadwood.act(x);
+              }else if(command.compareToIgnoreCase("move") == 0){
+                //deadwood.move(x);
               }
               //deadwood.act(x);
               //deadwood.
@@ -97,14 +105,19 @@ public class controller{
     command = "act";
   }
 
-  private static void makeButtons(){
+  public void callMove(){
+   command = "move";
+  }
+
+  private void makeButtons(){
     buttonPanel.setSize(200, 500);
     act = new JButton("Act");
-    //act.addMouseListener(new CustomMouseListener());
+    act.addMouseListener(new CustomMouseListener("act"));
     act.setBackground(Color.green);
     act.setBounds(1210, 300, 60, 30);
 
     move = new JButton("Move");
+    move.addMouseListener(new CustomMouseListener("move"));
     move.setBackground(Color.gray);
     move.setBounds(1210, 350, 75, 30);
 
@@ -133,19 +146,27 @@ public class controller{
   }
 
   class CustomMouseListener implements MouseListener {
+     private String button;
+     public CustomMouseListener(String name){
+      button = name;
+     }
      public void mouseClicked(MouseEvent e) {
-       //display.addListeners(CustomMouseListener);
-        String button = "";
-        switch(button){
+          switch(button){
           case "act":
           callAct();
           System.out.println("CLICKED ACT");
           break;
+          case "move":
+          callMove();
+          System.out.println("CLICKED MOVE");
+          break;
           default:
+
           System.out.println("ERROR NO BUTTON");
         }
 
      }
+
      public void mousePressed(MouseEvent e) {
      }
      public void mouseReleased(MouseEvent e) {
