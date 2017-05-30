@@ -49,7 +49,10 @@ public class controller{
 
 
     buttonPanel.setSize(200, 500);
-    buttonPanel.setBounds(1201, 400, 90, 300);
+    buttonPanel.setBounds(1250, 400, 90, 300);
+
+    movePanel.setSize(200, 500);
+    movePanel.setBounds(1250, 700, 90, 200);
 
 
     Deadwood2 deadwood = new Deadwood2();
@@ -74,12 +77,17 @@ public class controller{
     frame.pack();
     frame.setVisible(true);
 
-
     int numDays = deadwood.setDays(numPlayers);
     ArrayList<Player> players = deadwood.makePlayers(numPlayers);
     deadwood.board();
     deadwood.cards();
     deadwood.makeGame(display);
+
+    String message = "";
+    for(Player p : players){
+      message = message + "<br>" + deadwood.finalScore(p, display);
+    }
+    display.displayErrorMessage(message);
 
     String room = "";
     while(numDays > 0){
@@ -135,7 +143,7 @@ public class controller{
     }
 
     for(Player x : players){
-      deadwood.finalScore(x);
+      deadwood.finalScore(x, display);
     }
 
   }
@@ -145,31 +153,34 @@ public class controller{
   }
 
   public void callMove(){
-    frame.remove(buttonPanel);
+    //buttonPanel.setVisible(false);
     frame.add(movePanel);
-    movePanel.setSize(200, 500);
-    movePanel.setBounds(1201, 400, 90, 300);
     callGetDest();
+    //movePanel.setSize(200, 500);
+    //movePanel.setBounds(1201, 400, 90, 300);
 
-    frame.invalidate();
+
+    frame.revalidate();
     frame.repaint();
-
+    frame.setVisible(true);
 
 
     frame.remove(movePanel);
-    frame.add(buttonPanel);
-
-    buttonPanel.setSize(200, 500);
-    buttonPanel.setBounds(1201, 400, 90, 300);
 
 
-    //frame.invalidate();
-  //  frame.repaint();
+    //buttonPanel.setSize(200, 500);
+    //buttonPanel.setBounds(1201, 400, 90, 300);
+
+
+    frame.revalidate();
+    frame.repaint();
+    //frame.pack();
 
     command = "move";
   }
 
   public void callGetDest(){
+
     JLabel test = new JLabel();
     test.setText("Is this working?");
     movePanel.add(test);
@@ -178,6 +189,8 @@ public class controller{
     getDesiredDest = new JTextField(50);
     movePanel.add(getDesiredDest);
     getDesiredDest.addActionListener(new ActionListener(){
+      //System.out.println("HERE");
+
       public void actionPerformed(ActionEvent e){
         desiredDest = getDesiredDest.getText();
         System.out.println(desiredDest);

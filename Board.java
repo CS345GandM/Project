@@ -67,7 +67,7 @@ public class Board extends JLayeredPane {
 
   public void displayErrorMessage(String message){
     this.errorMessage.setText("<html>" + message + "</html>");
-    this.errorMessage.setBounds(1210,750, 150, 150);
+    this.errorMessage.setBounds(1210,130, 150, 250);
   }
 
 
@@ -91,16 +91,16 @@ public class Board extends JLayeredPane {
   public void addPlayerInfo(String color, int crd, int dol, int rhal){
 
     this.name.setText("Player: " + color.toUpperCase());
-    this.name.setBounds(1210,0, 150, 150);
+    this.name.setBounds(1210,10, 150, 15);
 
     this.credits.setText("Players Credits: " + crd);
-    this.credits.setBounds(1210, 50, 150, 150);
+    this.credits.setBounds(1210, 40, 150, 15);
 
     this.dollars.setText("Players Dollars " + dol);
-    this.dollars.setBounds(1210, 100, 150, 150);
+    this.dollars.setBounds(1210, 70, 150, 15);
 
     this.rehearsalCredits.setText("<html>" + "Players Rehearsal Credits " + rhal + "</html");
-    this.rehearsalCredits.setBounds(1210, 150, 150, 150);
+    this.rehearsalCredits.setBounds(1210, 100, 150, 30);
 
   }
 

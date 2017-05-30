@@ -575,15 +575,15 @@ public class Deadwood2{
   //Method: finalScore
   //Purpose: display different aspects of players final score and final score
 
-  public static void finalScore(Player player) {
+  public static String finalScore(Player player, Board board) {
     int score = calcScore(player);
-    System.out.println("--------------------------------------");
-    System.out.println("Name:             " + player.getPlayerColor());
-    System.out.println("Rank:             " + player.getPlayerRank());
-    System.out.println("Credit:           " + player.getPlayerCredits());
-    System.out.println("Money:            " + player.getPlayerDollars());
-    System.out.println("TOTAL SCORE:      " + score);
-    System.out.println("--------------------------------------");
+    String message = "-------------------<br>Name: " + player.getPlayerColor()
+    + "<br>Rank: " + player.getPlayerRank()
+    + "<br>Credit: " + player.getPlayerCredits()
+    + "<br>Money: " + player.getPlayerDollars()
+    + "<br>TOTAL SCORE: " + score
+    + "<br>-------------------";
+    return message;
   }
 
   //Method: calcScore()
