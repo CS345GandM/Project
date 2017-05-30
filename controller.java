@@ -9,10 +9,12 @@ import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.*;
+import java.awt.*;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import java.awt.BorderLayout;
 
 import javax.swing.JLabel;
 
@@ -52,7 +54,7 @@ public class controller{
     buttonPanel.setBounds(1250, 400, 90, 300);
 
     movePanel.setSize(200, 500);
-    movePanel.setBounds(1250, 700, 90, 200);
+    movePanel.setBounds(1210, 630, 180, 75);
 
 
     Deadwood2 deadwood = new Deadwood2();
@@ -65,6 +67,7 @@ public class controller{
     display.makeBoard(); //Board LayeredPane
     display.setUpPlayerInfo(); //Player LayeredPane
     frame.add(buttonPanel);
+    frame.add(movePanel);
     makeButtons();
     display.makeDice(numPlayers);
 
@@ -82,12 +85,6 @@ public class controller{
     deadwood.board();
     deadwood.cards();
     deadwood.makeGame(display);
-
-    String message = "";
-    for(Player p : players){
-      message = message + "<br>" + deadwood.finalScore(p, display);
-    }
-    display.displayErrorMessage(message);
 
     String room = "";
     while(numDays > 0){
@@ -113,7 +110,8 @@ public class controller{
                 }
               }else if(command.compareToIgnoreCase("move") == 0){
                 command = " ";
-                //deadwood.move(x, desiredDest, display);
+                System.out.print(desiredDest);
+                deadwood.move(x, desiredDest, display);
               }else if(command.compareToIgnoreCase("work") == 0){
                 command = " ";
                 //deadwood.work(x, desiredRole, display);
@@ -142,62 +140,64 @@ public class controller{
       numDays--;
     }
 
-    for(Player x : players){
-      deadwood.finalScore(x, display);
+    //display final scores
+    String message = "";
+    for(Player p : players){
+      message = message + "<br>" + deadwood.finalScore(p, display);
     }
+    display.displayErrorMessage(message);
 
   }
 
   public void callAct(){
-    command = "act";
-  }
+    getDesiredDest = new JTextField(10);
 
-  public void callMove(){
-    //buttonPanel.setVisible(false);
-    frame.add(movePanel);
-    callGetDest();
-    //movePanel.setSize(200, 500);
-    //movePanel.setBounds(1201, 400, 90, 300);
+    movePanel.add(getDesiredDest);
 
-
-    frame.revalidate();
-    frame.repaint();
     frame.setVisible(true);
 
-
-    frame.remove(movePanel);
-
-
-    //buttonPanel.setSize(200, 500);
-    //buttonPanel.setBounds(1201, 400, 90, 300);
-
-
-    frame.revalidate();
-    frame.repaint();
-    //frame.pack();
-
-    command = "move";
-  }
-
-  public void callGetDest(){
-
-    JLabel test = new JLabel();
-    test.setText("Is this working?");
-    movePanel.add(test);
-
-
-    getDesiredDest = new JTextField(50);
-    movePanel.add(getDesiredDest);
-    getDesiredDest.addActionListener(new ActionListener(){
-      //System.out.println("HERE");
-
+    getDesiredDest.addActionListener(new ActionListener()
+    {
       public void actionPerformed(ActionEvent e){
-        desiredDest = getDesiredDest.getText();
-        System.out.println(desiredDest);
-        System.out.println("HERE");
+        desiredRole = getDesiredDest.getText();
+        movePanel.remove(getDesiredDest);
+        frame.revalidate();
+        frame.repaint();
+        command = "act";
+        //System.out.println(desiredDest);
+        //System.out.println("HERE");
+
       }
     });
   }
+
+  public void callMove(){
+
+    getDesiredDest = new JTextField(10);
+
+    movePanel.add(getDesiredDest);
+
+    frame.setVisible(true);
+
+    getDesiredDest.addActionListener(new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e){
+        desiredDest = getDesiredDest.getText();
+        movePanel.remove(getDesiredDest);
+        frame.revalidate();
+        frame.repaint();
+        command = "move";
+        System.out.println(desiredDest);
+        System.out.println("HERE");
+
+      }
+    });
+
+
+
+  }
+
+
 
   public void callUpgrade(){
     command = "upgrade";
