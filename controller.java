@@ -27,7 +27,8 @@ public class controller{
   private JButton move;
   private JButton work;
   private JButton rehearse;
-  private JButton upgrade;
+  private JButton upgradeDollars;
+  private JButton upgradeCredits;
   private JButton end;
   private JTextField getDesiredDest;
 
@@ -51,7 +52,7 @@ public class controller{
 
 
     buttonPanel.setSize(200, 500);
-    buttonPanel.setBounds(1250, 400, 90, 300);
+    buttonPanel.setBounds(1225, 400, 175, 300);
 
     movePanel.setSize(200, 500);
     movePanel.setBounds(1210, 630, 180, 75);
@@ -91,7 +92,10 @@ public class controller{
       deadwood.associateCards(display);
       while(remainingScenes > 1){//checks day
         for(Player x : players){//loops through players
+          display.displayErrorMessage(" ");
+          ArrayList<String> hasDone = new ArrayList<String>();
           boolean turn = true;
+          int result = 0;
           while(turn){//still have a turn
             if(remainingScenes > 1){//the day is not over
               //display player info
@@ -102,28 +106,98 @@ public class controller{
               display.addPlayerInfo(color, credits, dollars, rehearsalCredits);
 
               if(command.compareToIgnoreCase("act") == 0){
-                command = " ";
+                if(!hasDone.contains(command)){
+                  command = " ";
 
-                int result = deadwood.act(x);
-                if(result == 1){
-                  remainingScenes--;
+                  result = deadwood.act(x, display);
+                  if(result == 1){
+                    remainingScenes--;
+                    hasDone.add("act");
+                    hasDone.add("move");
+                    hasDone.add("work");
+                    hasDone.add("rehearse");
+                    hasDone.add("upgrade");
+                    //display.displayErrorMessage(" ");
+                  }else{
+                    //display.displayErrorMessage("Cannot do that Action");
+                  }
+                }else{
+                  display.displayErrorMessage("Cannot do that Action");
                 }
+
               }else if(command.compareToIgnoreCase("move") == 0){
-                command = " ";
-                System.out.print(desiredDest);
-                deadwood.move(x, desiredDest, display);
+                if(!hasDone.contains(command)){
+                  command = " ";
+
+                  result = deadwood.move(x, desiredDest, display);
+                  if(result == 1){
+                    hasDone.add("act");
+                    hasDone.add("move");
+                    hasDone.add("rehearse");
+                    display.displayErrorMessage(" ");
+                  }else{
+                    //display.displayErrorMessage(" ");
+                  }
+                }else{
+                  display.displayErrorMessage("Cannot do that Action");
+                }
               }else if(command.compareToIgnoreCase("work") == 0){
-                command = " ";
-                //deadwood.work(x, desiredRole, display);
-              }else if(command.compareToIgnoreCase("upgradeDollars") == 0){
-                command = " ";
-                //deadwood.upgradeDollars(x, up, display);
-              }else if(command.compareToIgnoreCase("upgradeCredits") == 0){
-                command = " ";
-                //deadwood.upgradeCredits(x, up, display);
+                if(!hasDone.contains(command)){
+                  command = " ";
+
+                  result = deadwood.work(x, desiredRole, display);
+                  if(result == 1){
+                    hasDone.add("act");
+                    hasDone.add("move");
+                    hasDone.add("work");
+                    hasDone.add("rehearse");
+                    hasDone.add("upgrade");
+                    display.displayErrorMessage(" ");
+                  }else{
+                    //display.displayErrorMessage("Cannot do that Action");
+                  }
+                }else{
+                  display.displayErrorMessage("Cannot do that Action");
+                }
+              }else if(command.compareToIgnoreCase("upgrade") == 0){
+                if(!hasDone.contains(command)){
+                  command = " ";
+
+                  if(type.compareToIgnoreCase("cr") == 0){
+                    result = deadwood.upgradeCredits(x, up, display);
+                  }else{
+                    result = deadwood.upgradeDollars(x, up, display);
+                  }
+                  if(result == 1){
+                    hasDone.add("act");
+                    hasDone.add("rehearse");
+                    hasDone.add("upgrade");
+                    display.displayErrorMessage(" ");
+                  }else{
+                    //display.displayErrorMessage("Cannot do that Action");
+                  }
+                }else{
+                  display.displayErrorMessage("Cannot do that Action");
+                }
+
               }else if(command.compareToIgnoreCase("rehearse") == 0){
-                command = " ";
-                //deadwood.rehearse(x, display);
+                if(!hasDone.contains(command)){
+                  command = " ";
+
+                  result = deadwood.rehearse(x, display);
+                  if(result == 1){
+                    hasDone.add("act");
+                    hasDone.add("move");
+                    hasDone.add("work");
+                    hasDone.add("rehearse");
+                    hasDone.add("upgrade");
+                    display.displayErrorMessage(" ");
+                  }else{
+                    //display.displayErrorMessage("Cannot do that Action");
+                  }
+                }else{
+                  display.displayErrorMessage("Cannot do that Action");
+                }
               }else if(command.compareToIgnoreCase("end") == 0){
                 command = " ";
                 turn = false;
@@ -135,6 +209,7 @@ public class controller{
           }
         }
       }
+      display.removeCovers();
       deadwood.resetGame(room);
       remainingScenes = totalScenes;
       numDays--;
@@ -150,31 +225,15 @@ public class controller{
   }
 
   public void callAct(){
-    getDesiredDest = new JTextField(10);
-
-    movePanel.add(getDesiredDest);
-
-    frame.setVisible(true);
-
-    getDesiredDest.addActionListener(new ActionListener()
-    {
-      public void actionPerformed(ActionEvent e){
-        desiredRole = getDesiredDest.getText();
-        movePanel.remove(getDesiredDest);
-        frame.revalidate();
-        frame.repaint();
-        command = "act";
-        //System.out.println(desiredDest);
-        //System.out.println("HERE");
-
-      }
-    });
+    command = "act";
   }
 
   public void callMove(){
 
     getDesiredDest = new JTextField(10);
-
+    JLabel info = new JLabel();
+    info.setText("Enter room name:");
+    movePanel.add(info);
     movePanel.add(getDesiredDest);
 
     frame.setVisible(true);
@@ -184,6 +243,7 @@ public class controller{
       public void actionPerformed(ActionEvent e){
         desiredDest = getDesiredDest.getText();
         movePanel.remove(getDesiredDest);
+        movePanel.remove(info);
         frame.revalidate();
         frame.repaint();
         command = "move";
@@ -192,21 +252,33 @@ public class controller{
 
       }
     });
-
-
-
   }
 
 
 
   public void callUpgrade(){
-    command = "upgrade";
-    //call something to get upgrade type and value
-    if(type.compareToIgnoreCase("$") == 0){
-      command = "upgradeDollars";
-    }else if(type.compareToIgnoreCase("cr") == 0){
-      command = "upgradeCredits";
-    }
+    getDesiredDest = new JTextField(10);
+    JLabel info = new JLabel();
+    info.setText("Enter # 2-6:");
+    movePanel.add(info);
+
+    movePanel.add(getDesiredDest);
+
+    frame.setVisible(true);
+
+    getDesiredDest.addActionListener(new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e){
+        up = Integer.parseInt(getDesiredDest.getText());
+        movePanel.remove(getDesiredDest);
+        movePanel.remove(info);
+        frame.revalidate();
+        frame.repaint();
+        command = "upgrade";
+        System.out.println(up);
+        System.out.println("HERE");
+      }
+    });
   }
 
   public void callEndTurn(){
@@ -218,8 +290,29 @@ public class controller{
   }
 
   public void callWork(){
-    command = "work";
-    //get desired role
+    getDesiredDest = new JTextField(10);
+    JLabel info = new JLabel();
+    info.setText("Enter role name:");
+    movePanel.add(info);
+
+    movePanel.add(getDesiredDest);
+
+    frame.setVisible(true);
+
+    getDesiredDest.addActionListener(new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e){
+        desiredRole = getDesiredDest.getText();
+        movePanel.remove(getDesiredDest);
+        movePanel.remove(info);
+        frame.revalidate();
+        frame.repaint();
+        command = "work";
+        System.out.println(desiredDest);
+        System.out.println("HERE");
+
+      }
+    });
   }
 
   private void makeButtons(){
@@ -227,38 +320,44 @@ public class controller{
     act = new JButton("Act");
     act.addMouseListener(new CustomMouseListener("act"));
     act.setBackground(Color.green);
-    act.setBounds(1210, 300, 60, 30);
+    act.setBounds(1210, 300, 150, 30);
 
     move = new JButton("Move");
     move.addMouseListener(new CustomMouseListener("move"));
     move.setBackground(Color.gray);
-    move.setBounds(1210, 350, 75, 30);
+    move.setBounds(1210, 350, 150, 30);
 
     work = new JButton("Work");
     work.addMouseListener(new CustomMouseListener("work"));
     work.setBackground(Color.red);
-    work.setBounds(1210, 400, 75, 30);
+    work.setBounds(1210, 400, 150, 30);
 
     rehearse = new JButton("Rehearse");
     rehearse.addMouseListener(new CustomMouseListener("rehearse"));
     rehearse.setBackground(Color.pink);
-    rehearse.setBounds(1210, 450, 110, 30);
+    rehearse.setBounds(1210, 450, 150, 30);
 
-    upgrade = new JButton("Upgrade");
-    upgrade.addMouseListener(new CustomMouseListener("upgrade"));
-    upgrade.setBackground(Color.blue);
-    upgrade.setBounds(1210, 500, 100, 30);
+    upgradeDollars = new JButton("Upgrade w/ Dollars");
+    upgradeDollars.addMouseListener(new CustomMouseListener("upgradeDollars"));
+    upgradeDollars.setBackground(Color.orange);
+    upgradeDollars.setBounds(1210, 500, 150, 30);
+
+    upgradeCredits = new JButton("Upgrade w/ Credits");
+    upgradeCredits.addMouseListener(new CustomMouseListener("upgradeCredits"));
+    upgradeCredits.setBackground(Color.orange);
+    upgradeCredits.setBounds(1210, 550, 150, 30);
 
     end = new JButton("End Turn");
     end.addMouseListener(new CustomMouseListener("end"));
     end.setBackground(Color.cyan);
-    end.setBounds(1210, 550, 100, 30);
+    end.setBounds(1210, 600, 150, 30);
 
     buttonPanel.add(act);
     buttonPanel.add(move);
     buttonPanel.add(work);
     buttonPanel.add(rehearse);
-    buttonPanel.add(upgrade);
+    buttonPanel.add(upgradeDollars);
+    buttonPanel.add(upgradeCredits);
     buttonPanel.add(end);
 
 
@@ -283,7 +382,13 @@ public class controller{
           callWork();
           System.out.println("CLICKED WORK");
           break;
-          case "upgrade":
+          case "upgradeDollars":
+          type = "$";
+          callUpgrade();
+          System.out.println("CLICKED UPGRADE");
+          break;
+          case "upgradeCredits":
+          type = "cr";
           callUpgrade();
           System.out.println("CLICKED UPGRADE");
           break;

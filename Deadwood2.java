@@ -133,6 +133,7 @@ public class Deadwood2{
   //Method:  makePlayers
   //Purpose: create players with color IDs
   public static ArrayList<Player> makePlayers(int numPlayers){
+    int xPlace = 0;
     String[] colors = new String[8];
     colors[0] = "blue";
     colors[1] = "red";
@@ -141,14 +142,15 @@ public class Deadwood2{
 
     for(int x = 0; x < numPlayers; x++){
       String name = colors[x];
-      allPlayers.add(new Player(name));
+      allPlayers.add(new Player(name, xPlace));
+      xPlace += 50;
     }
     //System.out.println("Deadwood" + allPlayers.get(0));
     return allPlayers;
   }
 
 
-  public void rehearse(Player x, Board board){
+  public int rehearse(Player x, Board board){
     int result = 0;
     if(x.getRoleStatus()){
       result = x.rehearse();
@@ -158,13 +160,15 @@ public class Deadwood2{
 
      if(result == 1){//success
        board.displayErrorMessage(" ");
+       return 1;
 
      }else{
        board.displayErrorMessage("Sorry, you cannot have more than 6 rehearsal credits");
      }
+     return 0;
   }
 
-  public int act(Player x){
+  public int act(Player x, Board board){
     int result = x.act();
 
     if(result == 1){
@@ -178,16 +182,18 @@ public class Deadwood2{
           if(remaining == 0){//WRAP SCENE
             String place = x.getPlayerLocation();
             int cardBudget = x.getCardBudget();
-            wraps(place, cardBudget, s);
+            wraps(place, cardBudget, s, board);
           }
         }
+        board.displayErrorMessage("Success!");
       }
       return 1; //success
     }
+    board.displayErrorMessage("Fail...");
     return 0; //fail
   }
 
-  public void work(Player x, String desiredRole, Board board){
+  public int work(Player x, String desiredRole, Board board){
     String color = x.getPlayerColor();
     int result = 0;
 
@@ -238,7 +244,6 @@ public class Deadwood2{
         }
       }
     }
-
     if(goodToGo && rightPlace){//role isn't taken
       //get desired role
       int xValue = 0;
@@ -280,6 +285,7 @@ public class Deadwood2{
 
 
         board.displayErrorMessage(" ");
+        return 1;
 
       }else{
         board.displayErrorMessage("Sorry,rank is not high enough for this role");
@@ -292,9 +298,10 @@ public class Deadwood2{
         board.displayErrorMessage("Sorry, this role is already taken");
       }
     }
+    return 0;
   }
 
-  public void move(Player x, String desiredDest, Board board){
+  public int move(Player x, String desiredDest, Board board){
     String color = x.getPlayerColor();
     int result = 0;
 
@@ -360,13 +367,14 @@ public class Deadwood2{
           for(Set s : allSets){
             String name = s.getName();
             if(name.compareToIgnoreCase(desiredDest) == 0){
-              xValue = s.getCardX() + 25;
+              xValue = s.getCardX() + 25 + x.getPlayerX();
               yValue = s.getCardY() + 115;
               hValue = 46;
               wValue = 46;
             }
           }
           board.moveDice(color, xValue, yValue, wValue, hValue);
+          return 1;
         }
       }else{
         board.displayErrorMessage("Cannot move while working on a scene");
@@ -374,9 +382,10 @@ public class Deadwood2{
     }else{
       board.displayErrorMessage("Cannot move to this location");
     }
+    return 0;
   }
 
-  public void upgradeDollars(Player x, int up, Board board)throws Exception{
+  public int upgradeDollars(Player x, int up, Board board)throws Exception{
     int result = x.upgrade("$", up);
     if(result == 1){//success
       String color = x.getPlayerColor();
@@ -393,10 +402,13 @@ public class Deadwood2{
       if(color.compareToIgnoreCase("orange") == 0){
         board.orangeRank(up);
       }
+      return 1;
     }
+    board.displayErrorMessage("Cannot upgrade to this rank with this method");
+    return 0;
   }
 
-  public void upgradeCredits(Player x, int up, Board board)throws Exception{
+  public int upgradeCredits(Player x, int up, Board board)throws Exception{
 
     int result = x.upgrade("cr", up);
     if(result == 1){//success
@@ -414,13 +426,16 @@ public class Deadwood2{
       if(color.compareToIgnoreCase("orange") == 0){
         board.orangeRank(up);
       }
+      return 1;
     }
+    board.displayErrorMessage("Cannot upgrade to this rank with this method");
+    return 0;
   }
 
   //Method: wraps
   //Purpose: wrap a scene
   //Input: String, int, Set
-  public static void wraps(String room, int budget, Set currSet){
+  public static void wraps(String room, int budget, Set currSet, Board board){
 
     int[] diceRolls = new int[budget];
     Dice newDice = new Dice();
@@ -493,6 +508,30 @@ public class Deadwood2{
 
     String currentSetName = currSet.getName();
 
+    int xSet = 0;
+    int ySet = 0;
+    int wSet = 0;
+    int hSet = 0;
+    int playerX = 0;
+    int playerY = 0;
+    int playerW = 0;
+    int playerH = 0;
+
+    for(Set s : allSets){
+      String name = s.getName();
+      if(name.compareToIgnoreCase(currentSetName) == 0){
+        xSet = s.getCardX();
+        ySet = s.getCardY();
+        wSet = s.getCardW();
+        hSet = s.getCardH();
+      }
+    }
+
+    playerX = xSet + 25;
+    playerY = ySet + 115;
+    playerW = 46;
+    playerH = 46;
+
     //handles on card roles
     for(Player player : allPlayers){
       String cardRole = player.getonOrOffCard();
@@ -508,12 +547,16 @@ public class Deadwood2{
               here = loop;
             }
           }
-          System.out.println("Here, winnings @ spot: " + winnings[here]);
-          //int bonus = winnings[]
+
           player.wraps(winnings[here]);
+          String color = player.getPlayerColor();
+          int newX = player.getPlayerX() + playerX;
+          board.moveDice(color, newX, playerY, playerW, playerH);
         }
       }
     }
+
+
 
     //handles off card roles
     for(Player player : allPlayers){
@@ -524,30 +567,20 @@ public class Deadwood2{
           if(onCard){ //if there is an on card player....
             int roleRank = player.getRoleRank();
             player.wraps(roleRank);
+            String color = player.getPlayerColor();
+            playerX += player.getPlayerX();
+            board.moveDice(color, playerX, playerY, playerW, playerH);
           }else{
             player.wraps(0);
+            String color = player.getPlayerColor();
+            playerX += player.getPlayerX();
+            board.moveDice(color, playerX, playerY, playerW, playerH);
           }
         }
 
       }
     }
 
-
-    int xSet = 0;
-    int ySet = 0;
-    int wSet = 0;
-    int hSet = 0;
-
-    for(Set s : allSets){
-      String name = s.getName();
-      String curr = currSet.getName();
-      if(name.compareToIgnoreCase(curr) == 0){
-        xSet = s.getCardX();
-        ySet = s.getCardY();
-        wSet = s.getCardW();
-        hSet = s.getCardH();
-      }
-    }
 
 
 

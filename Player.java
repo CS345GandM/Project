@@ -13,11 +13,12 @@ public class Player{
   private int     playerReheasalCredits;  //tracks their rehearsal credits
   private int     roleRank;               //tracks the player's rank
   private int     roleBudget;             //the card oject holds the role's budget
+  private int     playerX;
 
 
   //Constructor for player with a certain color(ID)
   //Initialize the player's attributes
-  public Player(String playerColor){
+  public Player(String playerColor, int x){
     this.playerColor = playerColor;
     this.hasRole = false;
     this.playerCredits = 0;
@@ -28,6 +29,7 @@ public class Player{
     this.playerRole = null;
     this.onOffCard = "none";
     this.playerReheasalCredits = 0;
+    this.playerX = x;
   }
 
 //******************************** Getters & Setters  *****************************************
@@ -41,6 +43,10 @@ public class Player{
   //Purpose: determine whether player's role is on or off a card
   public String getonOrOffCard(){
     return onOffCard;
+  }
+
+  public int getPlayerX(){
+    return playerX;
   }
 
   //Method:  onCard()
@@ -235,26 +241,27 @@ public class Player{
       credits[2] = 15;
       credits[3] = 20;
       credits[4] = 25;
+      if(rank <= 6){
+        String dollarSign = "$";
+        if(inputType.compareToIgnoreCase(dollarSign) == 0){
 
-      String dollarSign = "$";
-      if(inputType.compareToIgnoreCase(dollarSign) == 0){
-
-        int r = dollars[rank - 2];
-        if(playerDollars >= r){
-          roleRank = rank;
-          playerDollars = playerDollars - dollars[rank - 2];
-          return 1;
+          int r = dollars[rank - 2];
+          if(playerDollars >= r){
+            roleRank = rank;
+            playerDollars = playerDollars - dollars[rank - 2];
+            return 1;
+          }
         }
-      }
-      String credit = "cr";
-      if(inputType.compareToIgnoreCase(credit) == 0){
-        int r = credits[rank -2];
-        if(playerCredits >= r){
-          roleRank = rank;
-          playerCredits = (playerCredits - credits[rank - 2]);
-          return 1;
+        String credit = "cr";
+        if(inputType.compareToIgnoreCase(credit) == 0){
+          int r = credits[rank -2];
+          if(playerCredits >= r){
+            roleRank = rank;
+            playerCredits = (playerCredits - credits[rank - 2]);
+            return 1;
+          }
         }
-      }
+      }      
     }
 
     return 0;

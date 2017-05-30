@@ -53,7 +53,13 @@ public class Board extends JLayeredPane {
   public void coverCard(int x, int y, int w, int h){
     cardCover = new JLabel();
     cardCover.setBounds(x, y, w, h);
+    cardCover.setOpaque(true);
+    cardCover.setText("Set Wrapped");
     add(cardCover, new Integer(2));
+  }
+
+  public void removeCovers(){
+    remove(2);
   }
 
   public void addImage(String imageName, int xValue, int yValue, int wValue, int hValue) throws Exception{
