@@ -164,7 +164,7 @@ public class Deadwood2{
      }
   }
 
-  public void act(Player x){
+  public int act(Player x){
     int result = x.act();
 
     if(result == 1){
@@ -182,12 +182,16 @@ public class Deadwood2{
           }
         }
       }
+      return 1; //success
     }
+    return 0; //fail
   }
 
   public void work(Player x, String desiredRole, Board board){
     String color = x.getPlayerColor();
     int result = 0;
+
+    System.out.println(desiredRole);
 
     String currPlayerLocation = x.getPlayerLocation();
 
@@ -246,7 +250,6 @@ public class Deadwood2{
       for(Role r : allRoles){
         String currName = r.getRoleTitle();
         int comparing = currName.compareToIgnoreCase(desiredRole);
-        result = 0;
         if( comparing == 0){
           if(r.getRolePlace() == onCard)
             rank = r.getRoleRank();
@@ -260,7 +263,9 @@ public class Deadwood2{
         }
       }
 
+      System.out.println("Here " + result);
       if(result == 1){
+        System.out.println("Here " + result);
 
         if(onCard){
           xValue += xValueSet;
@@ -289,7 +294,7 @@ public class Deadwood2{
     }
   }
 
-  public void move(Player x, String desiredDest){
+  public void move(Player x, String desiredDest, Board board){
     String color = x.getPlayerColor();
     int result = 0;
 

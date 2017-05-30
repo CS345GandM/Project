@@ -171,6 +171,7 @@ public class Player{
       playerRole = role;
       setRoleStatus(true);
       roleBudget = newBudget;
+
       return 1;
 
     }else{

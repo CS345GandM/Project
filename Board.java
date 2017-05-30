@@ -67,14 +67,10 @@ public class Board extends JLayeredPane {
 
   public void displayErrorMessage(String message){
     this.errorMessage.setText("<html>" + message + "</html>");
-    this.errorMessage.setBounds(1210,600, 150, 150);
+    this.errorMessage.setBounds(1210,750, 150, 150);
   }
-/*
-  public void addListeners(CustomMouseListener c){
-    act.addMouseListener(c);
-  ///
-  }
-*/
+
+
 
 
   public void setUpPlayerInfo(){
@@ -83,46 +79,13 @@ public class Board extends JLayeredPane {
     this.dollars = new JLabel();
     this.rehearsalCredits = new JLabel();
     this.errorMessage = new JLabel();
-/*
-    act = new JButton("Act");
-    //act.addMouseListener(new CustomMouseListener());
-    act.setBackground(Color.green);
-    act.setBounds(1210, 300, 60, 30);
-
-    move = new JButton("Move");
-    move.setBackground(Color.gray);
-    move.setBounds(1210, 350, 75, 30);
-
-    work = new JButton("Work");
-    work.setBackground(Color.red);
-    work.setBounds(1210, 400, 75, 30);
-
-    rehearse = new JButton("Rehearse");
-    rehearse.setBackground(Color.pink);
-    rehearse.setBounds(1210, 450, 110, 30);
-
-    upgrade = new JButton("Upgrade");
-    upgrade.setBackground(Color.blue);
-    upgrade.setBounds(1210, 500, 100, 30);
-
-    end = new JButton("End Turn");
-    end.setBackground(Color.cyan);
-    end.setBounds(1210, 550, 100, 30);
-*/
 
     add(name, new Integer(0));
     add(credits, new Integer(0));
     add(dollars, new Integer(0));
     add(rehearsalCredits, new Integer(0));
     add(errorMessage, new Integer(1));
-/*
-    add(act, new Integer(0));
-    add(move, new Integer(0));
-    add(work, new Integer(0));
-    add(rehearse, new Integer(0));
-    add(upgrade, new Integer(0));
-    add(end, new Integer(0));
-    */
+
   }
 
   public void addPlayerInfo(String color, int crd, int dol, int rhal){

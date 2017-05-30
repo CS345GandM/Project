@@ -12,18 +12,31 @@ import java.awt.event.*;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import javax.swing.JLabel;
 
 
 public class controller{
-  private String command = "end";
-  private JPanel buttonPanel = new JPanel();;
+  private String command = " ";
+  private JPanel buttonPanel= new JPanel();
+  private JPanel movePanel = new JPanel();
   private JButton act;
   private JButton move;
   private JButton work;
   private JButton rehearse;
   private JButton upgrade;
   private JButton end;
-  //private static Board display = new Board();
+  private JTextField getDesiredDest;
+
+  private Board display;
+  private JFrame frame;
+
+
+  private String desiredDest;
+  private String desiredRole;
+  private int up;
+  private String type;
 
   public static void main(String[] args) throws Exception{
     controller c = new controller();
@@ -31,13 +44,17 @@ public class controller{
   }
 
   private void start(String[] args) throws Exception{
-    Board display = new Board();
-    JFrame frame = new JFrame();
+    display = new Board();
+    frame = new JFrame();
+
+
+    buttonPanel.setSize(200, 500);
+    buttonPanel.setBounds(1201, 400, 90, 300);
 
 
     Deadwood2 deadwood = new Deadwood2();
 
-    makeButtons();
+
     int numPlayers = Integer.parseInt(args[0]);
     int totalScenes = 22;
     int remainingScenes = totalScenes;
@@ -45,7 +62,7 @@ public class controller{
     display.makeBoard(); //Board LayeredPane
     display.setUpPlayerInfo(); //Player LayeredPane
     frame.add(buttonPanel);
-    buttonPanel.setBounds(1201, 500, 90, 400);
+    makeButtons();
     display.makeDice(numPlayers);
 
     frame.setTitle("Deadwood");
@@ -67,25 +84,47 @@ public class controller{
     String room = "";
     while(numDays > 0){
       deadwood.associateCards(display);
-      while(remainingScenes > totalScenes - 1){
-        for(Player x : players){
-          if(command.compareToIgnoreCase("end") != 0){
-            if(remainingScenes > totalScenes - 1){
-
+      while(remainingScenes > 1){//checks day
+        for(Player x : players){//loops through players
+          boolean turn = true;
+          while(turn){//still have a turn
+            if(remainingScenes > 1){//the day is not over
+              //display player info
               String color = x.getPlayerColor();
               int dollars = x.getPlayerDollars();
               int credits = x.getPlayerCredits();
               int rehearsalCredits = x.getPlayerRehearsalCredits();
               display.addPlayerInfo(color, credits, dollars, rehearsalCredits);
+
               if(command.compareToIgnoreCase("act") == 0){
-                deadwood.act(x);
+                command = " ";
+
+                int result = deadwood.act(x);
+                if(result == 1){
+                  remainingScenes--;
+                }
               }else if(command.compareToIgnoreCase("move") == 0){
-                //deadwood.move(x);
+                command = " ";
+                //deadwood.move(x, desiredDest, display);
+              }else if(command.compareToIgnoreCase("work") == 0){
+                command = " ";
+                //deadwood.work(x, desiredRole, display);
+              }else if(command.compareToIgnoreCase("upgradeDollars") == 0){
+                command = " ";
+                //deadwood.upgradeDollars(x, up, display);
+              }else if(command.compareToIgnoreCase("upgradeCredits") == 0){
+                command = " ";
+                //deadwood.upgradeCredits(x, up, display);
+              }else if(command.compareToIgnoreCase("rehearse") == 0){
+                command = " ";
+                //deadwood.rehearse(x, display);
+              }else if(command.compareToIgnoreCase("end") == 0){
+                command = " ";
+                turn = false;
               }
-              //deadwood.act(x);
-              //deadwood.
-              /////////////////////////////////////turns
               room = x.getPlayerLocation();
+            }else{//day over
+              turn = false;
             }
           }
         }
@@ -106,11 +145,72 @@ public class controller{
   }
 
   public void callMove(){
-   command = "move";
+    frame.remove(buttonPanel);
+    frame.add(movePanel);
+    movePanel.setSize(200, 500);
+    movePanel.setBounds(1201, 400, 90, 300);
+    callGetDest();
+
+    frame.invalidate();
+    frame.repaint();
+
+
+
+    frame.remove(movePanel);
+    frame.add(buttonPanel);
+
+    buttonPanel.setSize(200, 500);
+    buttonPanel.setBounds(1201, 400, 90, 300);
+
+
+    //frame.invalidate();
+  //  frame.repaint();
+
+    command = "move";
+  }
+
+  public void callGetDest(){
+    JLabel test = new JLabel();
+    test.setText("Is this working?");
+    movePanel.add(test);
+
+
+    getDesiredDest = new JTextField(50);
+    movePanel.add(getDesiredDest);
+    getDesiredDest.addActionListener(new ActionListener(){
+      public void actionPerformed(ActionEvent e){
+        desiredDest = getDesiredDest.getText();
+        System.out.println(desiredDest);
+        System.out.println("HERE");
+      }
+    });
+  }
+
+  public void callUpgrade(){
+    command = "upgrade";
+    //call something to get upgrade type and value
+    if(type.compareToIgnoreCase("$") == 0){
+      command = "upgradeDollars";
+    }else if(type.compareToIgnoreCase("cr") == 0){
+      command = "upgradeCredits";
+    }
+  }
+
+  public void callEndTurn(){
+    command = "end";
+  }
+
+  public void callRehearse(){
+    command = "rehearse";
+  }
+
+  public void callWork(){
+    command = "work";
+    //get desired role
   }
 
   private void makeButtons(){
-    buttonPanel.setSize(200, 500);
+
     act = new JButton("Act");
     act.addMouseListener(new CustomMouseListener("act"));
     act.setBackground(Color.green);
@@ -122,18 +222,22 @@ public class controller{
     move.setBounds(1210, 350, 75, 30);
 
     work = new JButton("Work");
+    work.addMouseListener(new CustomMouseListener("work"));
     work.setBackground(Color.red);
     work.setBounds(1210, 400, 75, 30);
 
     rehearse = new JButton("Rehearse");
+    rehearse.addMouseListener(new CustomMouseListener("rehearse"));
     rehearse.setBackground(Color.pink);
     rehearse.setBounds(1210, 450, 110, 30);
 
     upgrade = new JButton("Upgrade");
+    upgrade.addMouseListener(new CustomMouseListener("upgrade"));
     upgrade.setBackground(Color.blue);
     upgrade.setBounds(1210, 500, 100, 30);
 
     end = new JButton("End Turn");
+    end.addMouseListener(new CustomMouseListener("end"));
     end.setBackground(Color.cyan);
     end.setBounds(1210, 550, 100, 30);
 
@@ -143,6 +247,8 @@ public class controller{
     buttonPanel.add(rehearse);
     buttonPanel.add(upgrade);
     buttonPanel.add(end);
+
+
   }
 
   class CustomMouseListener implements MouseListener {
@@ -159,6 +265,22 @@ public class controller{
           case "move":
           callMove();
           System.out.println("CLICKED MOVE");
+          break;
+          case "work":
+          callWork();
+          System.out.println("CLICKED WORK");
+          break;
+          case "upgrade":
+          callUpgrade();
+          System.out.println("CLICKED UPGRADE");
+          break;
+          case "rehearse":
+          callRehearse();
+          System.out.println("CLICKED REHEARSE");
+          break;
+          case "end":
+          callEndTurn();
+          System.out.println("CLICKED END");
           break;
           default:
 
