@@ -6,7 +6,8 @@ import javax.swing.ImageIcon;
 import javax.imageio.ImageIO;
 import java.awt.Color;
 import javax.swing.JButton;
-
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 public class Board extends JLayeredPane {
   private JLabel boardLabel;
   private JLabel name;
@@ -54,7 +55,9 @@ public class Board extends JLayeredPane {
     cardCover = new JLabel();
     cardCover.setBounds(x, y, w, h);
     cardCover.setOpaque(true);
-    cardCover.setText("Set Wrapped");
+    cardCover.setText("      SET WRAPPED!  ");
+    cardCover.setForeground(Color.red);
+    cardCover.setFont(new Font("Copperplate Gothic Light", Font.BOLD, 16));
     add(cardCover, new Integer(2));
   }
 
@@ -75,9 +78,6 @@ public class Board extends JLayeredPane {
     this.errorMessage.setText("<html>" + message + "</html>");
     this.errorMessage.setBounds(1210,130, 150, 250);
   }
-
-
-
 
   public void setUpPlayerInfo(){
     this.name = new JLabel();
