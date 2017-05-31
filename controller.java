@@ -35,11 +35,14 @@ public class controller{
   private Board display;
   private JFrame frame;
 
+  private boolean isDisplayed = false;
+
 
   private String desiredDest;
   private String desiredRole;
   private int up;
   private String type;
+  private JLabel info = new JLabel();
 
   public static void main(String[] args) throws Exception{
     controller c = new controller();
@@ -225,18 +228,40 @@ public class controller{
   }
 
   public void callAct(){
+    if(isDisplayed){
+      for(ActionListener aL : getDesiredDest.getActionListeners()){
+        getDesiredDest.removeActionListener(aL);
+      }
+      movePanel.remove(getDesiredDest);
+      movePanel.remove(info);
+      frame.revalidate();
+      frame.repaint();
+      isDisplayed = false;
+    }
     command = "act";
   }
 
   public void callMove(){
 
+    if(isDisplayed){
+      for(ActionListener aL : getDesiredDest.getActionListeners()){
+        getDesiredDest.removeActionListener(aL);
+      }
+      movePanel.remove(getDesiredDest);
+      //movePanel.remove(info);
+      //frame.revalidate();
+      //frame.repaint();
+      isDisplayed = false;
+    }
+
     getDesiredDest = new JTextField(10);
-    JLabel info = new JLabel();
+    //info = new JLabel();
     info.setText("Enter room name:");
     movePanel.add(info);
     movePanel.add(getDesiredDest);
 
     frame.setVisible(true);
+    isDisplayed = true;
 
     getDesiredDest.addActionListener(new ActionListener()
     {
@@ -246,10 +271,8 @@ public class controller{
         movePanel.remove(info);
         frame.revalidate();
         frame.repaint();
+        isDisplayed = false;
         command = "move";
-        System.out.println(desiredDest);
-        System.out.println("HERE");
-
       }
     });
   }
@@ -257,14 +280,27 @@ public class controller{
 
 
   public void callUpgrade(){
+
+    if(isDisplayed){
+      for(ActionListener aL : getDesiredDest.getActionListeners()){
+        getDesiredDest.removeActionListener(aL);
+      }
+      movePanel.remove(getDesiredDest);
+      //movePanel.remove(info);
+      //frame.revalidate();
+      //frame.repaint();
+      isDisplayed = false;
+    }
+
     getDesiredDest = new JTextField(10);
-    JLabel info = new JLabel();
+    //info = new JLabel();
     info.setText("Enter # 2-6:");
     movePanel.add(info);
 
     movePanel.add(getDesiredDest);
 
     frame.setVisible(true);
+    isDisplayed = true;
 
     getDesiredDest.addActionListener(new ActionListener()
     {
@@ -274,30 +310,63 @@ public class controller{
         movePanel.remove(info);
         frame.revalidate();
         frame.repaint();
+        isDisplayed = false;
         command = "upgrade";
-        System.out.println(up);
-        System.out.println("HERE");
+
       }
     });
   }
 
   public void callEndTurn(){
+    if(isDisplayed){
+      for(ActionListener aL : getDesiredDest.getActionListeners()){
+        getDesiredDest.removeActionListener(aL);
+      }
+      movePanel.remove(getDesiredDest);
+      movePanel.remove(info);
+      frame.revalidate();
+      frame.repaint();
+      isDisplayed = false;
+    }
     command = "end";
   }
 
   public void callRehearse(){
+    if(isDisplayed){
+      for(ActionListener aL : getDesiredDest.getActionListeners()){
+        getDesiredDest.removeActionListener(aL);
+      }
+      movePanel.remove(getDesiredDest);
+      movePanel.remove(info);
+      frame.revalidate();
+      frame.repaint();
+      isDisplayed = false;
+    }
     command = "rehearse";
   }
 
   public void callWork(){
+
+    if(isDisplayed){
+      for(ActionListener aL : getDesiredDest.getActionListeners()){
+        getDesiredDest.removeActionListener(aL);
+      }
+      movePanel.remove(getDesiredDest);
+      //movePanel.remove(info);
+      //frame.revalidate();
+      //frame.repaint();
+      isDisplayed = false;
+    }
+
     getDesiredDest = new JTextField(10);
-    JLabel info = new JLabel();
+    //info = new JLabel();
     info.setText("Enter role name:");
     movePanel.add(info);
 
     movePanel.add(getDesiredDest);
 
     frame.setVisible(true);
+    isDisplayed = true;
 
     getDesiredDest.addActionListener(new ActionListener()
     {
@@ -307,9 +376,9 @@ public class controller{
         movePanel.remove(info);
         frame.revalidate();
         frame.repaint();
+        isDisplayed = false;
         command = "work";
-        System.out.println(desiredDest);
-        System.out.println("HERE");
+
 
       }
     });
@@ -372,37 +441,28 @@ public class controller{
           switch(button){
           case "act":
           callAct();
-          System.out.println("CLICKED ACT");
           break;
           case "move":
           callMove();
-          System.out.println("CLICKED MOVE");
           break;
           case "work":
           callWork();
-          System.out.println("CLICKED WORK");
           break;
           case "upgradeDollars":
           type = "$";
           callUpgrade();
-          System.out.println("CLICKED UPGRADE");
           break;
           case "upgradeCredits":
           type = "cr";
           callUpgrade();
-          System.out.println("CLICKED UPGRADE");
           break;
           case "rehearse":
           callRehearse();
-          System.out.println("CLICKED REHEARSE");
           break;
           case "end":
           callEndTurn();
-          System.out.println("CLICKED END");
           break;
           default:
-
-          System.out.println("ERROR NO BUTTON");
         }
 
      }

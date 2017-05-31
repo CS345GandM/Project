@@ -145,7 +145,6 @@ public class Deadwood2{
       allPlayers.add(new Player(name, xPlace));
       xPlace += 50;
     }
-    //System.out.println("Deadwood" + allPlayers.get(0));
     return allPlayers;
   }
 
@@ -197,7 +196,6 @@ public class Deadwood2{
     String color = x.getPlayerColor();
     int result = 0;
 
-    System.out.println(desiredRole);
 
     String currPlayerLocation = x.getPlayerLocation();
 
@@ -268,9 +266,7 @@ public class Deadwood2{
         }
       }
 
-      System.out.println("Here " + result);
       if(result == 1){
-        System.out.println("Here " + result);
 
         if(onCard){
           xValue += xValueSet;
@@ -502,7 +498,6 @@ public class Deadwood2{
     }
 
     for(int cash = 0; cash < numRoles; cash++){
-      System.out.println("Winnings: " + winnings[cash] + " Role value: " + rankOrder[cash]);
     }
 
 
