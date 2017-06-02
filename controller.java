@@ -85,7 +85,7 @@ public class controller{
     gameFrame.add(movePanel);
     makeButtons();
     display.makeDice(numPlayers);
-    display.addShotCounters();
+    //display.addShotCounters();
 
     gameFrame.setTitle("Deadwood");
     gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,10 +101,11 @@ public class controller{
     deadwood.board();
     deadwood.cards();
     deadwood.makeGame(display);
-    display.showShotCounters();
+
     String room = "";
     while(numDays > 0){
       deadwood.associateCards(display);
+      display.addShotCounters();
       while(remainingScenes > 1){//checks day
         for(Player x : players){//loops through players
           display.displayErrorMessage(" ");
@@ -222,11 +223,14 @@ public class controller{
               turn = false;
             }
           }
+          display.remove(2);
+          display.remove(1);
         }
       }
 
       deadwood.resetGame(room, display);
-      display.removeCovers();
+      display.remove(2);
+      display.remove(1);
       remainingScenes = totalScenes;
       numDays--;
     }
