@@ -41,6 +41,10 @@ public class Set{
      return cardW;
    }
 
+   public Card getCard(){
+     return cardName;
+   }
+
 
    //Setter: setShotCounts
    public void setShotCounts(int i){

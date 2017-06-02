@@ -224,8 +224,9 @@ public class controller{
           }
         }
       }
-      display.removeCovers();
+
       deadwood.resetGame(room, display);
+      display.removeCovers();
       remainingScenes = totalScenes;
       numDays--;
     }

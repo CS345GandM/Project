@@ -96,15 +96,19 @@ public class Deadwood2{
         int currCardSceneNum = 0;
         for(Set s : allSets){
           String name = s.getName();
-          if(name.compareToIgnoreCase(room) == 0){
+          if(s.setHasACard()){
             cardName = s.getCardName();
             currCardSceneNum = s.getCardSceneNumber();
             xSet = s.getCardX();
             ySet = s.getCardY();
             wSet = s.getCardW();
             hSet = s.getCardH();
+            Card c = s.getCard();
+            board.coverCard(xSet, ySet, wSet, hSet);
+            boolean done = allCards.remove(c);
           }
         }
+        /*
         Cards currCard = null;
         for(Cards c : allCards){
           int cardSceneNum = c.getSceneNumber();
@@ -115,7 +119,7 @@ public class Deadwood2{
               boolean done = allCards.remove(c);
             }
           }
-        }
+        }*/
   }
 
 
