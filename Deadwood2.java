@@ -103,7 +103,7 @@ public class Deadwood2{
             ySet = s.getCardY();
             wSet = s.getCardW();
             hSet = s.getCardH();
-            Card c = s.getCard();
+            Cards c = s.getCard();
             board.coverCard(xSet, ySet, wSet, hSet);
             boolean done = allCards.remove(c);
           }

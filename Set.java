@@ -41,7 +41,7 @@ public class Set{
      return cardW;
    }
 
-   public Card getCard(){
+   public Cards getCard(){
      return cardName;
    }
 
