@@ -104,6 +104,7 @@ public class controller{
 
     String room = "";
     while(numDays > 0){
+
       deadwood.associateCards(display);
       display.addShotCounters();
       while(remainingScenes > 1){//checks day
@@ -125,6 +126,7 @@ public class controller{
                 if(!hasDone.contains(command)){
                   command = " ";
 
+
                   result = deadwood.act(x, display);
                   if(result == 1){
                     remainingScenes--;
@@ -133,9 +135,6 @@ public class controller{
                     hasDone.add("work");
                     hasDone.add("rehearse");
                     hasDone.add("upgrade");
-                    //display.displayErrorMessage(" ");
-                  }else{
-                    //display.displayErrorMessage("Cannot do that Action");
                   }
                 }else{
                   display.displayErrorMessage("Cannot do that Action");
@@ -151,8 +150,6 @@ public class controller{
                     hasDone.add("move");
                     hasDone.add("rehearse");
                     display.displayErrorMessage(" ");
-                  }else{
-                    //display.displayErrorMessage(" ");
                   }
                 }else{
                   display.displayErrorMessage("Cannot do that Action");
@@ -169,8 +166,6 @@ public class controller{
                     hasDone.add("rehearse");
                     hasDone.add("upgrade");
                     display.displayErrorMessage(" ");
-                  }else{
-                    //display.displayErrorMessage("Cannot do that Action");
                   }
                 }else{
                   display.displayErrorMessage("Cannot do that Action");
@@ -189,8 +184,6 @@ public class controller{
                     hasDone.add("rehearse");
                     hasDone.add("upgrade");
                     display.displayErrorMessage(" ");
-                  }else{
-                    //display.displayErrorMessage("Cannot do that Action");
                   }
                 }else{
                   display.displayErrorMessage("Cannot do that Action");
@@ -208,8 +201,6 @@ public class controller{
                     hasDone.add("rehearse");
                     hasDone.add("upgrade");
                     display.displayErrorMessage(" ");
-                  }else{
-                    //display.displayErrorMessage("Cannot do that Action");
                   }
                 }else{
                   display.displayErrorMessage("Cannot do that Action");
@@ -223,14 +214,12 @@ public class controller{
               turn = false;
             }
           }
-          display.remove(2);
-          display.remove(1);
+
         }
       }
 
       deadwood.resetGame(room, display);
-      display.remove(2);
-      display.remove(1);
+      display.removeCovers();
       remainingScenes = totalScenes;
       numDays--;
     }
@@ -265,14 +254,11 @@ public class controller{
         getDesiredDest.removeActionListener(aL);
       }
       movePanel.remove(getDesiredDest);
-      //movePanel.remove(info);
-      //gameFrame.revalidate();
-      //gameFrame.repaint();
+
       isDisplayed = false;
     }
 
     getDesiredDest = new JTextField(10);
-    //info = new JLabel();
     info.setText("Enter room name:");
     movePanel.add(info);
     movePanel.add(getDesiredDest);
@@ -303,14 +289,11 @@ public class controller{
         getDesiredDest.removeActionListener(aL);
       }
       movePanel.remove(getDesiredDest);
-      //movePanel.remove(info);
-      //gameFrame.revalidate();
-      //gameFrame.repaint();
+
       isDisplayed = false;
     }
 
     getDesiredDest = new JTextField(10);
-    //info = new JLabel();
     info.setText("Enter # 2-6:");
     movePanel.add(info);
 
@@ -369,14 +352,12 @@ public class controller{
         getDesiredDest.removeActionListener(aL);
       }
       movePanel.remove(getDesiredDest);
-      //movePanel.remove(info);
-      //gameFrame.revalidate();
-      //gameFrame.repaint();
+
       isDisplayed = false;
     }
 
     getDesiredDest = new JTextField(10);
-    //info = new JLabel();
+
     info.setText("Enter role name:");
     movePanel.add(info);
 

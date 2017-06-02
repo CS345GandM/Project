@@ -50,6 +50,7 @@ public class Board extends JLayeredPane {
   private JLabel trainStation1;
   private JLabel trainStation2;
   private JLabel trainStation3;
+  private JLabel newPic;
 
 
 
@@ -299,13 +300,14 @@ public class Board extends JLayeredPane {
   }
 
   public void removeCovers(){
+    remove(1);
     remove(2);
   }
 
   public void addImage(String imageName, int xValue, int yValue, int wValue, int hValue) throws Exception{
     Class cls = getClass();
     ImageIcon image = new ImageIcon(ImageIO.read(cls.getResourceAsStream(imageName)));
-    JLabel newPic = new JLabel();
+    newPic = new JLabel();
     newPic.setIcon(image);
     newPic.setBounds(xValue, yValue, wValue, hValue);
     add(newPic, new Integer(1));
@@ -327,7 +329,7 @@ public class Board extends JLayeredPane {
     add(credits, new Integer(0));
     add(dollars, new Integer(0));
     add(rehearsalCredits, new Integer(0));
-    add(errorMessage, new Integer(1));
+    add(errorMessage, new Integer(0));
 
   }
 
