@@ -15,7 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import java.awt.BorderLayout;
-
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 
 
@@ -31,9 +31,8 @@ public class controller{
   private JButton upgradeCredits;
   private JButton end;
   private JTextField getDesiredDest;
-
   private Board display;
-  private JFrame frame;
+  private JFrame gameFrame;
 
   private boolean isDisplayed = false;
 
@@ -43,15 +42,28 @@ public class controller{
   private int up;
   private String type;
   private JLabel info = new JLabel();
+  //String inputPlayers = null;
+  static final String[] numOfPlayers = {"2", "3", "4"};
 
   public static void main(String[] args) throws Exception{
     controller c = new controller();
-    c.start(args);
+
+    JFrame playerFrame = new JFrame("Players");
+    String inputPlayers = (String) JOptionPane.showInputDialog(null,
+    "How many players?",
+    "Choose from options",
+    JOptionPane.QUESTION_MESSAGE,
+    null,
+    numOfPlayers,
+    numOfPlayers[0]);
+
+  int numPlayers = Integer.parseInt(inputPlayers);
+  c.start(numPlayers);
   }
 
-  private void start(String[] args) throws Exception{
+  private void start(int numPlayers) throws Exception{
     display = new Board();
-    frame = new JFrame();
+    gameFrame = new JFrame();
 
 
     buttonPanel.setSize(200, 500);
@@ -64,32 +76,32 @@ public class controller{
     Deadwood2 deadwood = new Deadwood2();
 
 
-    int numPlayers = Integer.parseInt(args[0]);
     int totalScenes = 22;
     int remainingScenes = totalScenes;
 
     display.makeBoard(); //Board LayeredPane
     display.setUpPlayerInfo(); //Player LayeredPane
-    frame.add(buttonPanel);
-    frame.add(movePanel);
+    gameFrame.add(buttonPanel);
+    gameFrame.add(movePanel);
     makeButtons();
     display.makeDice(numPlayers);
+    display.addShotCounters();
 
-    frame.setTitle("Deadwood");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setPreferredSize(new Dimension(1400,900)); //not right dimension
-    frame.setResizable(false);
-    //frame.add(buttonPanel, BoardLayout.EAST);
-    frame.getContentPane().add(display);
-    frame.pack();
-    frame.setVisible(true);
+    gameFrame.setTitle("Deadwood");
+    gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    gameFrame.setPreferredSize(new Dimension(1400,900)); //not right dimension
+    gameFrame.setResizable(false);
+    //gameFrame.add(buttonPanel, BoardLayout.EAST);
+    gameFrame.getContentPane().add(display);
+    gameFrame.pack();
+    gameFrame.setVisible(true);
 
     int numDays = deadwood.setDays(numPlayers);
     ArrayList<Player> players = deadwood.makePlayers(numPlayers);
     deadwood.board();
     deadwood.cards();
     deadwood.makeGame(display);
-
+    display.showShotCounters();
     String room = "";
     while(numDays > 0){
       deadwood.associateCards(display);
@@ -213,7 +225,7 @@ public class controller{
         }
       }
       display.removeCovers();
-      deadwood.resetGame(room);
+      deadwood.resetGame(room, display);
       remainingScenes = totalScenes;
       numDays--;
     }
@@ -234,8 +246,8 @@ public class controller{
       }
       movePanel.remove(getDesiredDest);
       movePanel.remove(info);
-      frame.revalidate();
-      frame.repaint();
+      gameFrame.revalidate();
+      gameFrame.repaint();
       isDisplayed = false;
     }
     command = "act";
@@ -249,8 +261,8 @@ public class controller{
       }
       movePanel.remove(getDesiredDest);
       //movePanel.remove(info);
-      //frame.revalidate();
-      //frame.repaint();
+      //gameFrame.revalidate();
+      //gameFrame.repaint();
       isDisplayed = false;
     }
 
@@ -260,7 +272,7 @@ public class controller{
     movePanel.add(info);
     movePanel.add(getDesiredDest);
 
-    frame.setVisible(true);
+    gameFrame.setVisible(true);
     isDisplayed = true;
 
     getDesiredDest.addActionListener(new ActionListener()
@@ -269,8 +281,8 @@ public class controller{
         desiredDest = getDesiredDest.getText();
         movePanel.remove(getDesiredDest);
         movePanel.remove(info);
-        frame.revalidate();
-        frame.repaint();
+        gameFrame.revalidate();
+        gameFrame.repaint();
         isDisplayed = false;
         command = "move";
       }
@@ -287,8 +299,8 @@ public class controller{
       }
       movePanel.remove(getDesiredDest);
       //movePanel.remove(info);
-      //frame.revalidate();
-      //frame.repaint();
+      //gameFrame.revalidate();
+      //gameFrame.repaint();
       isDisplayed = false;
     }
 
@@ -299,7 +311,7 @@ public class controller{
 
     movePanel.add(getDesiredDest);
 
-    frame.setVisible(true);
+    gameFrame.setVisible(true);
     isDisplayed = true;
 
     getDesiredDest.addActionListener(new ActionListener()
@@ -308,8 +320,8 @@ public class controller{
         up = Integer.parseInt(getDesiredDest.getText());
         movePanel.remove(getDesiredDest);
         movePanel.remove(info);
-        frame.revalidate();
-        frame.repaint();
+        gameFrame.revalidate();
+        gameFrame.repaint();
         isDisplayed = false;
         command = "upgrade";
 
@@ -324,8 +336,8 @@ public class controller{
       }
       movePanel.remove(getDesiredDest);
       movePanel.remove(info);
-      frame.revalidate();
-      frame.repaint();
+      gameFrame.revalidate();
+      gameFrame.repaint();
       isDisplayed = false;
     }
     command = "end";
@@ -338,8 +350,8 @@ public class controller{
       }
       movePanel.remove(getDesiredDest);
       movePanel.remove(info);
-      frame.revalidate();
-      frame.repaint();
+      gameFrame.revalidate();
+      gameFrame.repaint();
       isDisplayed = false;
     }
     command = "rehearse";
@@ -353,8 +365,8 @@ public class controller{
       }
       movePanel.remove(getDesiredDest);
       //movePanel.remove(info);
-      //frame.revalidate();
-      //frame.repaint();
+      //gameFrame.revalidate();
+      //gameFrame.repaint();
       isDisplayed = false;
     }
 
@@ -365,7 +377,7 @@ public class controller{
 
     movePanel.add(getDesiredDest);
 
-    frame.setVisible(true);
+    gameFrame.setVisible(true);
     isDisplayed = true;
 
     getDesiredDest.addActionListener(new ActionListener()
@@ -374,8 +386,8 @@ public class controller{
         desiredRole = getDesiredDest.getText();
         movePanel.remove(getDesiredDest);
         movePanel.remove(info);
-        frame.revalidate();
-        frame.repaint();
+        gameFrame.revalidate();
+        gameFrame.repaint();
         isDisplayed = false;
         command = "work";
 

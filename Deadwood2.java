@@ -60,7 +60,7 @@ public class Deadwood2{
 
   }
 
-  public void resetGame(String room) throws Exception {
+  public void resetGame(String room, Board board) throws Exception {
         for(Rooms r : allRooms){
           String currRoom = r.getRoomName();
           if(currRoom.compareToIgnoreCase("Trailer") == 0){
@@ -169,6 +169,8 @@ public class Deadwood2{
 
   public int act(Player x, Board board){
     int result = x.act();
+    int count = 0;
+    String place = x.getPlayerLocation();
 
     if(result == 1){
       String room = x.getPlayerLocation();
@@ -177,15 +179,16 @@ public class Deadwood2{
         if(name.compareToIgnoreCase(room) == 0){
           sceneTrack--;
           s.removeCounters();
-          int remaining = s.getCounts();
-          if(remaining == 0){//WRAP SCENE
-            String place = x.getPlayerLocation();
+          count = s.getCounts();
+          if(count == 0){//WRAP SCENE
             int cardBudget = x.getCardBudget();
             wraps(place, cardBudget, s, board);
           }
         }
-        board.displayErrorMessage("Success!");
       }
+      System.out.println("PLACE: " + place);
+      board.removeShotCounter(place, count);
+      board.displayErrorMessage("Success!");
       return 1; //success
     }
     board.displayErrorMessage("Fail...");
